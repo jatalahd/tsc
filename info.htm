@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE border="1" align="center">
+    <TR>
+      <TD align="left" width="1280">
+        <DIV id="linkDiv" style="float: left;"></DIV>
+        <DIV id="infoDiv" style="float: right;">[INFO]</DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="left" valign="top" width="1280">
+      Hello from TSC in the web!
+      <BR><BR>
+      These pages bring the legendary Tone Stack Calculator (TSC) to be run on browsers that support JavaScript (and have it enabled).
+      The motivation to re-create the TSC was to be able to avoid the platform dependency of the original Windows application.
+      Currently these pages have been tested to work on Chrome and Firefox browsers in Windows and Linux laptops and
+      in a tablet device running relatively old Android OS (version 4.x). The width of the container table in the web page is currently
+      1280 pixels, therefore screens that have lower width resolution will not show the pages correctly.
+      <BR><BR>
+      In addition to own JavaScript code, two external JavaScript libraries have been utilized: the slider controls are from the 
+      noUiSlider library ( https://refreshless.com/nouislider/ ) and the neat graphs are from the dyGraphs library ( http://dygraphs.com/ ).
+      DyGraphs is used under the terms of the required MIT license. The sliders are currently not licensed in any way.
+      <BR><BR>
+      The logarithmic potentiometer implementations (LogA and LogB) have been copied directly from the original TSC source code,
+      so the results obtained from these simulations are the same as from the orginal TSC (results verified by shallow visual comparison).
+      The circuit models have been also verified numerically to give exactly the same values as SPICE simulation, so the models ought to be correct.
+      <BR><BR>
+      Whereas the original TSC evaluates complex matrices for each frequency point, in this implementation
+      the matrices have been pre-solved symbolically (using Maxima computer algebra system) to be able to calculate polynomial factors
+      in the powers of corner frequency &omega; only once before the frequency analysis takes place.
+      This approach saves several hundred milliseconds of calculation time in JavaScript and makes the analysis fast enough to be run directly on browsers.
+      <BR><BR>
+      Hopefully you will find these tone stack simulations useful.
+      <BR><BR>
+      Carry on,
+      <BR>
+      JL
+      <BR><BR>
+      PS. The first version (let's call it version 1.0) contains simulations for Marshall, Fender, Vox, James, Eseries, Bench and Big Muff.
+      A reverse-engineered tone stack from my Aria bass amplifier has been added as an extra bonus.
+      Compared to the original TSC, the sweep feature and some other (minor) things are still missing from the web-implementation.
+      It would need some better layout for mobile devices as well.
+      Hopefully the undersigned (or some other volunteer) will add these (and maybe more) features later on.
+      </TD>
+    </TR>
+  </TABLE>
+</FORM>
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page 
+    createLinks("linkDiv","INFO");
+</SCRIPT>
+</BODY>
+</HTML>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.min.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+
+<STYLE>
+#range_RB,
+#range_RT {
+    width: 300px;
+    margin: 0 auto 0px;
+    display: inline-block;
+}
+#value_RB,
+#value_RT {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+#label_RB,
+#label_RT {
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+</STYLE>
+
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE border="1" align="center">
+    <TR>
+      <TD colspan="3" align="left">
+        <DIV id="linkDiv" style="float: left;"></DIV>
+        <DIV id="infoDiv" style="float: right;">[<a href="info.htm">INFO</a>]</DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="center" valign="top" width="400">
+        <IMG src="james2_pic.png"></IMG>
+      </TD>
+      <TD align="right" valign="top" width="180">
+        <SMALL>
+        RIN: <INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        R1: <INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        RB: <INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        R3: <INPUT type="text" name="R3" id="id_R3" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        R4: <INPUT type="text" name="R4" id="id_R4" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        RL: <INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        RT: <INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" style="text-align: right"> &nbsp;&Omega;<BR>
+        C1: <INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" style="text-align: right"> pF<BR>
+        C2: <INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" style="text-align: right"> pF<BR>
+        C3: <INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" style="text-align: right"> pF<BR>
+        C4: <INPUT type="text" name="C4" id="id_C4" size="7" readonly="readonly" style="text-align: right"> pF<BR><BR>
+        </SMALL>
+        <CENTER>
+        <INPUT type="button" name="edit" value="Edit values" id="id_edit" onclick="editValues();"><BR>
+        <INPUT type="button" name="apply" value="Apply values" id="id_apply" onclick="applyValues();"><BR>
+        <INPUT type="button" name="defaults" value="Set default values" id="id_defaults" onclick="setDefaultValues();"><BR>
+        </CENTER>
+      </TD>  
+      <TD rowspan="2" align="center" valign="top" width="700">
+        <DIV id="legendDiv" style="float: right;"></DIV>
+        <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2">
+        <BR>
+        <SPAN id="label_RB">RB (LogB)</SPAN>
+        <DIV id="range_RB"></DIV>
+        <SPAN id="value_RB"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RT">RT (LogB)</SPAN>
+        <DIV id="range_RT"></DIV>
+        <SPAN id="value_RT"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page 
+    createLinks("linkDiv","James");
+
+    // component variables for calculation
+    var RTreble;
+    var RBass;
+    var RIN;
+    var RL;
+    var R1;
+    var R2;
+    var R3;
+    var CB1;
+    var CB2;
+    var CT1;
+    var CT2;
+
+    var range_RB = document.getElementById('range_RB');
+    var range_RT = document.getElementById('range_RT');
+
+    // create sliders and save the div-element of the slider
+    var range_RB = createSlider('range_RB','value_RB');
+    var range_RT = createSlider('range_RT','value_RT');
+
+    // variable g will hold the graph object for synchronized updates
+    var g = null;
+
+    // data for frequency points is created here and saved to array X
+    X = createFrequencies(90,10,100000,1);
+
+    // set the default values to the component variables and input fields
+    setDefaultValues();
+
+    // start listening the onSlide event from the slider and run the analysis function
+    range_RB.noUiSlider.on('slide', doCalc);
+    range_RT.noUiSlider.on('slide', doCalc);
+
+    // this function is called when the Apply-button is clicked
+    function applyValues() {
+        RIN     = parseInt(document.frm.RIN.value);
+        R1      = parseInt(document.frm.R1.value);
+        RBass   = parseInt(document.frm.RB.value);
+        R2      = parseInt(document.frm.R3.value);
+        R3      = parseInt(document.frm.R4.value);
+        RTreble = parseInt(document.frm.RT.value);
+        RL      = parseInt(document.frm.RL.value);
+        CB1     = (1e-12)*parseInt(document.frm.C1.value);
+        CB2     = (1e-12)*parseInt(document.frm.C2.value);
+        CT1     = (1e-12)*parseInt(document.frm.C3.value);
+        CT2     = (1e-12)*parseInt(document.frm.C4.value);
+
+        // set the input fields to readonly mode with gray background
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+                inputElements[i].style.backgroundColor = "#EBEBE4";
+            }
+        }
+        doCalc();
+    }
+
+
+    // this function is called when the Edit-button is clicked
+    function editValues() {
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+                inputElements[i].style.backgroundColor = "#FFFFFF";
+            }
+        }
+    }
+
+
+    // This function is called when the Set default values -button is clicked.
+    // It sets the hard-coded values to the input fields and applies the values.
+    function setDefaultValues() {
+        document.frm.RIN.value = 38000;
+        document.frm.R1.value  = 100000;
+        document.frm.RB.value  = 1000000;
+        document.frm.R3.value  = 10000;
+        document.frm.R4.value  = 180000;
+        document.frm.RT.value  = 470000;
+        document.frm.RL.value  = 1000000;
+        document.frm.C1.value  = 470;
+        document.frm.C2.value  = 4700;
+        document.frm.C3.value  = 330;
+        document.frm.C4.value  = 3300;
+        
+        applyValues();
+    }
+
+
+    // This function is called with every change of the slider.
+    // It does the hard math and evaluates the filter transfer function
+    // for the given frequency range and updates values to the graph.
+    function doCalc() {
+        var row = [];
+        var data = [];
+
+        // pot rotation 0 - 10 from the slider component
+        var RotTreble = logBPotModel(range_RT.noUiSlider.get());
+        var RotBass   = logBPotModel(range_RB.noUiSlider.get());
+
+        var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
+        var RB1  = Math.round( RBass*(1.0 - 1.0*RotBass/10.0) );
+        var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
+        var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
+
+
+var DEN_XRe = RB1*RB2*RIN*RL*RT1*RT2*CB1*CB2*CT1*CT2 + R2*RB1*RB2*RL*RT1*RT2*CB1*CB2*CT1*CT2 + R1*RB1*RB2*RL*RT1*RT2*CB1*CB2*CT1*CT2
++ R3*RB1*RB2*RIN*RT1*RT2*CB1*CB2*CT1*CT2 + R2*RB1*RB2*RIN*RT1*RT2*CB1*CB2*CT1*CT2 + R2*R3*RB1*RB2*RT1*RT2*CB1*CB2*CT1*CT2 + R1*R3*RB1*RB2*RT1*RT2*CB1*CB2*CT1*CT2
++ R1*R2*RB1*RB2*RT1*RT2*CB1*CB2*CT1*CT2 + R3*RB1*RB2*RIN*RL*RT2*CB1*CB2*CT1*CT2 + R1*RB1*RB2*RIN*RL*RT2*CB1*CB2*CT1*CT2 + R2*R3*RB1*RB2*RL*RT2*CB1*CB2*CT1*CT2
++ R1*R3*RB1*RB2*RL*RT2*CB1*CB2*CT1*CT2 + R1*R2*RB1*RB2*RL*RT2*CB1*CB2*CT1*CT2 + R2*R3*RB1*RB2*RIN*RT2*CB1*CB2*CT1*CT2 + R1*R3*RB1*RB2*RIN*RT2*CB1*CB2*CT1*CT2
++ R1*R2*RB1*RB2*RIN*RT2*CB1*CB2*CT1*CT2 + R3*RB1*RB2*RIN*RL*RT1*CB1*CB2*CT1*CT2 + R2*RB1*RB2*RIN*RL*RT1*CB1*CB2*CT1*CT2 + R2*R3*RB1*RB2*RL*RT1*CB1*CB2*CT1*CT2
++ R1*R3*RB1*RB2*RL*RT1*CB1*CB2*CT1*CT2  + R1*R2*RB1*RB2*RL*RT1*CB1*CB2*CT1*CT2 + R2*R3*RB1*RB2*RIN*RL*CB1*CB2*CT1*CT2 + R1*R3*RB1*RB2*RIN*RL*CB1*CB2*CT1*CT2
++ R1*R2*RB1*RB2*RIN*RL*CB1*CB2*CT1*CT2;
+
+var DEN_AIm = RB2*RIN*RL*RT1*RT2*CB2*CT1*CT2 + RB1*RB2*RL*RT1*RT2*CB2*CT1*CT2 + R2*RB2*RL*RT1*RT2*CB2*CT1*CT2 + R1*RB2*RL*RT1*RT2*CB2*CT1*CT2 + R3*RB2*RIN*RT1*RT2*CB2*CT1*CT2
++ R2*RB2*RIN*RT1*RT2*CB2*CT1*CT2 + R3*RB1*RB2*RT1*RT2*CB2*CT1*CT2 + R2*RB1*RB2*RT1*RT2*CB2*CT1*CT2 + R2*R3*RB2*RT1*RT2*CB2*CT1*CT2 + R1*R3*RB2*RT1*RT2*CB2*CT1*CT2
++ R1*R2*RB2*RT1*RT2*CB2*CT1*CT2 + RB1*RB2*RIN*RL*RT2*CB2*CT1*CT2 + R3*RB2*RIN*RL*RT2*CB2*CT1*CT2 + R1*RB2*RIN*RL*RT2*CB2*CT1*CT2 + R3*RB1*RB2*RL*RT2*CB2*CT1*CT2
++ R2*RB1*RB2*RL*RT2*CB2*CT1*CT2 + R2*R3*RB2*RL*RT2*CB2*CT1*CT2 + R1*R3*RB2*RL*RT2*CB2*CT1*CT2 + R1*R2*RB2*RL*RT2*CB2*CT1*CT2 + R3*RB1*RB2*RIN*RT2*CB2*CT1*CT2
++ R2*RB1*RB2*RIN*RT2*CB2*CT1*CT2 + R2*R3*RB2*RIN*RT2*CB2*CT1*CT2 + R1*R3*RB2*RIN*RT2*CB2*CT1*CT2 + R1*R2*RB2*RIN*RT2*CB2*CT1*CT2 + R3*RB2*RIN*RL*RT1*CB2*CT1*CT2
++ R2*RB2*RIN*RL*RT1*CB2*CT1*CT2 + R3*RB1*RB2*RL*RT1*CB2*CT1*CT2 + R2*RB1*RB2*RL*RT1*CB2*CT1*CT2 + R2*R3*RB2*RL*RT1*CB2*CT1*CT2 + R1*R3*RB2*RL*RT1*CB2*CT1*CT2
++ R1*R2*RB2*RL*RT1*CB2*CT1*CT2 + R3*RB1*RB2*RIN*RL*CB2*CT1*CT2 + R2*RB1*RB2*RIN*RL*CB2*CT1*CT2 + R2*R3*RB2*RIN*RL*CB2*CT1*CT2 + R1*R3*RB2*RIN*RL*CB2*CT1*CT2
++ R1*R2*RB2*RIN*RL*CB2*CT1*CT2 + RB1*RIN*RL*RT1*RT2*CB1*CT1*CT2 + RB1*RB2*RL*RT1*RT2*CB1*CT1*CT2 + R2*RB1*RL*RT1*RT2*CB1*CT1*CT2 + R1*RB1*RL*RT1*RT2*CB1*CT1*CT2
++ RB1*RB2*RIN*RT1*RT2*CB1*CT1*CT2 + R3*RB1*RIN*RT1*RT2*CB1*CT1*CT2 + R2*RB1*RIN*RT1*RT2*CB1*CT1*CT2 + R3*RB1*RB2*RT1*RT2*CB1*CT1*CT2 + R1*RB1*RB2*RT1*RT2*CB1*CT1*CT2
++ R2*R3*RB1*RT1*RT2*CB1*CT1*CT2 + R1*R3*RB1*RT1*RT2*CB1*CT1*CT2 + R1*R2*RB1*RT1*RT2*CB1*CT1*CT2 + R3*RB1*RIN*RL*RT2*CB1*CT1*CT2 + R1*RB1*RIN*RL*RT2*CB1*CT1*CT2
++ R3*RB1*RB2*RL*RT2*CB1*CT1*CT2 + R1*RB1*RB2*RL*RT2*CB1*CT1*CT2 + R2*R3*RB1*RL*RT2*CB1*CT1*CT2 + R1*R3*RB1*RL*RT2*CB1*CT1*CT2 + R1*R2*RB1*RL*RT2*CB1*CT1*CT2
++ R3*RB1*RB2*RIN*RT2*CB1*CT1*CT2 + R1*RB1*RB2*RIN*RT2*CB1*CT1*CT2 + R2*R3*RB1*RIN*RT2*CB1*CT1*CT2 + R1*R3*RB1*RIN*RT2*CB1*CT1*CT2 + R1*R2*RB1*RIN*RT2*CB1*CT1*CT2
++ RB1*RB2*RIN*RL*RT1*CB1*CT1*CT2 + R3*RB1*RIN*RL*RT1*CB1*CT1*CT2 + R2*RB1*RIN*RL*RT1*CB1*CT1*CT2 + R3*RB1*RB2*RL*RT1*CB1*CT1*CT2 + R1*RB1*RB2*RL*RT1*CB1*CT1*CT2
++ R2*R3*RB1*RL*RT1*CB1*CT1*CT2 + R1*R3*RB1*RL*RT1*CB1*CT1*CT2 + R1*R2*RB1*RL*RT1*CB1*CT1*CT2 + R3*RB1*RB2*RIN*RL*CB1*CT1*CT2 + R1*RB1*RB2*RIN*RL*CB1*CT1*CT2
++ R2*R3*RB1*RIN*RL*CB1*CT1*CT2 + R1*R3*RB1*RIN*RL*CB1*CT1*CT2 + R1*R2*RB1*RIN*RL*CB1*CT1*CT2 + RB1*RB2*RIN*RL*RT2*CB1*CB2*CT2 + R2*RB1*RB2*RL*RT2*CB1*CB2*CT2
++ R1*RB1*RB2*RL*RT2*CB1*CB2*CT2 + R3*RB1*RB2*RIN*RT2*CB1*CB2*CT2 + R2*RB1*RB2*RIN*RT2*CB1*CB2*CT2 + R2*R3*RB1*RB2*RT2*CB1*CB2*CT2 + R1*R3*RB1*RB2*RT2*CB1*CB2*CT2
++ R1*R2*RB1*RB2*RT2*CB1*CB2*CT2 + R3*RB1*RB2*RIN*RL*CB1*CB2*CT2 + R2*RB1*RB2*RIN*RL*CB1*CB2*CT2 + R2*R3*RB1*RB2*RL*CB1*CB2*CT2 + R1*R3*RB1*RB2*RL*CB1*CB2*CT2
++ R1*R2*RB1*RB2*RL*CB1*CB2*CT2 + RB1*RB2*RIN*RL*RT1*CB1*CB2*CT1 + R2*RB1*RB2*RL*RT1*CB1*CB2*CT1 + R1*RB1*RB2*RL*RT1*CB1*CB2*CT1 + R3*RB1*RB2*RIN*RT1*CB1*CB2*CT1
++ R2*RB1*RB2*RIN*RT1*CB1*CB2*CT1 + R2*R3*RB1*RB2*RT1*CB1*CB2*CT1 + R1*R3*RB1*RB2*RT1*CB1*CB2*CT1 + R1*R2*RB1*RB2*RT1*CB1*CB2*CT1 + R3*RB1*RB2*RIN*RL*CB1*CB2*CT1
++ R1*RB1*RB2*RIN*RL*CB1*CB2*CT1 + R2*R3*RB1*RB2*RL*CB1*CB2*CT1 + R1*R3*RB1*RB2*RL*CB1*CB2*CT1 + R1*R2*RB1*RB2*RL*CB1*CB2*CT1 + R2*R3*RB1*RB2*RIN*CB1*CB2*CT1
++ R1*R3*RB1*RB2*RIN*CB1*CB2*CT1 + R1*R2*RB1*RB2*RIN*CB1*CB2*CT1;
+
+var DEN_BRe = RIN*RL*RT1*RT2*CT1*CT2 + RB2*RL*RT1*RT2*CT1*CT2 + RB1*RL*RT1*RT2*CT1*CT2 + R2*RL*RT1*RT2*CT1*CT2 + R1*RL*RT1*RT2*CT1*CT2 + RB2*RIN*RT1*RT2*CT1*CT2
++ R3*RIN*RT1*RT2*CT1*CT2 + R2*RIN*RT1*RT2*CT1*CT2 + RB1*RB2*RT1*RT2*CT1*CT2 + R3*RB2*RT1*RT2*CT1*CT2 + R1*RB2*RT1*RT2*CT1*CT2 + R3*RB1*RT1*RT2*CT1*CT2
++ R2*RB1*RT1*RT2*CT1*CT2 + R2*R3*RT1*RT2*CT1*CT2 + R1*R3*RT1*RT2*CT1*CT2 + R1*R2*RT1*RT2*CT1*CT2 + RB1*RIN*RL*RT2*CT1*CT2 + R3*RIN*RL*RT2*CT1*CT2
++ R1*RIN*RL*RT2*CT1*CT2 + RB1*RB2*RL*RT2*CT1*CT2 + R3*RB2*RL*RT2*CT1*CT2 + R1*RB2*RL*RT2*CT1*CT2 + R3*RB1*RL*RT2*CT1*CT2 + R2*RB1*RL*RT2*CT1*CT2 + R2*R3*RL*RT2*CT1*CT2
++ R1*R3*RL*RT2*CT1*CT2 + R1*R2*RL*RT2*CT1*CT2 + RB1*RB2*RIN*RT2*CT1*CT2 + R3*RB2*RIN*RT2*CT1*CT2 + R1*RB2*RIN*RT2*CT1*CT2 + R3*RB1*RIN*RT2*CT1*CT2 + R2*RB1*RIN*RT2*CT1*CT2
++ R2*R3*RIN*RT2*CT1*CT2 + R1*R3*RIN*RT2*CT1*CT2 + R1*R2*RIN*RT2*CT1*CT2 + RB2*RIN*RL*RT1*CT1*CT2 + R3*RIN*RL*RT1*CT1*CT2 + R2*RIN*RL*RT1*CT1*CT2
++ RB1*RB2*RL*RT1*CT1*CT2 + R3*RB2*RL*RT1*CT1*CT2 + R1*RB2*RL*RT1*CT1*CT2 + R3*RB1*RL*RT1*CT1*CT2 + R2*RB1*RL*RT1*CT1*CT2 + R2*R3*RL*RT1*CT1*CT2
++ R1*R3*RL*RT1*CT1*CT2 + R1*R2*RL*RT1*CT1*CT2 + RB1*RB2*RIN*RL*CT1*CT2 + R3*RB2*RIN*RL*CT1*CT2 + R1*RB2*RIN*RL*CT1*CT2 + R3*RB1*RIN*RL*CT1*CT2
++ R2*RB1*RIN*RL*CT1*CT2 + R2*R3*RIN*RL*CT1*CT2 + R1*R3*RIN*RL*CT1*CT2 + R1*R2*RIN*RL*CT1*CT2 + RB2*RIN*RL*RT2*CB2*CT2 + RB1*RB2*RL*RT2*CB2*CT2
++ R2*RB2*RL*RT2*CB2*CT2 + R1*RB2*RL*RT2*CB2*CT2 + R3*RB2*RIN*RT2*CB2*CT2 + R2*RB2*RIN*RT2*CB2*CT2 + R3*RB1*RB2*RT2*CB2*CT2
++ R2*RB1*RB2*RT2*CB2*CT2 + R2*R3*RB2*RT2*CB2*CT2 + R1*R3*RB2*RT2*CB2*CT2 + R1*R2*RB2*RT2*CB2*CT2 + R3*RB2*RIN*RL*CB2*CT2 + R2*RB2*RIN*RL*CB2*CT2
++ R3*RB1*RB2*RL*CB2*CT2 + R2*RB1*RB2*RL*CB2*CT2 + R2*R3*RB2*RL*CB2*CT2 + R1*R3*RB2*RL*CB2*CT2 + R1*R2*RB2*RL*CB2*CT2 + RB1*RIN*RL*RT2*CB1*CT2
++ RB1*RB2*RL*RT2*CB1*CT2 + R2*RB1*RL*RT2*CB1*CT2 + R1*RB1*RL*RT2*CB1*CT2 + RB1*RB2*RIN*RT2*CB1*CT2 + R3*RB1*RIN*RT2*CB1*CT2
++ R2*RB1*RIN*RT2*CB1*CT2 + R3*RB1*RB2*RT2*CB1*CT2 + R1*RB1*RB2*RT2*CB1*CT2 + R2*R3*RB1*RT2*CB1*CT2 + R1*R3*RB1*RT2*CB1*CT2
++ R1*R2*RB1*RT2*CB1*CT2 + RB1*RB2*RIN*RL*CB1*CT2 + R3*RB1*RIN*RL*CB1*CT2 + R2*RB1*RIN*RL*CB1*CT2 + R3*RB1*RB2*RL*CB1*CT2 + R1*RB1*RB2*RL*CB1*CT2
++ R2*R3*RB1*RL*CB1*CT2 + R1*R3*RB1*RL*CB1*CT2 + R1*R2*RB1*RL*CB1*CT2 + RB2*RIN*RL*RT1*CB2*CT1 + RB1*RB2*RL*RT1*CB2*CT1
++ R2*RB2*RL*RT1*CB2*CT1 + R1*RB2*RL*RT1*CB2*CT1 + R3*RB2*RIN*RT1*CB2*CT1 + R2*RB2*RIN*RT1*CB2*CT1 + R3*RB1*RB2*RT1*CB2*CT1
++ R2*RB1*RB2*RT1*CB2*CT1 + R2*R3*RB2*RT1*CB2*CT1 + R1*R3*RB2*RT1*CB2*CT1 + R1*R2*RB2*RT1*CB2*CT1 + RB1*RB2*RIN*RL*CB2*CT1 + R3*RB2*RIN*RL*CB2*CT1
++ R1*RB2*RIN*RL*CB2*CT1 + R3*RB1*RB2*RL*CB2*CT1 + R2*RB1*RB2*RL*CB2*CT1 + R2*R3*RB2*RL*CB2*CT1 + R1*R3*RB2*RL*CB2*CT1 + R1*R2*RB2*RL*CB2*CT1
++ R3*RB1*RB2*RIN*CB2*CT1 + R2*RB1*RB2*RIN*CB2*CT1 + R2*R3*RB2*RIN*CB2*CT1 + R1*R3*RB2*RIN*CB2*CT1 + R1*R2*RB2*RIN*CB2*CT1
++ RB1*RIN*RL*RT1*CB1*CT1 + RB1*RB2*RL*RT1*CB1*CT1 + R2*RB1*RL*RT1*CB1*CT1 + R1*RB1*RL*RT1*CB1*CT1 + RB1*RB2*RIN*RT1*CB1*CT1 + R3*RB1*RIN*RT1*CB1*CT1
++ R2*RB1*RIN*RT1*CB1*CT1 + R3*RB1*RB2*RT1*CB1*CT1 + R1*RB1*RB2*RT1*CB1*CT1 + R2*R3*RB1*RT1*CB1*CT1 + R1*R3*RB1*RT1*CB1*CT1
++ R1*R2*RB1*RT1*CB1*CT1 + R3*RB1*RIN*RL*CB1*CT1 + R1*RB1*RIN*RL*CB1*CT1 + R3*RB1*RB2*RL*CB1*CT1 + R1*RB1*RB2*RL*CB1*CT1 + R2*R3*RB1*RL*CB1*CT1
++ R1*R3*RB1*RL*CB1*CT1 + R1*R2*RB1*RL*CB1*CT1 + R3*RB1*RB2*RIN*CB1*CT1 + R1*RB1*RB2*RIN*CB1*CT1 + R2*R3*RB1*RIN*CB1*CT1 + R1*R3*RB1*RIN*CB1*CT1
++ RB1*RB2*RIN*RL*CB1*CB2 + R2*RB1*RB2*RL*CB1*CB2 + R1*RB1*RB2*RL*CB1*CB2 + R3*RB1*RB2*RIN*CB1*CB2 + R2*RB1*RB2*RIN*CB1*CB2 + R2*R3*RB1*RB2*CB1*CB2
++ R1*R3*RB1*RB2*CB1*CB2 + R1*R2*RB1*RIN*CB1*CT1 + R1*R2*RB1*RB2*CB1*CB2;
+
+var DEN_CIm = RIN*RL*RT2*CT2 + RB2*RL*RT2*CT2 + RB1*RL*RT2*CT2 + R2*RL*RT2*CT2 + R1*RL*RT2*CT2 + RB2*RIN*RT2*CT2 + R3*RIN*RT2*CT2 + R2*RIN*RT2*CT2
++ RB1*RB2*RT2*CT2 + R3*RB2*RT2*CT2 + R1*RB2*RT2*CT2 + R3*RB1*RT2*CT2 + R2*RB1*RT2*CT2 + R2*R3*RT2*CT2 + R1*R3*RT2*CT2 + R1*R2*RT2*CT2
++ RB2*RIN*RL*CT2 + R3*RIN*RL*CT2 + R2*RIN*RL*CT2 + RB1*RB2*RL*CT2 + R3*RB2*RL*CT2 + R1*RB2*RL*CT2 + R3*RB1*RL*CT2 + R2*RB1*RL*CT2
++ R2*R3*RL*CT2 + R1*R3*RL*CT2 + R1*R2*RL*CT2 + RIN*RL*RT1*CT1 + RB2*RL*RT1*CT1 + RB1*RL*RT1*CT1 + R2*RL*RT1*CT1 + R1*RL*RT1*CT1 + RB2*RIN*RT1*CT1
++ R3*RIN*RT1*CT1 + R2*RIN*RT1*CT1 + RB1*RB2*RT1*CT1 + R3*RB2*RT1*CT1 + R1*RB2*RT1*CT1 + R3*RB1*RT1*CT1 + R2*RB1*RT1*CT1 + R2*R3*RT1*CT1
++ R1*R3*RT1*CT1 + R1*R2*RT1*CT1 + RB1*RIN*RL*CT1 + R3*RIN*RL*CT1 + R1*RIN*RL*CT1 + RB1*RB2*RL*CT1 + R3*RB2*RL*CT1 + R1*RB2*RL*CT1
++ R3*RB1*RL*CT1 + R2*RB1*RL*CT1 + R2*R3*RL*CT1 + R1*R3*RL*CT1 + R1*R2*RL*CT1 + RB1*RB2*RIN*CT1 + R3*RB2*RIN*CT1 + R1*RB2*RIN*CT1
++ R3*RB1*RIN*CT1 + R2*RB1*RIN*CT1 + R2*R3*RIN*CT1 + R1*R3*RIN*CT1 + R1*R2*RIN*CT1 + RB2*RIN*RL*CB2 + RB1*RB2*RL*CB2 + R2*RB2*RL*CB2
++ R1*RB2*RL*CB2 + R3*RB2*RIN*CB2 + R2*RB2*RIN*CB2 + R3*RB1*RB2*CB2 + R2*RB1*RB2*CB2 + R2*R3*RB2*CB2 + R1*R3*RB2*CB2 + R1*R2*RB2*CB2
++ RB1*RIN*RL*CB1 + RB1*RB2*RL*CB1 + R2*RB1*RL*CB1 + R1*RB1*RL*CB1 + RB1*RB2*RIN*CB1 + R3*RB1*RIN*CB1 + R2*RB1*RIN*CB1 + R3*RB1*RB2*CB1
++ R1*RB1*RB2*CB1 + R2*R3*RB1*CB1 + R1*R3*RB1*CB1 + R1*R2*RB1*CB1;
+
+var DEN_DRe =  RIN*RL + RB2*RL + RB1*RL + R2*RL + R1*RL + RB2*RIN + R3*RIN + R2*RIN + RB1*RB2 + R3*RB2 + R1*RB2 + R3*RB1 + R2*RB1 + R2*R3 + R1*R3 + R1*R2;
+
+// Transfer function numerator multipliers for current I5-I6
+var NOM_I_AIm = CB1*CB2*CT1*RB1*RB2*(R3*R1 + R1*R2 + R2*RT1 + R2*R3);
+var NOM_I_BRe = (CB1*RB1 + CB2*RB2)*(CT1*R3*R1 + CT1*R1*R2 + CT1*R2*RT1 + CT1*R2*R3) + CB2*CT1*RB2*RB1*(R2 + R3) + CB1*CB2*RB1*RB2*R2 + CB1*CT1*RB1*RB2*(R1 + RT1 + R3);
+var NOM_I_CIm = CT1*R3*(R1 + RB1 + R2 + RB2) + CT1*(R2 + RB2)*(R1 + RB1 + RT1) + (CB1*RB1 + CB2*RB2)*R2 + CB1*RB1*RB2;
+var NOM_I_DRe = R2 + RB2;
+
+var NOM_II_XRe = NOM_I_AIm*CT2*RT2;
+var NOM_II_AIm = NOM_I_BRe*CT2*RT2;
+var NOM_II_BRe = NOM_I_CIm*CT2*RT2;
+var NOM_II_CIm = NOM_I_DRe*CT2*RT2;
+
+        // loop through the selected frequency points and do calculation
+        for (j = 0; j < X.length; j++) {
+            // w = 2*pi*f
+            var w = 2*Math.PI*X[j];
+
+            var XDEN_XRe =  w*w*w*w*DEN_XRe;
+            var XDEN_AIm = -w*w*w*DEN_AIm;
+            var XDEN_BRe = -w*w*DEN_BRe;
+            var XDEN_CIm =  w*DEN_CIm;
+            var XDEN_DRe =  DEN_DRe;
+
+            var DENOMINATOR = ( (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XDEN_AIm + XDEN_CIm)*(XDEN_AIm + XDEN_CIm) );
+
+            var XNOM_I_XRe =  w*w*w*w*NOM_II_XRe;
+            var XNOM_I_AIm = -w*w*w*(NOM_I_AIm + NOM_II_AIm);
+            var XNOM_I_BRe = -w*w*(NOM_I_BRe + NOM_II_BRe);
+            var XNOM_I_CIm =  w*(NOM_I_CIm + NOM_II_CIm);
+            var XNOM_I_DRe =  NOM_I_DRe;
+
+            var NUMERATOR_Re = (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_AIm + XNOM_I_CIm)*(XDEN_AIm + XDEN_CIm);
+            var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
+
+            var cur = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+
+            row = [];
+            row.push(X[j]);
+            row.push( 20*Math.log(RL*cur)/Math.log(10) );
+            data.push(row);
+        }
+        if (!g) {
+            g = createDyGraph(data, "James");
+        } else {
+            g.updateOptions({file: data});
+        }
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>
