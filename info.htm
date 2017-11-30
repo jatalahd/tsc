@@ -3,18 +3,20 @@
 <HEAD>
 <TITLE>TSC in the web</TITLE>
 <SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
 </HEAD>
 <BODY>
 <FORM name="frm">
-  <TABLE border="1" align="center">
+  <TABLE align="center">
     <TR>
-      <TD align="left" width="1280">
-        <DIV id="linkDiv" style="float: left;"></DIV>
-        <DIV id="infoDiv" style="float: right;">[INFO]</DIV>
+      <TD align="left" width="1280" class="navbar">
+        <DIV id="linkDiv" style="float: left;" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" style="float: right;" class="navbar-info"><a href="info.htm" class="navbar-menu-item disabled">INFO</DIV>
       </TD>
     </TR>
     <TR>
-      <TD align="left" valign="top" width="1280">
+      <TD align="left" valign="top" width="1280"  class="tonestack-values">
       Hello from TSC in the web!
       <BR><BR>
       These pages bring the legendary Tone Stack Calculator (TSC) to be run on browsers that support JavaScript (and have it enabled).

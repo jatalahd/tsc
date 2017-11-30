@@ -16,18 +16,24 @@ function createLinks(divId, pageReference) {
     var linkDiv = document.getElementById(divId);
 
     for (var row = 0; row < pages.length; row++) {
-        linkDiv.appendChild(document.createTextNode(" ["));
+        linkDiv.appendChild(document.createTextNode(""));
         
-        if (pageReference != pages[row][0]) {
+//        if (pageReference != pages[row][0]) {
             var linkElement = document.createElement('a');
             linkElement.setAttribute('href', pages[row][1]);
             linkElement.appendChild(document.createTextNode(pages[row][0]));
+            var cls = 'navbar-menu-item';
+            if (pageReference == pages[row][0]) {
+        		  cls = cls + ' disabled';
+            }
+            linkElement.setAttribute('class', cls)
             linkDiv.appendChild(linkElement);
-        } else {
-            linkDiv.appendChild(document.createTextNode(pages[row][0]));
-        }
+            
+//        } else {
+//            linkDiv.appendChild(document.createTextNode(pages[row][0]));
+//        }
 
-        linkDiv.appendChild(document.createTextNode("] "));
+        linkDiv.appendChild(document.createTextNode(""));
     }
 }
 
@@ -115,7 +121,7 @@ function logBPotModel(rotation) {
 
 /* A common function to create the graph area with default layout */
 function createDyGraph(data, titleText) {
-    var grph = new Dygraph(document.getElementById('graph'), data, {labels: [ "frequency [Hz]", "amplitude [dB]" ], strokeWidth: 2.0, color: "blue",
+    var grph = new Dygraph(document.getElementById('graph'), data, {labels: [ "frequency [Hz]", "amplitude [dB]" ], strokeWidth: 2.0, color: "#D50",
                                                                     title: titleText, xlabel: "frequency [Hz]", ylabel: "amplitude [dB]",
                                                                     axisLabelFontSize: 18, xLabelHeight: 20, yLabelWidth: 20,
                                                                     legend: "always", labelsDiv: document.getElementById('legendDiv'),
