@@ -17,22 +17,15 @@ function createLinks(divId, pageReference) {
 
     for (var row = 0; row < pages.length; row++) {
         linkDiv.appendChild(document.createTextNode(""));
-        
-//        if (pageReference != pages[row][0]) {
-            var linkElement = document.createElement('a');
-            linkElement.setAttribute('href', pages[row][1]);
-            linkElement.appendChild(document.createTextNode(pages[row][0]));
-            var cls = 'navbar-menu-item';
-            if (pageReference == pages[row][0]) {
-        		  cls = cls + ' disabled';
-            }
-            linkElement.setAttribute('class', cls)
-            linkDiv.appendChild(linkElement);
-            
-//        } else {
-//            linkDiv.appendChild(document.createTextNode(pages[row][0]));
-//        }
-
+        var linkElement = document.createElement('a');
+        linkElement.setAttribute('href', pages[row][1]);
+        linkElement.appendChild(document.createTextNode(pages[row][0]));
+        var cls = 'navbar-menu-item';
+        if (pageReference == pages[row][0]) {
+    		  cls = cls + ' disabled';
+        }
+        linkElement.setAttribute('class', cls)
+        linkDiv.appendChild(linkElement);
         linkDiv.appendChild(document.createTextNode(""));
     }
 }
@@ -118,15 +111,32 @@ function logBPotModel(rotation) {
     return rot;
 }
 
+function legendFormatter(data){
+	console.log(data);
+	if(data.x == undefined){
+		return '';
+	}
+	return data.xHTML + ' Hz' + ' / ' + data.series.map(v => + v.yHTML + ' dB');
+}
 
 /* A common function to create the graph area with default layout */
 function createDyGraph(data, titleText) {
-    var grph = new Dygraph(document.getElementById('graph'), data, {labels: [ "frequency [Hz]", "amplitude [dB]" ], strokeWidth: 2.0, color: "#D50",
-                                                                    title: titleText, xlabel: "frequency [Hz]", ylabel: "amplitude [dB]",
-                                                                    axisLabelFontSize: 18, xLabelHeight: 20, yLabelWidth: 20,
-                                                                    legend: "always", labelsDiv: document.getElementById('legendDiv'),
-                                                                    maxNumberWidth: 7, digitsAfterDecimal: 3,
-                                                                    axes: {y: {valueRange: [-50, 1]}, x: {logscale: true, ticker: 
+    var grph = new Dygraph(document.getElementById('graph'), data, {   labels: [ "frequency [Hz]", "amplitude [dB]" ]
+    																   ,  strokeWidth: 2.0
+    																   ,  color: "#D50"
+    																   ,  title: titleText
+    																   ,  xlabel: "frequency [Hz]"
+    																   ,  ylabel: "amplitude [dB]"
+    																   ,  axisLabelFontSize: 18
+    																   ,  xLabelHeight: 20
+    																   ,  yLabelWidth: 20
+    																   ,  legend: "always"
+    																   ,  legendFormatter: legendFormatter
+    																   ,  labelsDiv: document.getElementById('legendDiv')
+    																   ,  maxNumberWidth: 7
+    																   ,  digitsAfterDecimal: 3
+    																   ,  axes: {  y: {valueRange: [-50, 1]}
+                                                                               , x: {logscale: true, ticker: 
         function(min, max, pixels) {
             return [ { v: 10 }, { label_v: 10, label: '10' },
                      { v: 20 },
