@@ -1,8 +1,7 @@
 
-
 /* Global 2D array to for creating links to each page. When a new page */
 /* is added, add it here so all pages will have the updated links. */
-var pages = [['Marshall', 'marshall.htm'],
+var pages = [["Marshall", 'marshall.htm'],
              ["Fender"  , 'fender.htm'  ],
              ["Vox"     , 'vox.htm'     ],
              ["James"   , 'james.htm'   ],
@@ -11,12 +10,14 @@ var pages = [['Marshall', 'marshall.htm'],
              ["Big Muff", 'bigmuff.htm' ],
              ["Aria"    , 'aria.htm'    ]];
 
-/*  */
+
+/* Creates links based on the pages array defined above */
+/* pageReference string needs to match the item in the pages array */
 function createLinks(divId, pageReference) {
     var linkDiv = document.getElementById(divId);
 
     for (var row = 0; row < pages.length; row++) {
-        linkDiv.appendChild(document.createTextNode(""));
+        linkDiv.appendChild(document.createTextNode("| "));
         var linkElement = document.createElement('a');
         linkElement.setAttribute('href', pages[row][1]);
         linkElement.appendChild(document.createTextNode(pages[row][0]));
@@ -30,7 +31,7 @@ function createLinks(divId, pageReference) {
     }
 }
 
-/*  */
+/* Creates an arithmetic or geometric set of frequencies based on input parameters  */
 function createFrequencies(deviation, startfreq, stopfreq, mode) {
     // adder for "arithmetic" series in logarithmic frequency sequence (mode = 1)
     var adder = (10-1)/deviation;
@@ -111,12 +112,28 @@ function logBPotModel(rotation) {
     return rot;
 }
 
+
+/* Wrapper function for returning the pot rotation value according to the given potentiometer type */
+function getRotationForPotType(rotation, type) {
+    // Linear pot model as default
+    var rot = rotation;
+    
+    // LogA and LogB pot models selected per given type
+    if ("LogA" == type) {
+        rot = logAPotModel(rotation);
+    } else if ("LogB" == type) {
+        rot = logBPotModel(rotation);
+    }
+    return rot;
+}
+
+
 function legendFormatter(data){
-	console.log(data);
-	if(data.x == undefined){
-		return '';
-	}
-	return data.xHTML + ' Hz' + ' / ' + data.series.map(v => + v.yHTML + ' dB');
+    //console.log(data);
+    if(data.x == undefined){
+        return '';
+    }
+    return data.xHTML + ' Hz' + ' / ' + data.series.map(v => + v.yHTML + ' dB');
 }
 
 /* A common function to create the graph area with default layout */
@@ -172,7 +189,7 @@ function createDyGraph(data, titleText) {
                      { v: 50000 },
                      { v: 60000 },
                      { v: 70000 },
-                     {  v: 80000 },
+                     { v: 80000 },
                      { v: 90000 }, 
                      { v: 100000 }, { label_v: 100000, label: '100000' }
             ]}}}});

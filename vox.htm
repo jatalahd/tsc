@@ -122,10 +122,18 @@
     <TR>
       <TD colspan="2" class="tonestack-sliders">
         <BR>
-        <SPAN id="label_RB" class="tonestack-slider-label">RB (LogA)</SPAN>
+        <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="doCalc()">
+                                                              <option value="Linear">Linear</option>
+                                                              <option value="LogA" selected="selected">LogA</option>
+                                                              <option value="LogB">LogB</option></select> 
+        </SPAN>
         <DIV id="range_RB" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
-        <SPAN id="label_RT" class="tonestack-slider-label">RT (LogA)</SPAN>
+        <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="doCalc()">
+                                                              <option value="Linear">Linear</option>
+                                                              <option value="LogA" selected="selected">LogA</option>
+                                                              <option value="LogB">LogB</option></select> 
+        </SPAN>
         <DIV id="range_RT" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
       </TD>
@@ -218,8 +226,8 @@
         var data = [];
 
         // pot rotation 0 - 10 from the slider component
-        var RotTreble = logAPotModel(range_RT.noUiSlider.get());
-        var RotBass   = logAPotModel(range_RB.noUiSlider.get());
+        var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+        var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
 
         var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
         var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );

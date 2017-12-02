@@ -116,6 +116,7 @@ a.disabled {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #154682;
 }
+
 .tonestack-values-buttonhover {
 	bbackground:-moz-linear-gradient(top, #08D 5%, #007dc1 100%);
 	background:-webkit-linear-gradient(top, #08D 5%, #007dc1 100%);
@@ -125,6 +126,7 @@ a.disabled {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#08D', endColorstr='#007dc1',GradientType=0);
 	background-color:#08D;
 }
+
 .tonestack-values-button:active {
 	position:relative;
 	top:1px;
@@ -135,7 +137,7 @@ a.disabled {
 } 
 
 .tonestack-slider-label {
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .tonestack-slider-input {
@@ -173,4 +175,13 @@ a.disabled {
 
 .tonestack-graph-axis {
 	
+}
+
+
+.tonestack-select-pot {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    border: none;
+    border-radius: 1px;
+    background-color: #FFFFFF;
 }
