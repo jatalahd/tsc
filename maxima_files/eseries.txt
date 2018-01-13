@@ -1,0 +1,35 @@
+/* Maxima batch file for solving circuit transfer function from matrix representation  */
+/* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
+/* evaluated separately as polynomial coefficients in powers of complex variable s.    */
+/* This example solves the coefficients for E-series tone control circuit JL, 30.9.2017  */
+
+stardisp: true$           /* multiplication is displayed with an asterisk between operands */
+ratmx: true$              /* matrix operations  are performed in CRE */
+/* matrix obtained from current loops in the circuit */
+matrix([RIN+R2+1/(s*C3),-R2,0,-1/(s*C3),0],[-R2,R3+R2+RB1,-RB1,-R3,0],[0,-RB1,RB1+RB2+1/(s*C4),0,-RB2-1/(s*C4)],[-1/(s*C3),-R3,0,RT1+R3+R5+1/(s*C2)+1/(s*C3),-R5],[0,0,-RB2-1/(s*C4),-R5,R5+RB2+RT2+1/(s*C1)+1/(s*C4)])$
+determinant(%)$           /* evaluates the determinant of the previous output % */
+DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
+DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
+pld: num(DEN_fs)$         /* saves a variable pld for numerator expression */
+/* extract denominator coefficients in the powers of s to designated variables */
+DEN_XRe: coeff(pld,s,4);
+DEN_AIm: coeff(pld,s,3);
+DEN_BRe: coeff(pld,s,2);
+DEN_CIm: coeff(pld,s,1);
+DEN_DRe: coeff(pld,s,0);
+
+/* matrix to solve Iout using Cramer's rule */
+matrix([RIN+R2+1/(s*C3),-R2,0,-1/(s*C3),1],[-R2,R3+R2+RB1,-RB1,-R3,0],[0,-RB1,RB1+RB2+1/(s*C4),0,0],[-1/(s*C3),-R3,0,RT1+R3+R5+1/(s*C2)+1/(s*C3),0],[0,0,-RB2-1/(s*C4),-R5,0])$
+determinant(%)$
+NUM_fs: factor(%)$
+NUM_den: denom(NUM_fs)*s*C1$                /* because of (1 + s*C1*RT2)/(s*C1) is the terminating impedance */
+pln: expand(num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
+/* extract numerator coefficients in the powers of s to designated variables */
+NUM_XRe: coeff(pln,s,4);
+NUM_AIm: coeff(pln,s,3);
+NUM_BRe: coeff(pln,s,2);
+NUM_CIm: coeff(pln,s,1);
+NUM_DRe: coeff(pln,s,0);
+DEN_den;
+NUM_den;
+DEN_den/NUM_den;
