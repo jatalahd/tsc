@@ -104,10 +104,14 @@
         </CENTER>
       </TD>  
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
+        <div id="buttonContainer">
+            <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
+	    <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
+        </div>
         <div id="graphContainer" class="tonestack-graph-container">
 	        <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
 	        <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
-	    </div>
+        </div>
       </TD>
     </TR>
     <TR>
@@ -136,6 +140,8 @@
     var R2;
     var C1;
     var C2;
+
+    var data = [];
 
     // create sliders and save the div-element of the slider
     var range_RM = createSlider('range_RM','value_RM');
@@ -202,7 +208,7 @@
     // function calculates the frequency response for the given component values
     function doCalc() {
         var row = [];
-        var data = [];
+        data = [];
 
         // treble pot rotation 0 - 10 from the slider component
         var RotMid = getRotationForPotType(range_RM.noUiSlider.get(), document.frm.RM_pot.value);
@@ -256,6 +262,10 @@ var NOM_I_DRe = R2 + RM1;
 
             row = [];
             row.push(X[j]);
+            // add possible snapshot data from storage
+	    for (k = 1; k < series; k++) {
+	        row.push(storeData[j][k]);
+            }
             row.push( 20*Math.log(RL*cur)/Math.log(10) );
             data.push(row);
         }
@@ -263,7 +273,7 @@ var NOM_I_DRe = R2 + RM1;
         if (!g) {
             g = createDyGraph(data, "Big Muff");
         } else {
-            g.updateOptions({file: data});
+            g.updateOptions({file: data, labels: labelArray, colors: colorArray});
         }
     }
 </SCRIPT>

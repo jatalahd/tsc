@@ -8,8 +8,36 @@ var pages = [["Marshall", 'marshall.htm'],
              ["E-series", 'eseries.htm' ],
              ["Bench"   , 'bench.htm'   ],
              ["Big Muff", 'bigmuff.htm' ],
+             ["Hiwatt"  , 'hiwatt.htm'  ],
              ["Aria"    , 'aria.htm'    ]];
+			 
+/* Global specification for color spinner in snapshots */
+var colorSpectrum = ["#D50","blue","green","black","red"];
+var origLabels = [ "frequency [Hz]", "amplitude [dB]" ];
 
+/* Global array for storing snapshots */
+var storeData = [];
+
+var series = 1;
+var labelArray = origLabels;
+var colorArray = [colorSpectrum[0]];
+
+/* Adds a snapshot series to graph */
+function addSeries() {
+    storeData = data;
+    colorArray.push(colorSpectrum[series%colorSpectrum.length]);
+    series = storeData[0].length;
+    labelArray.push(origLabels[1] + series);
+    doCalc();
+}
+	
+/* Removes all snapshot traces from the graph */
+function clearSnapshots() {
+    series = 1;
+    colorArray = [colorSpectrum[0]];
+    labelArray = [ "frequency [Hz]", "amplitude [dB]" ];
+    doCalc();
+}
 
 /* Creates links based on the pages array defined above */
 /* pageReference string needs to match the item in the pages array */
@@ -128,32 +156,37 @@ function getRotationForPotType(rotation, type) {
 }
 
 
+/* Customized legend for the graph for all data series */
 function legendFormatter(data){
     //console.log(data);
     if(data.x == undefined){
         return '';
     }
-    return data.xHTML + ' Hz' + ' / ' + data.series.map(v => + v.yHTML + ' dB');
+    var html = data.xHTML + ' Hz' + ' : ';
+    data.series.forEach(function(series) {
+        html += ' ' + series.yHTML.fontcolor(series.color) + ' dB ';
+    });	
+    return html;
 }
 
 /* A common function to create the graph area with default layout */
 function createDyGraph(data, titleText) {
-    var grph = new Dygraph(document.getElementById('graph'), data, {   labels: [ "frequency [Hz]", "amplitude [dB]" ]
-    																   ,  strokeWidth: 2.0
-    																   ,  color: "#D50"
-    																   ,  title: titleText
-    																   ,  xlabel: "frequency [Hz]"
-    																   ,  ylabel: "amplitude [dB]"
-    																   ,  axisLabelFontSize: 18
-    																   ,  xLabelHeight: 20
-    																   ,  yLabelWidth: 20
-    																   ,  legend: "always"
-    																   ,  legendFormatter: legendFormatter
-    																   ,  labelsDiv: document.getElementById('legendDiv')
-    																   ,  maxNumberWidth: 7
-    																   ,  digitsAfterDecimal: 3
-    																   ,  axes: {  y: {valueRange: [-50, 1]}
-                                                                               , x: {logscale: true, ticker: 
+    var grph = new Dygraph(document.getElementById('graph'), data, { labels: origLabels
+                                                                     , strokeWidth: 2.0
+                                                                     , colors: [colorSpectrum[0]]
+                                                                     , title: titleText
+                                                                     , xlabel: "frequency [Hz]"
+                                                                     , ylabel: "amplitude [dB]"
+                                                                     , axisLabelFontSize: 18
+                                                                     , xLabelHeight: 20
+                                                                     , yLabelWidth: 20
+                                                                     , legend: "always"
+                                                                     , legendFormatter: legendFormatter
+                                                                     , labelsDiv: document.getElementById('legendDiv')
+                                                                     , maxNumberWidth: 7
+                                                                     , digitsAfterDecimal: 3
+                                                                     , axes: {  y: {valueRange: [-50, 1]}
+                                                                     , x: {logscale: true, ticker: 
         function(min, max, pixels) {
             return [ { v: 10 }, { label_v: 10, label: '10' },
                      { v: 20 },
