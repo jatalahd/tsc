@@ -12,7 +12,7 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Aria"    , 'aria.htm'    ]];
 			 
 /* Global specification for color spinner in snapshots */
-var colorSpectrum = ["#D50","blue","green","black","red"];
+var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];
 var origLabels = [ "frequency [Hz]", "amplitude [dB]" ];
 
 /* Global array for storing snapshots */

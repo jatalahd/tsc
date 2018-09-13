@@ -123,7 +123,8 @@
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
         <div id="buttonContainer">
             <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
-	    <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
+	    <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
+            <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
         </div>
       	<div id="graphContainer" class="tonestack-graph-container">
 	        <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
@@ -245,6 +246,19 @@
         document.frm.C4.value  = 3300;
         
         applyValues();
+    }
+
+
+    function sweepValues() {
+        for (p = 0; p <= 10; p += 5) {
+            range_RB.noUiSlider.set(p);
+            for (q = 0; q <=10; q += 5) {
+                range_RT.noUiSlider.set(q);
+                doCalc();
+                console.log(data);
+                addSeries();
+            }
+        }
     }
 
 
