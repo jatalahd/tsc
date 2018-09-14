@@ -1,7 +1,8 @@
 /* Maxima batch file for solving circuit transfer function from matrix representation  */
 /* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
 /* evaluated separately as polynomial coefficients in powers of complex variable s.    */
-/* This example solves the coefficients for Big Muff tone control circuit JL, 30.9.2017  */
+/* This example solves the coefficients for Big Muff tone control circuit as Vout/Vin  */
+/* Jarmo L. 14.9.2018 */
 
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
@@ -25,7 +26,7 @@ IIII: determinant(%)$
 III-IIII$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
-pln: expand(num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
+pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
 /* extract numerator coefficients in the powers of s to designated variables */
 NUM_AIm: coeff(pln,s,3);
 NUM_BRe: coeff(pln,s,2);
