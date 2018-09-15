@@ -9,6 +9,7 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Bench"   , 'bench.htm'   ],
              ["Big Muff", 'bigmuff.htm' ],
              ["Hiwatt"  , 'hiwatt.htm'  ],
+             ["Crate"   , 'crate.htm'   ],
              ["Aria"    , 'aria.htm'    ]];
 			 
 /* Global specification for color spinner in snapshots */

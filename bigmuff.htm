@@ -116,7 +116,7 @@
       </TD>
     </TR>
     <TR>
-      <TD colspan="2" class="tonestack-sliders">
+      <TD colspan="2" class="tonestack-sliders" style="padding-bottom: 100px;">
         <BR>
         <SPAN id="label_RM" class="tonestack-slider-label">RM <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="doCalc()">
                                                               <option value="Linear" selected="selected">Linear</option>
@@ -206,7 +206,10 @@
         applyValues();
     }
     
-    
+    // creates a sweep plot with max and mid values
+    // prints amplitude data to console for testing
+    // against model validity. Use "store as global variable"
+    // in Firefox for all arrays and then ''+temp2;
     function sweepValues() {
         for (p = 0; p <= 10; p+=5) {
             range_RM.noUiSlider.set(p);
