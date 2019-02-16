@@ -10,6 +10,8 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Big Muff", 'bigmuff.htm' ],
              ["Hiwatt"  , 'hiwatt.htm'  ],
              ["Crate"   , 'crate.htm'   ],
+             ["Dumble Rock", 'dumble_rock.htm'],
+             ["Dumble Jazz", 'dumble_jazz.htm'],
              ["Aria"    , 'aria.htm'    ]];
 			 
 /* Global specification for color spinner in snapshots */
