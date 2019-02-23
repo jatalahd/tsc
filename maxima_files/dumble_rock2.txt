@@ -1,0 +1,75 @@
+/* Maxima batch file for solving circuit transfer function from matrix representation  */
+/* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
+/* evaluated separately as polynomial coefficients in powers of complex variable s.    */
+/* This example solves the coefficients for  Dumble  tone control circuit as Vout/Vin  */
+/* Jarmo L. 14.9.2018 */
+
+stardisp: true$           /* multiplication is displayed with an asterisk between operands */
+ratmx: true$              /* matrix operations  are performed in CRE */
+/* matrix obtained from current loops in the circuit */
+writefile("den_rock.txt");
+matrix(
+[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        0   ],
+[-R1               ,R1+RT1+RT2+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),0     ,       -RT2      ,        0        ,        0       ,-RT1-1/(s*C5)],
+[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RM+R2+1/(s*C2)+1/(s*C3)+1/(s*C4),-1/(s*C4),   -R2       ,        0        ,        0       ,        0   ],
+[        0         ,          0        ,         -1/(s*C4)      ,    RB2+1/(s*C4) ,       -RB2      ,        0        ,        0       ,        0   ],
+[        0         ,          -RT2     ,         -R2            ,       -RB2      ,R2+RB2+RT2+RV1+RV2,     -RV1       ,      -RV2      ,        0   ],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL    ],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6)]
+)$
+determinant(%)$           /* evaluates the determinant of the previous output % */
+DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
+DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
+pld: num(DEN_fs)$         /* saves a variable pld for numerator expression */
+/* extract denominator coefficients in the powers of s to designated variables */
+DEN_ZRe: coeff(pld,s,6);
+DEN_YIm: coeff(pld,s,5);
+DEN_XRe: coeff(pld,s,4);
+DEN_AIm: coeff(pld,s,3);
+DEN_BRe: coeff(pld,s,2);
+DEN_CIm: coeff(pld,s,1);
+DEN_DRe: coeff(pld,s,0);
+closefile();
+
+/* matrix to solve Iout using Cramer's rule */
+writefile("num_rock.txt");
+matrix(
+[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        1       ,        0   ],
+[-R1               ,R1+RT1+RT2+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),0     ,       -RT2      ,        0        ,        0       ,-RT1-1/(s*C5)],
+[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RM+R2+1/(s*C2)+1/(s*C3)+1/(s*C4),-1/(s*C4),   -R2       ,        0        ,        0       ,        0   ],
+[        0         ,          0        ,         -1/(s*C4)      ,    RB2+1/(s*C4) ,       -RB2      ,        0        ,        0       ,        0   ],
+[        0         ,          -RT2     ,         -R2            ,       -RB2      ,R2+RB2+RT2+RV1+RV2,     -RV1       ,        0       ,        0   ],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,        0       ,   -1/(s*C6)],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,        0       ,     -RL    ],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,0 ,R3+RL+RT1+1/(s*C5)+1/(s*C6)]
+)$
+Ia: determinant(%)$
+matrix(
+[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        1   ],
+[-R1               ,R1+RT1+RT2+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),0     ,       -RT2      ,        0        ,        0       ,        0   ],
+[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RM+R2+1/(s*C2)+1/(s*C3)+1/(s*C4),-1/(s*C4),   -R2       ,        0        ,        0       ,        0   ],
+[        0         ,          0        ,         -1/(s*C4)      ,    RB2+1/(s*C4) ,       -RB2      ,        0        ,        0       ,        0   ],
+[        0         ,          -RT2     ,         -R2            ,       -RB2      ,R2+RB2+RT2+RV1+RV2,     -RV1       ,      -RV2      ,        0   ],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,        0   ],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,        0   ],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,                    0   ]
+)$
+Ib: determinant(%)$
+Ia-Ib$
+NUM_fs: factor(%)$
+NUM_den: denom(NUM_fs)$
+pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
+/* extract numerator coefficients in the powers of s to designated variables */
+NUM_ZRe: coeff(pln,s,6);
+NUM_YIm: coeff(pln,s,5);
+NUM_XRe: coeff(pln,s,4);
+NUM_AIm: coeff(pln,s,3);
+NUM_BRe: coeff(pln,s,2);
+NUM_CIm: coeff(pln,s,1);
+NUM_DRe: coeff(pln,s,0);
+DEN_den;
+NUM_den;
+DEN_den/NUM_den;
+closefile();
+

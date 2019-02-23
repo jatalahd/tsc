@@ -10,8 +10,8 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Big Muff", 'bigmuff.htm' ],
              ["Hiwatt"  , 'hiwatt.htm'  ],
              ["Crate"   , 'crate.htm'   ],
-             ["Dumble Rock", 'dumble_rock.htm'],
-             ["Dumble Jazz", 'dumble_jazz.htm'],
+             ["Dumble Rock", 'dumble_rock2.htm'],
+             ["Dumble Jazz", 'dumble_jazz2.htm'],
              ["Aria"    , 'aria.htm'    ]];
 			 
 /* Global specification for color spinner in snapshots */
@@ -102,10 +102,10 @@ function createFrequencies(deviation, startfreq, stopfreq, mode) {
 
 
 /* A common function to create a slider with default layout */
-function createSlider(rangeDiv, valueDiv) {
+function createSlider(rangeDiv, valueDiv, startValue=5) {
     var range_RX = document.getElementById(rangeDiv);
     noUiSlider.create(range_RX, {
-	start: 5,
+	start: startValue,
         step: 0.10,
 	range: {min: 0, max: 10},
 	pips: {mode: 'values', values: [0, 5 ,10], density: 10}
