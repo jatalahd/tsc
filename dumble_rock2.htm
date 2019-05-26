@@ -351,6 +351,9 @@
         var RV1  = Math.round( RVol*(1.0 - 1.0*RotVol/10.0) );
         var RM  = Math.round( RMid*(1.0*RotMid/10.0) );
 
+        // There was a bug in the "original" schematic, this is a quick fix to it
+        RB1 = 0;
+
 
 var DEN_ZRe = C1*C2*C3*C4*C5*C6*RB1*RB2*RIN*RM*RT1*RT2*RV1*RV2
  + C1*C2*C3*C4*C5*C6*R3*RB2*RIN*RM*RT1*RT2*RV1*RV2
