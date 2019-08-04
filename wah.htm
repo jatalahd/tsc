@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<SCRIPT type="text/javascript" src="complex.min.js"></SCRIPT>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+
+<STYLE>
+#range_RB,
+#range_RT,
+#range_RM {
+    width: 300px;
+    margin: 0 auto 0px;
+    display: inline-block;
+}
+#value_RB,
+#value_RT,
+#value_RM {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+#label_RB,
+#label_RT,
+#label_RM {
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+</STYLE>
+
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE align="center">
+    <TR>
+      <TD colspan="3" align="left" class="navbar">
+        <DIV id="linkDiv" style="float: left;" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" style="float: right;" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="center" valign="top" width="400" class="tonestack-image">
+        <IMG src="wah2_pic.png"></IMG>
+      </TD>
+      <TD align="right" valign="top" width="180" class="tonestack-values">
+        <table class="tonestack-values-table">
+                <thead>
+                    <tr>
+                        <th class="tonestack-value-th-part">Part</th>
+                        <th class="tonestack-value-th-value">Value</th>
+                        <th class="tonestack-value-th-unit"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tonestack-value-label">RIN</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RC1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RC1" id="id_RC1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RE1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RE1" id="id_RE1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RE2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RE2" id="id_RE2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RF</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RF" id="id_RF" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RQ</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RQ" id="id_RQ" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RW</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RW" id="id_RW" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RB1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RB1" id="id_RB1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RB12</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RB12" id="id_RB12" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RB2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RB2" id="id_RB2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">CIN</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CIN" id="id_CIN" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">pF</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">C</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="C" id="id_C" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">pF</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">L</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="L" id="id_L" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">mH</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">&beta;1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="B1" id="id_B1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">-</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">&beta;2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="B2" id="id_B2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">-</td>
+                    </tr>
+                </tbody>
+        </table>
+        <CENTER>
+        <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" onclick="editValues();" class="tonestack-values-button">
+        <INPUT type="button" name="apply" value="Apply" title="Apply values" id="id_apply" onclick="applyValues();" class="tonestack-values-button">
+        <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues();" class="tonestack-values-button">
+        </CENTER>
+      </TD>  
+      <TD rowspan="3" align="center" valign="top" width="700" class="tonestack-graph">
+        <div id="buttonContainer">
+            <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
+            <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
+            <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+            <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
+            <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders" style="padding-bottom: 10px;">
+        <BR>
+        <SPAN id="label_RM" class="tonestack-slider-label">RW <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="doCalc()">
+                                                              <option value="Linear" selected="selected">Linear</option>
+                                                              <option value="LogA">LogA</option>
+                                                              <option value="LogB">LogB</option></select> 
+        </SPAN>
+        <DIV id="range_RM" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RM" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders" style="padding-top: 10px; padding-bottom: 10px;">
+        <SPAN id="biasing_id"></SPAN><BR><BR>
+        <SPAN id="frequency_id"></SPAN>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page 
+    createLinks("linkDiv","Wah");
+
+    var VCC = 9;
+    var VBE1 = 0.6;
+    var VBE2 = 0.6;
+    var VC1;
+    var VE2;
+    // component variables for calculation
+    var RW;
+    var RI;
+    var RC1;
+    var RE1;
+    var RE2;
+    var RQ;
+    var RF;
+    var CI;
+    var C;
+    var L;
+    var B1;
+    var B2;
+    var rpi1;
+    var rpi2;
+    var RB2;
+    var RB1;
+    var RB12;
+    var i    = new Complex(0,1);
+    var maxValue;
+
+    var data = [];
+
+    // create sliders and save the div-element of the slider
+    var range_RM = createSlider('range_RM','value_RM');
+
+    // variable g will hold the graph object for synchronized updates
+    var g = null;
+
+    // data for frequency points is created here and saved to array X
+    X = createFrequencies(90,10,100000,1);
+
+    // set the default values to the component variables and input fields
+    setDefaultValues();
+
+    // start listening the onSlide event from the slider and run the analysis function
+    range_RM.noUiSlider.on('slide', doCalc);
+
+    // function applies values given from ui and evaluates the frequency response
+    function applyValues() {
+        RI      = parseInt(document.frm.RIN.value);
+        RC1     = parseInt(document.frm.RC1.value);
+        RE1     = parseInt(document.frm.RE1.value);
+        RE2     = parseInt(document.frm.RE2.value); 
+        RQ      = parseInt(document.frm.RQ.value);
+        RW      = parseInt(document.frm.RW.value);
+        RF      = parseInt(document.frm.RF.value);
+        RB2     = parseInt(document.frm.RB2.value);
+        RB1     = parseInt(document.frm.RB1.value);
+        RB12    = parseInt(document.frm.RB12.value);
+        CI      = (1e-12)*parseInt(document.frm.CIN.value);
+        C       = (1e-12)*parseInt(document.frm.C.value);
+        L       = (1e-3)*parseInt(document.frm.L.value);
+        B1      = parseInt(document.frm.B1.value);
+        B2      = parseInt(document.frm.B2.value);
+
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+                inputElements[i].style.backgroundColor = "#EBEBE4";
+            }
+        }
+        
+        // Evaluate biasing condition to find out the value for rpi1 and rpi2
+        RL = 100*RQ/(100 + RQ);
+        var OS = VCC + VBE2*(RC1/(RB2+(B2+1)*RE2)) - VBE1 - VBE1*(RC1+RB1)/RB12 - VBE1*(RB12+RB1)*RC1/((RB2 + (B2+1)*RE2)*RB12);
+        var NIM = RB1 + RL + RF + (B1+1)*(RC1+RE1) + RC1*RB1/(RB2 + (B2+1)*RE2);
+        var X1 = (RL + RF + (B1 + 1)*RE1)*(RB12+RB1)*RC1/(RB12*(RB2 + (B2+1)*RE2));
+        var X2 = (RL + RF + (B1 + 1)*RE1)*(RC1 + RB1)/RB12;
+
+        var IBQ1 = OS/(NIM+X1+X2);
+
+        var Ix = (IBQ1*(B1+1)*RE1 + IBQ1*(RL+RF) + VBE1)/RB12;
+        var IBQ2 = -(VBE2 - Ix*(RB12+RB1) - IBQ1*RB1)/(RB2 + (B2+1)*RE2);
+
+        //IBQ2 = (VCC - IBQ1*(RB1 + RL + RF + (B1 +1)*(RC1 + RE1)) - ((RL + RF + (B1 + 1)*RE1)/RB12)*IBQ1*(RC1 + RB1) - VBE1*(RC1+RB1)/RB12 - VBE1)/RC1 
+
+        var ICQ1 = B1*IBQ1;
+        var gm1 = ICQ1/0.025;
+        rpi1 = B1/gm1;
+
+        var ICQ2 = B2*IBQ2
+        var gm2 = ICQ2/0.025;
+        rpi2 = B2/gm2;
+
+        VC1 = VCC - (ICQ1 + IBQ1 + Ix + IBQ2)*RC1;
+        VE2 = VC1 - IBQ2*RB2 - VBE2;
+        //VE2 = IBQ2*(B2+1)*RE2
+        //VC1 = VE2 + VBE2 + IBQ2*RB2
+        var value_biasing = document.getElementById("biasing_id");
+        value_biasing.innerHTML = "<i>biasing:</i> ";
+        value_biasing.innerHTML += " <b>VC1</b> = " + VC1.toFixed(2) + " V :::";
+        value_biasing.innerHTML += " <b>VE2</b> = " + VE2.toFixed(2) + " V :::";
+        value_biasing.innerHTML += " <b>r&pi;1</b> = " + rpi1.toFixed(0) + " &Omega; :::";
+        value_biasing.innerHTML += " <b>r&pi;2</b> = " + rpi2.toFixed(0) + " &Omega;";
+        
+        // evaluate maximum and minimum resonance frequencies and filter Q values
+        var RG2 = RW;
+        var rpi11 = rpi1 + (B1+1)*RE1;
+        var RPP = RI*rpi11/(RI+rpi11);
+        var T00 = (RPP/rpi11)*B1*RC1*(B2+1)*RE2*RG2/( (RF+RPP)*(RC1+RG2)*( (B2+1)*RE2 + (1+RE2/RQ + RE2/(RF+RPP))*( rpi2 + RC1*RG2/(RC1+RG2) ) ) );
+        var fmax = 1/(2*Math.PI*Math.sqrt(L*C));
+        var fmin = fmax/(Math.sqrt(1+T00))
+        var Qmin = Math.sqrt(C/L)*RQ*(RF+RPP)/(RQ+RPP+RF);
+        var Qmax = Qmin*Math.sqrt(1+T00);
+        var value_frequency = document.getElementById("frequency_id");
+        value_frequency.innerHTML = "<i>frequency:</i> ";
+        value_frequency.innerHTML += " <b>fmax</b> = " + fmax.toFixed(0) + " Hz :::";
+        value_frequency.innerHTML += " <b>fmin</b> = " + fmin.toFixed(0) + " Hz :::";
+        value_frequency.innerHTML += " <b>Qmax</b> = " + Qmax.toFixed(2) + " :::";
+        value_frequency.innerHTML += " <b>Qmin</b> = " + Qmin.toFixed(2);
+
+        maxValue = 0;
+        doCalc();
+    }
+
+
+    // function releases the readonly component value fields for editing
+    function editValues() {
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+                inputElements[i].style.backgroundColor = "#FFFFFF";
+            }
+        }
+    }
+
+
+    // function sets default values to component value fields
+    function setDefaultValues() {
+        document.frm.RIN.value = 68000;
+        document.frm.RC1.value = 22000;
+        document.frm.RE1.value = 470;
+        document.frm.RE2.value = 10000;
+        document.frm.RQ.value  = 33000;
+        document.frm.RF.value  = 1500;
+        document.frm.RW.value  = 100000;
+        document.frm.RB2.value = 470000;
+        document.frm.RB1.value = 470000;
+        document.frm.RB12.value = 82000;
+        document.frm.CIN.value = 10000;
+        document.frm.C.value   = 10000;
+        document.frm.L.value   = 500;
+        document.frm.B1.value  = 220;
+        document.frm.B2.value  = 220;
+        
+        applyValues();
+    }
+    
+    // creates a sweep plot with max and mid values
+    // prints amplitude data to console for testing
+    // against model validity. Use "store as global variable"
+    // in Firefox for all arrays and then ''+temp2;
+    function sweepValues() {
+        for (p = 0; p <= 10; p+=2) {
+            range_RM.noUiSlider.set(p);
+            doCalc();
+            console.log(data);
+            addSeries();
+        }
+    }
+
+    // function calculates the frequency response for the given component values
+    function doCalc() {
+        var row = [];
+        data = [];
+
+        // treble pot rotation 0 - 10 from the slider component
+        var RotMid = getRotationForPotType(range_RM.noUiSlider.get(), document.frm.RM_pot.value);
+
+        var RG2 = 1+Math.round( RW*(1.0*RotMid/10.0) );
+        var RG1 = Math.round( RW*(1.0 - 1.0*RotMid/10.0) );
+        RG1 = RG1*RB2/(RG1+RB2);
+        RC1 = parseInt(document.frm.RC1.value);
+        RC1 = RC1*RB1/(RC1+RB1);
+        var rpi11 = rpi1 + (B1+1)*RE1;
+
+        // loop through the selected frequency points and do calculation
+        for (j = 0; j < X.length; j++) {
+            // w = 2*pi*f
+            var w = 2*Math.PI*X[j];
+
+            var RS = i.div(-w*CI).add(RI);
+            var RP = RS.mul(rpi11).div(RS.add(rpi11));
+
+            var Tos = RP.mul(-B1*RC1*(B2+1)*RE2*RG2*w*L*w*C*RQ/rpi11);
+            var a1 = i.mul(w*L).mul(RP.add(RF+RQ)).add(RP.add(RF).mul(RQ));
+            // ((B2+1)*RE2*(i*w*L*(RF+RP+RQ) + RQ*(RF+RP) + i*w*L*i*w*C*RQ*(RF+RP))
+            var x1 = a1.add(RP.add(RF).mul(-w*L*w*C*RQ)).mul((B2+1)*RE2);
+            // (rpi2 + ((RC1+RG1)*RG2/(RC1+RG1+RG2)))*(i*w*L*(RF+RP+RQ) + RQ*(RF+RP) + i*w*L*i*w*C*((RF+RP)*RQ + RE2*(RQ+RF+RP)) +i*w*C*(RF+RP)*RQ*RE2));
+            var x2 = a1.add(RP.add(RF).mul(-w*L*w*C*RQ)).add(RP.add(RF+RQ).mul(-w*L*w*C*RE2)).add(RP.add(RF).mul(i.mul(w*C*RQ*RE2))).mul(rpi2 + ((RC1+RG1)*RG2/(RC1+RG1+RG2)));
+            var Tnim = x1.add(x2).mul(RC1+RG1+RG2);
+            var T = Tos.div(Tnim);
+
+            //ost11 = (RP/RS)*RQ*RE2*(i*w*L)*RG2*RC1*i*w*C;
+            var t11os = RP.mul(-RQ*RE2*w*L*RG2*RC1*w*C).div(RS);
+            var t11nim = Tnim;
+            var t11 = t11os.div(t11nim)
+
+            //BETA = RS*(B2+1)*RE2*(RG2/(RG1+RG2))*i*w*L*i*w*C*RQ/((B2+1)*RE2*(i*w*L*(RF+RQ) + RQ*RF + i*w*L*i*w*C*RQ*RF) + ...
+            //(rpi2 + RG1*RG2/(RG1+RG2))*(i*w*L*(RF+RQ) + RQ*RF + i*w*L*i*w*C*(RF*RQ + RE2*(RQ+RF)) +i*w*C*RF*RQ*RE2))
+
+            var BETAos = RS.mul(-(B2+1)*RE2*(RG2/(RG1+RG2))*w*L*w*C*RQ);
+            a1 = i.mul(w*L).mul(RF+RQ).add(RQ*RF).add(-w*L*w*C*RQ*RF);
+            x1 = a1.mul((B2+1)*RE2);
+            x2 = a1.add(-w*L*w*C*RE2*(RQ+RF)).add(i.mul(w*C*RF*RQ*RE2)).mul(rpi2 + RG1*RG2/(RG1+RG2))
+            var BETAnim = x1.add(x2);
+
+            var K = BETAnim.div(BETAos).mul(-1);
+
+            var Av = t11.add(K.mul(T)).div(T.add(1));
+            var AvdB = 20*Math.log(Av.abs())/Math.log(10);
+
+            row = [];
+            row.push(X[j]);
+            // add possible snapshot data from storage
+            for (k = 1; k < series; k++) {
+                var dataValue = storeData[j][k];
+                if (maxValue < dataValue) {
+                    maxValue = dataValue;
+                }
+                row.push(dataValue);
+            }
+            // follow the maximum amplitude for graphing purposes
+            if (maxValue < AvdB) {
+                maxValue = AvdB;
+            }
+            row.push(AvdB);
+            data.push(row);
+        }
+
+        if (!g) {
+            g = createDyGraph(data, "Wah", 20);
+        } else {
+            if (maxValue < 20) {
+                g.updateOptions({file: data, labels: labelArray, colors: colorArray, axes: { y: {valueRange: [-30, 21]}}});
+            } else {
+                var yMax = 10*Math.round((maxValue + 5)/10.0)+1
+                g.updateOptions({file: data, labels: labelArray, colors: colorArray, axes: { y: {valueRange: [-30, yMax]}}});
+            }
+        }
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>

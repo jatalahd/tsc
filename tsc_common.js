@@ -12,7 +12,8 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Crate"   , 'crate.htm'   ],
              ["Dumble Rock", 'dumble_rock2.htm'],
              ["Dumble Jazz", 'dumble_jazz2.htm'],
-             ["Aria"    , 'aria.htm'    ]];
+             ["Aria"    , 'aria.htm'    ],
+             ["Wah"     , 'wah.htm'     ]];
 			 
 /* Global specification for color spinner in snapshots */
 var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];
@@ -173,7 +174,7 @@ function legendFormatter(data){
 }
 
 /* A common function to create the graph area with default layout */
-function createDyGraph(data, titleText) {
+function createDyGraph(data, titleText, offset=0) {
     var grph = new Dygraph(document.getElementById('graph'), data, { labels: origLabels
                                                                      , strokeWidth: 2.0
                                                                      , colors: [colorSpectrum[0]]
@@ -188,7 +189,7 @@ function createDyGraph(data, titleText) {
                                                                      , labelsDiv: document.getElementById('legendDiv')
                                                                      , maxNumberWidth: 7
                                                                      , digitsAfterDecimal: 3
-                                                                     , axes: {  y: {valueRange: [-50, 1]}
+                                                                     , axes: {  y: {valueRange: [-50+offset, 1+offset]}
                                                                      , x: {logscale: true, ticker: 
         function(min, max, pixels) {
             return [ { v: 10 }, { label_v: 10, label: '10' },
