@@ -8,21 +8,56 @@ stardisp: true$           /* multiplication is displayed with an asterisk betwee
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
 writefile("den_jazz.txt");
+/*matrix(
+[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        0     ,  0],
+[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-1/(s*C2),-R4        ,        0        ,        0        ,        0       ,-RT1-1/(s*C5) ,  -RB1],
+[-RM-1/(s*C3)      ,   -1/(s*C2)   ,1/(s*C7)+RM+R2+1/(s*C2)+1/(s*C3),  -R2        ,        0        ,        0        ,        0       ,        0     ,  -1/(s*C7)],
+[        0         ,          -R4      ,          -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),        0        ,        0       ,        0     ,  -RB2],
+[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0     ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)  ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL      ,  0],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6), 0],
+[        0         ,         -RB1      ,         -1/(s*C7)      ,        -RB2     ,        0        ,        0        ,       0        ,      0 , 1/(s*C7)+RB1+RB2]
+)$*/
 matrix(
-[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        0   ],
-[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),-R4    ,        0        ,        0        ,        0       ,-RT1-1/(s*C5)],
-[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RB2+RM+R2+1/(s*C2)+1/(s*C3),-RB2-R2   ,        0        ,        0        ,        0       ,        0   ],
-[        0         ,          -R4      ,        -RB2-R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),      0        ,        0       ,        0   ],
-[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0   ],
-[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)],
-[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL    ],
-[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6)]
+[R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-1/(s*C2),-R4        ,        0        ,        0        ,        0       ,-RT1-1/(s*C5) ,  -RB1],
+[-1/(s*C2)   ,1/(s*C7)+RM+R2+1/(s*C2)+1/(s*C3),  -R2        ,        0        ,        0        ,        0       ,        0     ,  -1/(s*C7)],
+[-R4      ,          -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),        0        ,        0       ,        0     ,  -RB2],
+[0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0     ,  0],
+[0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)  ,  0],
+[0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL      ,  0],
+[-RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6), 0],
+[-RB1      ,         -1/(s*C7)      ,        -RB2     ,        0        ,        0        ,       0        ,      0 , 1/(s*C7)+RB1+RB2]
 )$
-determinant(%)$           /* evaluates the determinant of the previous output % */
-DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
+det1: determinant(%)$
+matrix(
+[-R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        0     ,  0],
+[-1/(s*C2)   ,1/(s*C7)+RM+R2+1/(s*C2)+1/(s*C3),  -R2        ,        0        ,        0        ,        0       ,        0     ,  -1/(s*C7)],
+[-R4      ,          -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),        0        ,        0       ,        0     ,  -RB2],
+[0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0     ,  0],
+[0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)  ,  0],
+[0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL      ,  0],
+[-RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6), 0],
+[-RB1      ,         -1/(s*C7)      ,        -RB2     ,        0        ,        0        ,       0        ,      0 , 1/(s*C7)+RB1+RB2]
+)$
+det2: determinant(%)$
+matrix(
+[-R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        0     ,  0],
+[R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-1/(s*C2),-R4        ,        0        ,        0        ,        0       ,-RT1-1/(s*C5) ,  -RB1],
+[-R4      ,          -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),        0        ,        0       ,        0     ,  -RB2],
+[0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0     ,  0],
+[0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,   -1/(s*C6)  ,  0],
+[0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,     -RL      ,  0],
+[-RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL ,R3+RL+RT1+1/(s*C5)+1/(s*C6), 0],
+[-RB1      ,         -1/(s*C7)      ,        -RB2     ,        0        ,        0        ,       0        ,      0 , 1/(s*C7)+RB1+RB2]
+)$
+det3: determinant(%)$           /* evaluates the determinant of the previous output % */
+sum: (RIN+R1+1/(s*C3)+RM)*det1 + R1*det2 - (RM+1/(s*C3))*det3$
+DEN_fs: factor(sum)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
 pld: num(DEN_fs)$         /* saves a variable pld for numerator expression */
 /* extract denominator coefficients in the powers of s to designated variables */
+DEN_PIm: coeff(pld,s,7);
 DEN_ZRe: coeff(pld,s,6);
 DEN_YIm: coeff(pld,s,5);
 DEN_XRe: coeff(pld,s,4);
@@ -35,32 +70,33 @@ closefile();
 /* matrix to solve Iout using Cramer's rule */
 writefile("num_jazz.txt");
 matrix(
-[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        1       ,        0   ],
-[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),-R4    ,        0        ,        0        ,        0       ,-RT1-1/(s*C5)],
-[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RB2+RM+R2+1/(s*C2)+1/(s*C3),-RB2-R2   ,        0        ,        0        ,        0       ,        0   ],
-[        0         ,          -R4      ,        -RB2-R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),      0        ,        0       ,        0   ],
-[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,        0       ,        0   ],
-[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,        0       ,   -1/(s*C6)],
-[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,        0       ,     -RL    ],
-[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,0 ,R3+RL+RT1+1/(s*C5)+1/(s*C6)]
+[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-1/(s*C2),-R4    ,        0        ,        0        ,-RT1-1/(s*C5) ,  -RB1],
+[-RM-1/(s*C3)      ,   -1/(s*C2)   ,1/(s*C7)+RM+R2+1/(s*C2)+1/(s*C3),-R2  ,        0        ,        0        ,        0     ,  -1/(s*C7)],
+[        0         ,          -R4      ,        -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),      0        ,        0     ,  -RB2],
+[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,        0     ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,   -1/(s*C6)  ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,     -RL      ,  0],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,R3+RL+RT1+1/(s*C5)+1/(s*C6), 0],
+[        0         ,          -RB1        ,         -1/(s*C7)      ,         -RB2       ,        0        ,        0        ,      0 , 1/(s*C7)+RB1+RB2]
 )$
 Ia: determinant(%)$
 matrix(
-[RIN+R1+1/(s*C3)+RM,        -R1        ,        -RM-1/(s*C3)    ,        0        ,        0        ,        0        ,        0       ,        1   ],
-[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-RB1-1/(s*C2),-R4    ,        0        ,        0        ,        0       ,        0   ],
-[-RM-1/(s*C3)      ,   -RB1-1/(s*C2)   ,RB1+RB2+RM+R2+1/(s*C2)+1/(s*C3),-RB2-R2   ,        0        ,        0        ,        0       ,        0   ],
-[        0         ,          -R4      ,        -RB2-R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),      0        ,        0       ,        0   ],
-[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2      ,        0   ],
-[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0        ,        0   ],
-[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL        ,        0   ],
-[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL             ,        0   ]
+[-R1               ,R1+RT1+R4+RB1+1/(s*C1)+1/(s*C2)+1/(s*C5),-1/(s*C2),-R4    ,        0        ,        0        ,        0       ,  -RB1],
+[-RM-1/(s*C3)      ,   -1/(s*C2)   ,1/(s*C7)+RM+R2+1/(s*C2)+1/(s*C3),-R2  ,        0        ,        0        ,        0           ,  -1/(s*C7)],
+[        0         ,          -R4      ,        -R2         ,R2+RB2+R4+RT2+1/(s*C4) ,-RT2-1/(s*C4),      0        ,        0       ,  -RB2],
+[        0         ,          0        ,           0            ,-RT2-1/(s*C4)    ,RV1+RV2+RT2+1/(s*C4),   -RV1       ,      -RV2  ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV1      , RV1+1/(s*C6)    ,       0    ,  0],
+[        0         ,          0        ,           0            ,         0       ,       -RV2      ,        0        ,  RV2+RL    ,  0],
+[        0         ,   -RT1-1/(s*C5)   ,           0            ,         0       ,        0        ,     -1/(s*C6)   ,-RL         ,  0],
+[        0         ,          -RB1        ,         -1/(s*C7)      ,         -RB2       ,        0        ,        0        ,   0  , 1/(s*C7)+RB1+RB2]
 )$
-Ib: determinant(%)$
+Ib: (-1)*determinant(%)$
 Ia-Ib$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
 pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
 /* extract numerator coefficients in the powers of s to designated variables */
+NUM_Pim: coeff(pln,s,7);
 NUM_ZRe: coeff(pln,s,6);
 NUM_YIm: coeff(pln,s,5);
 NUM_XRe: coeff(pln,s,4);
