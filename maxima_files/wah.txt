@@ -1,8 +1,8 @@
 /* Maxima batch file for solving circuit transfer function from matrix representation  */
 /* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
 /* evaluated separately as polynomial coefficients in powers of complex variable s.    */
-/* This example solves the coefficients for  Dumble  tone control circuit as Vout/Vin  */
-/* Jarmo L. 14.9.2018 */
+/* This example solves the coefficients for  crybaby wah filter   circuit as Vout/Vin  */
+/* Jarmo L. 9.8.2019 */
 
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
