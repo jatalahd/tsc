@@ -13,6 +13,7 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Dumble Rock", 'dumble_rock2.htm'],
              ["Dumble Jazz", 'dumble_jazz2.htm'],
              ["Aria"    , 'aria.htm'    ],
+             ["Framus"  , 'framus.htm'  ],
              ["Wah"     , 'wah.htm'     ]];
 			 
 /* Global specification for color spinner in snapshots */
