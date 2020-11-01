@@ -10,13 +10,14 @@ var pages = [["Marshall", 'marshall.htm'],
              ["Big Muff", 'bigmuff.htm' ],
              ["Hiwatt"  , 'hiwatt.htm'  ],
              ["Crate"   , 'crate.htm'   ],
-             ["Dumble Rock", 'dumble_rock2.htm'],
-             ["Dumble Jazz", 'dumble_jazz2.htm'],
+             ["Dumble R", 'dumble_rock2.htm'],
+             ["Dumble J", 'dumble_jazz2.htm'],
              ["Aria"    , 'aria.htm'    ],
              ["Framus"  , 'framus.htm'  ],
              ["Princeton", 'princeton.htm'],
              ["Bone Ray", 'boneray.htm'],
              ["Brownface", 'brownface.htm'],
+             ["Blackstar", 'blackstar.htm'],
              ["Wah"     , 'wah.htm'     ]];
 			 
 /* Global specification for color spinner in snapshots */

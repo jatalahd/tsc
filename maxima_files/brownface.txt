@@ -40,7 +40,7 @@ NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
 pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
 /* extract numerator coefficients in the powers of s to designated variables */
-NUM_YIm: coeff(pld,s,5);
+NUM_YIm: coeff(pln,s,5);
 NUM_XRe: coeff(pln,s,4);
 NUM_AIm: coeff(pln,s,3);
 NUM_BRe: coeff(pln,s,2);
