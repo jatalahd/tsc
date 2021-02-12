@@ -1,24 +1,25 @@
 
 /* Global 2D array to for creating links to each page. When a new page */
 /* is added, add it here so all pages will have the updated links. */
-var pages = [["Marshall", 'marshall.htm'],
-             ["Fender"  , 'fender.htm'  ],
-             ["Vox"     , 'vox.htm'     ],
-             ["James"   , 'james.htm'   ],
-             ["E-series", 'eseries.htm' ],
-             ["Bench"   , 'bench.htm'   ],
-             ["Big Muff", 'bigmuff.htm' ],
-             ["Hiwatt"  , 'hiwatt.htm'  ],
-             ["Crate"   , 'crate.htm'   ],
-             ["Dumble R", 'dumble_rock2.htm'],
-             ["Dumble J", 'dumble_jazz2.htm'],
-             ["Aria"    , 'aria.htm'    ],
-             ["Framus"  , 'framus.htm'  ],
-             ["Princeton", 'princeton.htm'],
-             ["Bone Ray", 'boneray.htm'],
-             ["Brownface", 'brownface.htm'],
-             ["Blackstar", 'blackstar.htm'],
-             ["Wah"     , 'wah.htm'     ]];
+var pages = [["Marshall"      , 'marshall.htm'],
+             ["Fender"        , 'fender.htm'  ],
+             ["Vox"           , 'vox.htm'     ],
+             ["James"         , 'james.htm'   ],
+             ["E-series"      , 'eseries.htm' ],
+             ["Bench"         , 'bench.htm'   ],
+             ["Big Muff"      , 'bigmuff.htm' ],
+             ["Hiwatt"        , 'hiwatt.htm'  ],
+             ["Crate"         , 'crate.htm'   ],
+             ["Dumble R"      , 'dumble_rock2.htm'],
+             ["Dumble J"      , 'dumble_jazz2.htm'],
+             ["Aria"          , 'aria.htm'    ],
+             ["Framus"        , 'framus.htm'  ],
+             ["Princeton 5F2A", 'princeton.htm'],
+             ["Princeton 5E2" , 'princeton5e2.htm'],
+             ["Bone Ray"      , 'boneray.htm'],
+             ["Brownface"     , 'brownface.htm'],
+             ["Blackstar"     , 'blackstar.htm'],
+             ["Wah"           , 'wah.htm'     ]];
 			 
 /* Global specification for color spinner in snapshots */
 var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];

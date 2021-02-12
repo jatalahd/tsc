@@ -45,7 +45,7 @@
     </TR>
     <TR>
       <TD align="center" valign="top" width="400" class="tonestack-image">
-        <IMG src="princeton2_pic.png"></IMG>
+        <IMG src="princeton5e2_pic.png"></IMG>
       </TD>
       <TD align="right" valign="top" width="180" class="tonestack-values">
         <table class="tonestack-values-table">
@@ -72,7 +72,11 @@
                         <td class="tonestack-value-value"><INPUT type="text" name="RV" id="id_RV" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
-   
+                    <tr>
+                        <td class="tonestack-value-label">R1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
                     <tr>
                         <td class="tonestack-value-label">RL</td>
                         <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
@@ -137,12 +141,13 @@
 
 <SCRIPT>
     // create links to all the tone stack pages to the top of the page 
-    createLinks("linkDiv","Princeton 5F2A");
+    createLinks("linkDiv","Princeton 5E2");
 
     // component variables for calculation
     var RTreble;
     var RVolume;
     var RIN;
+    var R1;
     var RL;
     var C1;
     var C2;
@@ -172,6 +177,7 @@
         RIN     = parseInt(document.frm.RIN.value);
         RVolume = parseInt(document.frm.RV.value);
         RTreble = parseInt(document.frm.RT.value);
+        R1      = parseInt(document.frm.R1.value)
         RL      = parseInt(document.frm.RL.value);
         C1     = (1e-12)*parseInt(document.frm.C1.value);
         C2     = (1e-12)*parseInt(document.frm.C2.value);
@@ -201,12 +207,13 @@
 
     function setDefaultValues() {
         document.frm.RIN.value = 38000;
-        document.frm.RT.value  = 1000000;
+        document.frm.RT.value  = 250000;
         document.frm.RV.value  = 1000000;
+        document.frm.R1.value  = 100000
         document.frm.RL.value  = 1000000;
-        document.frm.C1.value  = 22000;
-        document.frm.C2.value  = 4700;
-        document.frm.C3.value  = 500;
+        document.frm.C1.value  = 500;
+        document.frm.C2.value  = 5000;
+        document.frm.C3.value  = 20000;
         
         applyValues();
     }
@@ -239,31 +246,38 @@
         var RV1  = Math.round( RVolume*(1.0 - 1.0*RotVol/10.0) );
 
 
-var DEN_AIm = C1*C2*C3*RT1*RT2*RV1*RV2 + C1*C2*C3*RL*RT2*RV1*RV2
- + C1*C2*C3*RIN*RT2*RV1*RV2 + C1*C2*C3*RIN*RT1*RV1*RV2
- + C1*C2*C3*RIN*RL*RV1*RV2 + C1*C2*C3*RL*RT1*RT2*RV2 + C1*C2*C3*RIN*RT1*RT2*RV2
- + C1*C2*C3*RIN*RL*RT1*RV2 + C1*C2*C3*RL*RT1*RT2*RV1 + C1*C2*C3*RIN*RL*RT2*RV1
- + C1*C2*C3*RIN*RL*RT1*RV1 + C1*C2*C3*RIN*RL*RT1*RT2;
+var DEN_AIm = C1*C2*C3*RT1*RT2*RV1*RV2 + C1*C2*C3*R1*RT2*RV1*RV2
+ + C1*C2*C3*RIN*RT1*RV1*RV2 + C1*C2*C3*R1*RT1*RV1*RV2 + C1*C2*C3*R1*RIN*RV1*RV2
+ + C1*C2*C3*RL*RT1*RT2*RV2 + C1*C2*C3*RIN*RT1*RT2*RV2 + C1*C2*C3*R1*RT1*RT2*RV2
+ + C1*C2*C3*R1*RL*RT2*RV2 + C1*C2*C3*R1*RIN*RT2*RV2 + C1*C2*C3*RIN*RL*RT1*RV2
+ + C1*C2*C3*R1*RL*RT1*RV2 + C1*C2*C3*R1*RIN*RL*RV2 + C1*C2*C3*RL*RT1*RT2*RV1
+ + C1*C2*C3*R1*RL*RT2*RV1 + C1*C2*C3*RIN*RL*RT1*RV1 + C1*C2*C3*R1*RL*RT1*RV1
+ + C1*C2*C3*R1*RIN*RL*RV1 + C1*C2*C3*RIN*RL*RT1*RT2 + C1*C2*C3*R1*RL*RT1*RT2
+ + C1*C2*C3*R1*RIN*RL*RT2;
 
-var DEN_BRe = C2*C3*RT2*RV1*RV2 + C1*C2*RT2*RV1*RV2 + C2*C3*RT1*RV1*RV2
- + C1*C3*RT1*RV1*RV2 + C2*C3*RL*RV1*RV2 + C1*C3*RL*RV1*RV2 + C1*C3*RIN*RV1*RV2
- + C1*C2*RIN*RV1*RV2 + C2*C3*RT1*RT2*RV2 + C1*C2*RL*RT2*RV2 + C1*C2*RIN*RT2*RV2
- + C2*C3*RL*RT1*RV2 + C1*C3*RL*RT1*RV2 + C1*C3*RIN*RT1*RV2 + C1*C2*RIN*RL*RV2
- + C2*C3*RL*RT2*RV1 + C1*C2*RL*RT2*RV1 + C2*C3*RL*RT1*RV1 + C1*C3*RL*RT1*RV1
- + C1*C3*RIN*RL*RV1 + C1*C2*RIN*RL*RV1 + C2*C3*RL*RT1*RT2 + C1*C2*RIN*RL*RT2
- + C1*C3*RIN*RL*RT1;
+var DEN_BRe = C2*C3*RT2*RV1*RV2 + C1*C2*RT2*RV1*RV2 + C1*C3*RT1*RV1*RV2
+ + C1*C2*RT1*RV1*RV2 + C2*C3*RIN*RV1*RV2 + C1*C2*RIN*RV1*RV2 + C2*C3*R1*RV1*RV2
+ + C1*C3*R1*RV1*RV2 + C1*C2*RT1*RT2*RV2 + C2*C3*RL*RT2*RV2 + C1*C2*RL*RT2*RV2
+ + C2*C3*RIN*RT2*RV2 + C1*C2*RIN*RT2*RV2 + C2*C3*R1*RT2*RV2 + C1*C3*RL*RT1*RV2
+ + C1*C2*RL*RT1*RV2 + C1*C3*RIN*RT1*RV2 + C1*C3*R1*RT1*RV2 + C2*C3*RIN*RL*RV2
+ + C1*C2*RIN*RL*RV2 + C2*C3*R1*RL*RV2 + C1*C3*R1*RL*RV2 + C1*C3*R1*RIN*RV2
+ + C2*C3*RL*RT2*RV1 + C1*C2*RL*RT2*RV1 + C1*C3*RL*RT1*RV1 + C1*C2*RL*RT1*RV1
+ + C2*C3*RIN*RL*RV1 + C1*C2*RIN*RL*RV1 + C2*C3*R1*RL*RV1 + C1*C3*R1*RL*RV1
+ + C1*C2*RL*RT1*RT2 + C2*C3*RIN*RL*RT2 + C1*C2*RIN*RL*RT2 + C2*C3*R1*RL*RT2
+ + C1*C3*RIN*RL*RT1 + C1*C3*R1*RL*RT1 + C1*C3*R1*RIN*RL;
 
-var DEN_CIm = C3*RV1*RV2 + C2*RV1*RV2 + C1*RV1*RV2 + C2*RT2*RV2 + C3*RT1*RV2
- + C2*RL*RV2 + C1*RL*RV2 + C1*RIN*RV2 + C3*RL*RV1 + C2*RL*RV1 + C1*RL*RV1
- + C2*RL*RT2 + C3*RL*RT1 + C1*RIN*RL;
+var DEN_CIm = C3*RV1*RV2 + C2*RV1*RV2 + C1*RV1*RV2 + C2*RT2*RV2 + C1*RT1*RV2
+ + C3*RL*RV2 + C2*RL*RV2 + C1*RL*RV2 + C3*RIN*RV2 + C1*RIN*RV2 + C3*R1*RV2
+ + C3*RL*RV1 + C2*RL*RV1 + C1*RL*RV1 + C2*RL*RT2 + C1*RL*RT1 + C3*RIN*RL
+ + C1*RIN*RL + C3*R1*RL;
 
 var DEN_DRe = RV2 + RL;
 
-var NOM_I_AIm = C1*C2*C3*RL*RT2*RV1*RV2 + C1*C2*C3*RL*RT1*RT2*RV2;
+var NOM_I_AIm = C1*C2*C3*RL*RT1*RT2*RV2 + C1*C2*C3*R1*RL*RT2*RV2;
 
-var NOM_I_BRe = C1*C3*RL*RV1*RV2 + C1*C2*RL*RT2*RV2 + C1*C3*RL*RT1*RV2;
+var NOM_I_BRe = C2*C3*RL*RT2*RV2 + C1*C2*RL*RT2*RV2 + C1*C3*RL*RT1*RV2 + C1*C3*R1*RL*RV2;
 
-var NOM_I_CIm = C1*RL*RV2;
+var NOM_I_CIm = C3*RL*RV2 + C1*RL*RV2;
 
 
         // loop through the selected frequency points and do calculation
@@ -298,7 +312,7 @@ var NOM_I_CIm = C1*RL*RV2;
         }
 
         if (!g) {
-            g = createDyGraph(data, "Princeton 5F2A");
+            g = createDyGraph(data, "Princeton 5E2");
         } else {
             g.updateOptions({file: data, labels: labelArray, colors: colorArray});
         }
