@@ -68,11 +68,6 @@
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
-                        <td class="tonestack-value-label">RB</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
-                        <td class="tonestack-value-unit">&Omega;</td>
-                    </tr>
-                    <tr>
                         <td class="tonestack-value-label">R2</td>
                         <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">&Omega;</td>
@@ -83,13 +78,28 @@
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
-                        <td class="tonestack-value-label">RL</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-label">R4</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R4" id="id_R4" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">R5</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R5" id="id_R5" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RB</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
                         <td class="tonestack-value-label">RT</td>
                         <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RL</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
@@ -160,6 +170,8 @@
     var R1;
     var R2;
     var R3;
+    var R4;
+    var R5;
     var C1;
     var C2;
     var C3;
@@ -193,6 +205,8 @@
         RBass   = parseInt(document.frm.RB.value);
         R2      = parseInt(document.frm.R2.value);
         R3      = parseInt(document.frm.R3.value);
+        R4      = parseInt(document.frm.R4.value);
+        R5      = parseInt(document.frm.R5.value);
         RTreble = parseInt(document.frm.RT.value);
         RL      = parseInt(document.frm.RL.value);
         C1      = (1e-12)*parseInt(document.frm.C1.value);
@@ -228,9 +242,11 @@
     function setDefaultValues() {
         document.frm.RIN.value = 38000;
         document.frm.R1.value  = 100000;
-        document.frm.RB.value  = 500000;
         document.frm.R2.value  = 10000;
         document.frm.R3.value  = 180000;
+        document.frm.R4.value  = 10000;
+        document.frm.R5.value  = 10000;
+        document.frm.RB.value  = 500000;
         document.frm.RT.value  = 500000;
         document.frm.RL.value  = 1000000;
         document.frm.C1.value  = 470;
@@ -269,8 +285,8 @@
 
         var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
         var RB1  = Math.round( RBass*(1.0 - 1.0*RotBass/10.0) );
-        var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
-        var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
+        var RT2  = R5 + Math.round( RTreble*(1.0*RotTreble/10.0) );
+        var RT1  = R4 + Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
 
 
         var DEN_XRe = 0;
