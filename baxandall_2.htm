@@ -309,17 +309,17 @@
 
         var NOM_I_AIm = 0;
 
-        var NOM_I_BRe = (- CB*CT*R2*RB2*RIN*RT1*RT2) - CB*CT*R2*RB1*RIN*RT1*RT2
-         - CB*CT*R2*RB1*RB2*RIN*RT2 - CB*CT*R1*RB1*RB2*RIN*RT2
-         - CB*CT*R2*R3*RB2*RIN*RT2 - CB*CT*R1*R3*RB2*RIN*RT2 - CB*CT*R1*R2*RB2*RIN*RT2
-         - CB*CT*R2*R3*RB1*RIN*RT2 - CB*CT*R1*R3*RB1*RIN*RT2 - CB*CT*R1*R2*RB1*RIN*RT2;
+        var NOM_I_BRe = CB*CT*R2*RB2*RT1*RT2 + CB*CT*R2*RB1*RT1*RT2 + CB*CT*R2*RB1*RB2*RT2
+         + CB*CT*R1*RB1*RB2*RT2 + CB*CT*R2*R3*RB2*RT2 + CB*CT*R1*R3*RB2*RT2
+         + CB*CT*R1*R2*RB2*RT2 + CB*CT*R2*R3*RB1*RT2 + CB*CT*R1*R3*RB1*RT2
+         + CB*CT*R1*R2*RB1*RT2;
 
-        var NOM_I_CIm = (- CT*RB2*RIN*RT1*RT2) - CT*R2*RIN*RT1*RT2 - CT*RB1*RB2*RIN*RT2
-         - CT*R3*RB2*RIN*RT2 - CB*R2*RB2*RIN*RT2 - CT*R1*RB2*RIN*RT2
-         - CT*R3*RB1*RIN*RT2 - CT*R2*RB1*RIN*RT2 - CB*R2*RB1*RIN*RT2 - CT*R2*R3*RIN*RT2
-         - CT*R1*R3*RIN*RT2 - CT*R1*R2*RIN*RT2 - CB*R2*RB2*RIN*RT1 - CB*R2*RB1*RIN*RT1;
+        var NOM_I_CIm = CT*RB2*RT1*RT2 + CT*R2*RT1*RT2 + CT*RB1*RB2*RT2 + CT*R3*RB2*RT2
+         + CB*R2*RB2*RT2 + CT*R1*RB2*RT2 + CT*R3*RB1*RT2 + CT*R2*RB1*RT2
+         + CB*R2*RB1*RT2 + CT*R2*R3*RT2 + CT*R1*R3*RT2 + CT*R1*R2*RT2 + CB*R2*RB2*RT1
+         + CB*R2*RB1*RT1;
 
-        var NOM_I_DRe = (- RB2*RIN*RT2) - R2*RIN*RT2 - RB2*RIN*RT1 - R2*RIN*RT1;
+        var NOM_I_DRe = RB2*RT2 + R2*RT2 + RB2*RT1 + R2*RT1;
 
 
         // loop through the selected frequency points and do calculation
@@ -344,8 +344,7 @@
             var NUMERATOR_Re = (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_AIm + XNOM_I_CIm)*(XDEN_AIm + XDEN_CIm);
             var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
 
-            // In this circuit, -1/RIN was factored out of the matrix algebra. See circuit analysis.
-            var voltage = (-1/RIN)*Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+            var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
 
             row = [];
             row.push(X[j]);
