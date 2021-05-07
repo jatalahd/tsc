@@ -1,6 +1,10 @@
 
 /* Global 2D arrays for navigation dropdown menus. When a new page  */
 /* is added, and belongs in a dropdown menu, add it here.           */
+var menuBaxandall = [
+    ["Active"  , 'baxandall_2.htm'      ],
+    ["Passive" , 'baxandall_passive.htm']
+];
 
 /* Global 2D array for top-level navigation. When a new page is  */
 /* added, and doesn't go in a dropdown, add it here so all pages */
@@ -9,7 +13,7 @@ var pages = [["Marshall"      , 'marshall.htm'],
              ["Fender"        , 'fender.htm'  ],
              ["Vox"           , 'vox.htm'     ],
              ["James"         , 'james.htm'   ],
-             ["Baxandall"     , 'baxandall_passive.htm'],
+             ["Baxandall"     , menuBaxandall ],
              ["E-series"      , 'eseries.htm' ],
              ["Bench"         , 'bench.htm'   ],
              ["Big Muff"      , 'bigmuff.htm' ],
