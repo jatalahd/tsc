@@ -1,6 +1,10 @@
 
-/* Global 2D array to for creating links to each page. When a new page */
-/* is added, add it here so all pages will have the updated links. */
+/* Global 2D arrays for navigation dropdown menus. When a new page  */
+/* is added, and belongs in a dropdown menu, add it here.           */
+
+/* Global 2D array for top-level navigation. When a new page is  */
+/* added, and doesn't go in a dropdown, add it here so all pages */
+/* will have the updated links.                                  */
 var pages = [["Marshall"      , 'marshall.htm'],
              ["Fender"        , 'fender.htm'  ],
              ["Vox"           , 'vox.htm'     ],
@@ -52,21 +56,55 @@ function clearSnapshots() {
 
 /* Creates links based on the pages array defined above */
 /* pageReference string needs to match the item in the pages array */
-function createLinks(divId, pageReference) {
+function createLinks(divId, pageReference, dropdownReference) {
     var linkDiv = document.getElementById(divId);
 
+    function _createDropdown(name, arr) {
+        // Dropdown menu container
+        var dropDiv = document.createElement('div');
+        dropDiv.className = "navbar-menu-item dropdown";
+        if (pageReference == name) {
+            dropDiv.classList.add("disabled");
+        }
+
+        // Button element
+        var dropElement = document.createElement('button');
+        dropElement.innerText = name;
+        dropDiv.appendChild(dropElement);
+
+        // Dropdown contents
+        var dropContent = document.createElement('div');
+        dropContent.className = "dropdown-content";
+        dropDiv.appendChild(dropContent);
+        for (var i = 0; i < arr.length; i++) {
+            dropElement = document.createElement('a');
+            dropElement.setAttribute('href', arr[i][1]);
+            dropElement.innerText = arr[i][0];
+            if (dropdownReference == arr[i][0]) {
+                dropElement.classList.add("disabled");
+            }
+            dropContent.appendChild(dropElement);
+        }
+        return dropDiv;
+    }
+
+    // Top level of navigation bar
     for (var row = 0; row < pages.length; row++) {
         linkDiv.appendChild(document.createTextNode("| "));
-        var linkElement = document.createElement('a');
-        linkElement.setAttribute('href', pages[row][1]);
-        linkElement.appendChild(document.createTextNode(pages[row][0]));
-        var cls = 'navbar-menu-item';
-        if (pageReference == pages[row][0]) {
-    		  cls = cls + ' disabled';
+        if (Array.isArray(pages[row][1])) {
+            linkDiv.appendChild(_createDropdown(pages[row][0], pages[row][1]));
+        } else {
+            var linkElement = document.createElement('a');
+            linkElement.setAttribute('href', pages[row][1]);
+            linkElement.appendChild(document.createTextNode(pages[row][0]));
+            var cls = 'navbar-menu-item';
+            if (pageReference == pages[row][0]) {
+                  cls = cls + ' disabled';
+            }
+            linkElement.setAttribute('class', cls)
+            linkDiv.appendChild(linkElement);
+            linkDiv.appendChild(document.createTextNode(""));
         }
-        linkElement.setAttribute('class', cls)
-        linkDiv.appendChild(linkElement);
-        linkDiv.appendChild(document.createTextNode(""));
     }
 }
 
