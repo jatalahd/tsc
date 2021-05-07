@@ -387,23 +387,21 @@
 
         var NOM_I_XRe = 0;
 
-        var NOM_I_AIm = C1*C2*C3*R2*RB1*RB2*RL*RT1*RT2 + C1*C2*C3*R2*R3*RB1*RB2*RL*RT2
-         + C1*C2*C3*R1*R3*RB1*RB2*RL*RT2 + C1*C2*C3*R1*R2*RB1*RB2*RL*RT2;
+        var NOM_I_AIm = C1*C2*C3*R2*RB1*RB2*RT1*RT2 + C1*C2*C3*R2*R3*RB1*RB2*RT2
+         + C1*C2*C3*R1*R3*RB1*RB2*RT2 + C1*C2*C3*R1*R2*RB1*RB2*RT2;
 
-        var NOM_I_BRe = C1*C3*RB1*RB2*RL*RT1*RT2 + C2*C3*R2*RB2*RL*RT1*RT2
-         + C1*C3*R2*RB1*RL*RT1*RT2 + C2*C3*R3*RB1*RB2*RL*RT2 + C1*C3*R3*RB1*RB2*RL*RT2
-         + C2*C3*R2*RB1*RB2*RL*RT2 + C1*C2*R2*RB1*RB2*RL*RT2 + C1*C3*R1*RB1*RB2*RL*RT2
-         + C2*C3*R2*R3*RB2*RL*RT2 + C2*C3*R1*R3*RB2*RL*RT2 + C2*C3*R1*R2*RB2*RL*RT2
-         + C1*C3*R2*R3*RB1*RL*RT2 + C1*C3*R1*R3*RB1*RL*RT2 + C1*C3*R1*R2*RB1*RL*RT2
-         + C1*C2*R2*RB1*RB2*RL*RT1;
+        var NOM_I_BRe = C1*C3*RB1*RB2*RT1*RT2 + C2*C3*R2*RB2*RT1*RT2 + C1*C3*R2*RB1*RT1*RT2
+         + C2*C3*R3*RB1*RB2*RT2 + C1*C3*R3*RB1*RB2*RT2 + C2*C3*R2*RB1*RB2*RT2
+         + C1*C2*R2*RB1*RB2*RT2 + C1*C3*R1*RB1*RB2*RT2 + C2*C3*R2*R3*RB2*RT2
+         + C2*C3*R1*R3*RB2*RT2 + C2*C3*R1*R2*RB2*RT2 + C1*C3*R2*R3*RB1*RT2
+         + C1*C3*R1*R3*RB1*RT2 + C1*C3*R1*R2*RB1*RT2 + C1*C2*R2*RB1*RB2*RT1;
 
-        var NOM_I_CIm = C3*RB2*RL*RT1*RT2 + C3*R2*RL*RT1*RT2 + C3*RB1*RB2*RL*RT2
-         + C1*RB1*RB2*RL*RT2 + C3*R3*RB2*RL*RT2 + C2*R2*RB2*RL*RT2 + C3*R1*RB2*RL*RT2
-         + C3*R3*RB1*RL*RT2 + C3*R2*RB1*RL*RT2 + C1*R2*RB1*RL*RT2 + C3*R2*R3*RL*RT2
-         + C3*R1*R3*RL*RT2 + C3*R1*R2*RL*RT2 + C1*RB1*RB2*RL*RT1 + C2*R2*RB2*RL*RT1
-         + C1*R2*RB1*RL*RT1;
+        var NOM_I_CIm = C3*RB2*RT1*RT2 + C3*R2*RT1*RT2 + C3*RB1*RB2*RT2 + C1*RB1*RB2*RT2
+         + C3*R3*RB2*RT2 + C2*R2*RB2*RT2 + C3*R1*RB2*RT2 + C3*R3*RB1*RT2
+         + C3*R2*RB1*RT2 + C1*R2*RB1*RT2 + C3*R2*R3*RT2 + C3*R1*R3*RT2 + C3*R1*R2*RT2
+         + C1*RB1*RB2*RT1 + C2*R2*RB2*RT1 + C1*R2*RB1*RT1;
 
-        var NOM_I_DRe = RB2*RL*RT2 + R2*RL*RT2 + RB2*RL*RT1 + R2*RL*RT1;
+        var NOM_I_DRe = RB2*RT2 + R2*RT2 + RB2*RT1 + R2*RT1;
 
 
         // loop through the selected frequency points and do calculation
@@ -428,7 +426,8 @@
             var NUMERATOR_Re = (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_AIm + XNOM_I_CIm)*(XDEN_AIm + XDEN_CIm);
             var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
 
-            var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+            // In this circuit, RL was factored out of the matrix algebra. See circuit analysis.
+            var voltage = RL*Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
 
             row = [];
             row.push(X[j]);
@@ -436,7 +435,7 @@
             for (k = 1; k < series; k++) {
                 row.push(storeData[j][k]);
             }
-            row.push( 20*Math.log(voltage)/Math.log(10) );
+            row.push( 20*Math.log(Math.abs(voltage))/Math.log(10) );
             data.push(row);
         }
         if (!g) {

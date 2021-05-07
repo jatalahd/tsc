@@ -51,7 +51,7 @@ M1_5+M1_6$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
 /* expand to common denominator for numerator and denominator in Cramer's division */
-pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$
+pln: expand(num(NUM_fs)*DEN_den/NUM_den)$
 /* extract numerator coefficients in the powers of s to designated variables */
 NUM_XRe: coeff(pln,s,4);
 NUM_AIm: coeff(pln,s,3);
