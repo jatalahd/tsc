@@ -436,7 +436,7 @@
             for (k = 1; k < series; k++) {
                 row.push(storeData[j][k]);
             }
-            row.push( 20*Math.log(Math.abs(voltage))/Math.log(10) );
+            row.push( 20*Math.log(voltage)/Math.log(10) );
             data.push(row);
         }
         if (!g) {
