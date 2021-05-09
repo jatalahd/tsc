@@ -45,8 +45,8 @@
     </TR>
     <TR>
       <TD align="center" valign="top" width="400" class="tonestack-image">
-        <IMG src="baxandall_passive_pic.png"></IMG>
-        <A href="./circuit_analysis/baxandall_passive.pdf" target="_blank">Circuit Analysis</A>
+        <IMG src="baxandall_1_pic.png"></IMG>
+        <A href="./circuit_analysis/baxandall_1.pdf" target="_blank">Circuit Analysis</A>
       </TD>
       <TD align="right" valign="top" width="180" class="tonestack-values">
         <table class="tonestack-values-table">
@@ -99,23 +99,18 @@
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
-                        <td class="tonestack-value-label">RL</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
-                        <td class="tonestack-value-unit">&Omega;</td>
-                    </tr>
-                    <tr>
-                        <td class="tonestack-value-label">C1</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-label">CB1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CB1" id="id_CB1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">pF</td>
                     </tr>
                     <tr>
-                        <td class="tonestack-value-label">C2</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-label">CB2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CB2" id="id_CB2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">pF</td>
                     </tr>
                     <tr>
-                        <td class="tonestack-value-label">C3</td>
-                        <td class="tonestack-value-value"><INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-label">CT</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CT" id="id_CT" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">pF</td>
                     </tr>
                 </tbody>
@@ -142,16 +137,16 @@
       <TD colspan="2" class="tonestack-sliders">
         <BR>
         <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="doCalc()">
-                                                              <option value="Linear">Linear</option>
+                                                              <option value="Linear" selected="selected">Linear</option>
                                                               <option value="LogA">LogA</option>
-                                                              <option value="LogB" selected="selected">LogB</option></select>
+                                                              <option value="LogB">LogB</option></select>
         </SPAN>
         <DIV id="range_RB" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
         <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="doCalc()">
-                                                              <option value="Linear">Linear</option>
+                                                              <option value="Linear" selected="selected">Linear</option>
                                                               <option value="LogA">LogA</option>
-                                                              <option value="LogB" selected="selected">LogB</option></select>
+                                                              <option value="LogB">LogB</option></select>
         </SPAN>
         <DIV id="range_RT" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
@@ -161,21 +156,20 @@
 
 <SCRIPT>
     // create links to all the tone stack pages to the top of the page
-    createLinks("linkDiv", "Baxandall", "Passive / Dual Bass Capacitor");
+    createLinks("linkDiv", "Baxandall", "Active / Dual Bass Capacitor");
 
     // component variables for calculation
     var RTreble;
     var RBass;
     var RIN;
-    var RL;
     var R1;
     var R2;
     var R3;
     var R4;
     var R5;
-    var C1;
-    var C2;
-    var C3;
+    var CB1;
+    var CB2;
+    var CT;
 
     var data = [];
 
@@ -209,10 +203,9 @@
         R4      = parseInt(document.frm.R4.value);
         R5      = parseInt(document.frm.R5.value);
         RTreble = parseInt(document.frm.RT.value);
-        RL      = parseInt(document.frm.RL.value);
-        C1      = (1e-12)*parseInt(document.frm.C1.value);
-        C2      = (1e-12)*parseInt(document.frm.C2.value);
-        C3      = (1e-12)*parseInt(document.frm.C3.value);
+        CB1     = (1e-12)*parseInt(document.frm.CB1.value);
+        CB2     = (1e-12)*parseInt(document.frm.CB2.value);
+        CT      = (1e-12)*parseInt(document.frm.CT.value);
 
         // set the input fields to readonly mode with gray background
         var inputElements = document.forms["frm"].getElementsByTagName('input');
@@ -241,18 +234,17 @@
     // This function is called when the Set default values -button is clicked.
     // It sets the hard-coded values to the input fields and applies the values.
     function setDefaultValues() {
-        document.frm.RIN.value = 38000;
-        document.frm.R1.value  = 100000;
-        document.frm.R2.value  = 10000;
-        document.frm.R3.value  = 180000;
+        document.frm.RIN.value = 600;
+        document.frm.R1.value  = 22000;
+        document.frm.R2.value  = 22000;
+        document.frm.R3.value  = 22000;
         document.frm.R4.value  = 10000;
         document.frm.R5.value  = 10000;
-        document.frm.RB.value  = 500000;
-        document.frm.RT.value  = 500000;
-        document.frm.RL.value  = 1000000;
-        document.frm.C1.value  = 470;
-        document.frm.C2.value  = 4700;
-        document.frm.C3.value  = 330;
+        document.frm.RB.value  = 100000;
+        document.frm.RT.value  = 100000;
+        document.frm.CB1.value = 47000;
+        document.frm.CB2.value = 47000;
+        document.frm.CT.value  = 560;
 
         applyValues();
     }
@@ -295,118 +287,62 @@
 
         var DEN_XRe = 0;
 
-        var DEN_AIm = C1*C2*C3*RB1*RB2*RIN*RL*RT1*RT2 + C1*C2*C3*R2*RB1*RB2*RL*RT1*RT2
-         + C1*C2*C3*R1*RB1*RB2*RL*RT1*RT2 + C1*C2*C3*R3*RB1*RB2*RIN*RT1*RT2
-         + C1*C2*C3*R2*RB1*RB2*RIN*RT1*RT2 + C1*C2*C3*R2*R3*RB1*RB2*RT1*RT2
-         + C1*C2*C3*R1*R3*RB1*RB2*RT1*RT2 + C1*C2*C3*R1*R2*RB1*RB2*RT1*RT2
-         + C1*C2*C3*R3*RB1*RB2*RIN*RL*RT2 + C1*C2*C3*R1*RB1*RB2*RIN*RL*RT2
-         + C1*C2*C3*R2*R3*RB1*RB2*RL*RT2 + C1*C2*C3*R1*R3*RB1*RB2*RL*RT2
-         + C1*C2*C3*R1*R2*RB1*RB2*RL*RT2 + C1*C2*C3*R2*R3*RB1*RB2*RIN*RT2
-         + C1*C2*C3*R1*R3*RB1*RB2*RIN*RT2 + C1*C2*C3*R1*R2*RB1*RB2*RIN*RT2
-         + C1*C2*C3*R3*RB1*RB2*RIN*RL*RT1 + C1*C2*C3*R2*RB1*RB2*RIN*RL*RT1
-         + C1*C2*C3*R2*R3*RB1*RB2*RL*RT1 + C1*C2*C3*R1*R3*RB1*RB2*RL*RT1
-         + C1*C2*C3*R1*R2*RB1*RB2*RL*RT1 + C1*C2*C3*R2*R3*RB1*RB2*RIN*RL
-         + C1*C2*C3*R1*R3*RB1*RB2*RIN*RL + C1*C2*C3*R1*R2*RB1*RB2*RIN*RL;
+        var DEN_AIm = (- CB1*CB2*CT*RB1*RB2*RIN*RT1*RT2) - CB1*CB2*CT*R1*RB1*RB2*RT1*RT2
+         - CB1*CB2*CT*R3*RB1*RB2*RIN*RT2 - CB1*CB2*CT*R1*RB1*RB2*RIN*RT2
+         - CB1*CB2*CT*R3*RB1*RB2*RIN*RT1 - CB1*CB2*CT*R2*RB1*RB2*RIN*RT1
+         - CB1*CB2*CT*R2*R3*RB1*RB2*RT1 - CB1*CB2*CT*R1*R3*RB1*RB2*RT1
+         - CB1*CB2*CT*R1*R2*RB1*RB2*RT1 - CB1*CB2*CT*R2*R3*RB1*RB2*RIN
+         - CB1*CB2*CT*R1*R3*RB1*RB2*RIN - CB1*CB2*CT*R1*R2*RB1*RB2*RIN;
 
-        var DEN_BRe = C2*C3*RB2*RIN*RL*RT1*RT2 + C1*C3*RB1*RIN*RL*RT1*RT2
-         + C2*C3*RB1*RB2*RL*RT1*RT2 + C1*C3*RB1*RB2*RL*RT1*RT2
-         + C2*C3*R2*RB2*RL*RT1*RT2 + C2*C3*R1*RB2*RL*RT1*RT2 + C1*C3*R2*RB1*RL*RT1*RT2
-         + C1*C3*R1*RB1*RL*RT1*RT2 + C1*C3*RB1*RB2*RIN*RT1*RT2
-         + C2*C3*R3*RB2*RIN*RT1*RT2 + C2*C3*R2*RB2*RIN*RT1*RT2
-         + C1*C3*R3*RB1*RIN*RT1*RT2 + C1*C3*R2*RB1*RIN*RT1*RT2
-         + C2*C3*R3*RB1*RB2*RT1*RT2 + C1*C3*R3*RB1*RB2*RT1*RT2
-         + C2*C3*R2*RB1*RB2*RT1*RT2 + C1*C3*R1*RB1*RB2*RT1*RT2
-         + C2*C3*R2*R3*RB2*RT1*RT2 + C2*C3*R1*R3*RB2*RT1*RT2 + C2*C3*R1*R2*RB2*RT1*RT2
-         + C1*C3*R2*R3*RB1*RT1*RT2 + C1*C3*R1*R3*RB1*RT1*RT2 + C1*C3*R1*R2*RB1*RT1*RT2
-         + C2*C3*RB1*RB2*RIN*RL*RT2 + C1*C2*RB1*RB2*RIN*RL*RT2
-         + C2*C3*R3*RB2*RIN*RL*RT2 + C2*C3*R1*RB2*RIN*RL*RT2 + C1*C3*R3*RB1*RIN*RL*RT2
-         + C1*C3*R1*RB1*RIN*RL*RT2 + C2*C3*R3*RB1*RB2*RL*RT2 + C1*C3*R3*RB1*RB2*RL*RT2
-         + C2*C3*R2*RB1*RB2*RL*RT2 + C1*C2*R2*RB1*RB2*RL*RT2 + C1*C3*R1*RB1*RB2*RL*RT2
-         + C1*C2*R1*RB1*RB2*RL*RT2 + C2*C3*R2*R3*RB2*RL*RT2 + C2*C3*R1*R3*RB2*RL*RT2
-         + C2*C3*R1*R2*RB2*RL*RT2 + C1*C3*R2*R3*RB1*RL*RT2 + C1*C3*R1*R3*RB1*RL*RT2
-         + C1*C3*R1*R2*RB1*RL*RT2 + C2*C3*R3*RB1*RB2*RIN*RT2 + C1*C3*R3*RB1*RB2*RIN*RT2
-         + C1*C2*R3*RB1*RB2*RIN*RT2 + C2*C3*R2*RB1*RB2*RIN*RT2
-         + C1*C2*R2*RB1*RB2*RIN*RT2 + C1*C3*R1*RB1*RB2*RIN*RT2
-         + C2*C3*R2*R3*RB2*RIN*RT2 + C2*C3*R1*R3*RB2*RIN*RT2 + C2*C3*R1*R2*RB2*RIN*RT2
-         + C1*C3*R2*R3*RB1*RIN*RT2 + C1*C3*R1*R3*RB1*RIN*RT2 + C1*C3*R1*R2*RB1*RIN*RT2
-         + C1*C2*R2*R3*RB1*RB2*RT2 + C1*C2*R1*R3*RB1*RB2*RT2 + C1*C2*R1*R2*RB1*RB2*RT2
-         + C1*C3*RB1*RB2*RIN*RL*RT1 + C1*C2*RB1*RB2*RIN*RL*RT1
-         + C2*C3*R3*RB2*RIN*RL*RT1 + C2*C3*R2*RB2*RIN*RL*RT1 + C1*C3*R3*RB1*RIN*RL*RT1
-         + C1*C3*R2*RB1*RIN*RL*RT1 + C2*C3*R3*RB1*RB2*RL*RT1 + C1*C3*R3*RB1*RB2*RL*RT1
-         + C2*C3*R2*RB1*RB2*RL*RT1 + C1*C2*R2*RB1*RB2*RL*RT1 + C1*C3*R1*RB1*RB2*RL*RT1
-         + C1*C2*R1*RB1*RB2*RL*RT1 + C2*C3*R2*R3*RB2*RL*RT1 + C2*C3*R1*R3*RB2*RL*RT1
-         + C2*C3*R1*R2*RB2*RL*RT1 + C1*C3*R2*R3*RB1*RL*RT1 + C1*C3*R1*R3*RB1*RL*RT1
-         + C1*C3*R1*R2*RB1*RL*RT1 + C1*C2*R3*RB1*RB2*RIN*RT1 + C1*C2*R2*RB1*RB2*RIN*RT1
-         + C1*C2*R2*R3*RB1*RB2*RT1 + C1*C2*R1*R3*RB1*RB2*RT1 + C1*C2*R1*R2*RB1*RB2*RT1
-         + C2*C3*R3*RB1*RB2*RIN*RL + C1*C3*R3*RB1*RB2*RIN*RL + C2*C3*R2*RB1*RB2*RIN*RL
-         + C1*C2*R2*RB1*RB2*RIN*RL + C1*C3*R1*RB1*RB2*RIN*RL + C1*C2*R1*RB1*RB2*RIN*RL
-         + C2*C3*R2*R3*RB2*RIN*RL + C2*C3*R1*R3*RB2*RIN*RL + C2*C3*R1*R2*RB2*RIN*RL
-         + C1*C3*R2*R3*RB1*RIN*RL + C1*C3*R1*R3*RB1*RIN*RL + C1*C3*R1*R2*RB1*RIN*RL
-         + C1*C2*R2*R3*RB1*RB2*RIN + C1*C2*R1*R3*RB1*RB2*RIN + C1*C2*R1*R2*RB1*RB2*RIN;
+        var DEN_BRe = (- CB2*CT*RB2*RIN*RT1*RT2) - CB1*CT*RB1*RIN*RT1*RT2
+         - CB2*CT*RB1*RB2*RT1*RT2 - CB2*CT*R1*RB2*RT1*RT2 - CB1*CT*R1*RB1*RT1*RT2
+         - CB2*CT*RB1*RB2*RIN*RT2 - CB1*CB2*RB1*RB2*RIN*RT2 - CB2*CT*R3*RB2*RIN*RT2
+         - CB2*CT*R1*RB2*RIN*RT2 - CB1*CT*R3*RB1*RIN*RT2 - CB1*CT*R1*RB1*RIN*RT2
+         - CB1*CB2*R1*RB1*RB2*RT2 - CB1*CT*RB1*RB2*RIN*RT1 - CB1*CB2*RB1*RB2*RIN*RT1
+         - CB2*CT*R3*RB2*RIN*RT1 - CB2*CT*R2*RB2*RIN*RT1 - CB1*CT*R3*RB1*RIN*RT1
+         - CB1*CT*R2*RB1*RIN*RT1 - CB2*CT*R3*RB1*RB2*RT1 - CB1*CT*R3*RB1*RB2*RT1
+         - CB2*CT*R2*RB1*RB2*RT1 - CB1*CT*R1*RB1*RB2*RT1 - CB1*CB2*R1*RB1*RB2*RT1
+         - CB2*CT*R2*R3*RB2*RT1 - CB2*CT*R1*R3*RB2*RT1 - CB2*CT*R1*R2*RB2*RT1
+         - CB1*CT*R2*R3*RB1*RT1 - CB1*CT*R1*R3*RB1*RT1 - CB1*CT*R1*R2*RB1*RT1
+         - CB2*CT*R3*RB1*RB2*RIN - CB1*CT*R3*RB1*RB2*RIN - CB2*CT*R2*RB1*RB2*RIN
+         - CB1*CB2*R2*RB1*RB2*RIN - CB1*CT*R1*RB1*RB2*RIN - CB1*CB2*R1*RB1*RB2*RIN
+         - CB2*CT*R2*R3*RB2*RIN - CB2*CT*R1*R3*RB2*RIN - CB2*CT*R1*R2*RB2*RIN
+         - CB1*CT*R2*R3*RB1*RIN - CB1*CT*R1*R3*RB1*RIN - CB1*CT*R1*R2*RB1*RIN;
 
-        var DEN_CIm = C3*RIN*RL*RT1*RT2 + C3*RB2*RL*RT1*RT2 + C3*RB1*RL*RT1*RT2
-         + C3*R2*RL*RT1*RT2 + C3*R1*RL*RT1*RT2 + C3*RB2*RIN*RT1*RT2 + C3*R3*RIN*RT1*RT2
-         + C3*R2*RIN*RT1*RT2 + C3*RB1*RB2*RT1*RT2 + C3*R3*RB2*RT1*RT2
-         + C3*R1*RB2*RT1*RT2 + C3*R3*RB1*RT1*RT2 + C3*R2*RB1*RT1*RT2 + C3*R2*R3*RT1*RT2
-         + C3*R1*R3*RT1*RT2 + C3*R1*R2*RT1*RT2 + C2*RB2*RIN*RL*RT2 + C3*RB1*RIN*RL*RT2
-         + C1*RB1*RIN*RL*RT2 + C3*R3*RIN*RL*RT2 + C3*R1*RIN*RL*RT2 + C3*RB1*RB2*RL*RT2
-         + C2*RB1*RB2*RL*RT2 + C1*RB1*RB2*RL*RT2 + C3*R3*RB2*RL*RT2 + C2*R2*RB2*RL*RT2
-         + C3*R1*RB2*RL*RT2 + C2*R1*RB2*RL*RT2 + C3*R3*RB1*RL*RT2 + C3*R2*RB1*RL*RT2
-         + C1*R2*RB1*RL*RT2 + C1*R1*RB1*RL*RT2 + C3*R2*R3*RL*RT2 + C3*R1*R3*RL*RT2
-         + C3*R1*R2*RL*RT2 + C3*RB1*RB2*RIN*RT2 + C1*RB1*RB2*RIN*RT2
-         + C3*R3*RB2*RIN*RT2 + C2*R3*RB2*RIN*RT2 + C2*R2*RB2*RIN*RT2
-         + C3*R1*RB2*RIN*RT2 + C3*R3*RB1*RIN*RT2 + C1*R3*RB1*RIN*RT2
-         + C3*R2*RB1*RIN*RT2 + C1*R2*RB1*RIN*RT2 + C3*R2*R3*RIN*RT2 + C3*R1*R3*RIN*RT2
-         + C3*R1*R2*RIN*RT2 + C2*R3*RB1*RB2*RT2 + C1*R3*RB1*RB2*RT2 + C2*R2*RB1*RB2*RT2
-         + C1*R1*RB1*RB2*RT2 + C2*R2*R3*RB2*RT2 + C2*R1*R3*RB2*RT2 + C2*R1*R2*RB2*RT2
-         + C1*R2*R3*RB1*RT2 + C1*R1*R3*RB1*RT2 + C1*R1*R2*RB1*RT2 + C3*RB2*RIN*RL*RT1
-         + C2*RB2*RIN*RL*RT1 + C1*RB1*RIN*RL*RT1 + C3*R3*RIN*RL*RT1 + C3*R2*RIN*RL*RT1
-         + C3*RB1*RB2*RL*RT1 + C2*RB1*RB2*RL*RT1 + C1*RB1*RB2*RL*RT1 + C3*R3*RB2*RL*RT1
-         + C2*R2*RB2*RL*RT1 + C3*R1*RB2*RL*RT1 + C2*R1*RB2*RL*RT1 + C3*R3*RB1*RL*RT1
-         + C3*R2*RB1*RL*RT1 + C1*R2*RB1*RL*RT1 + C1*R1*RB1*RL*RT1 + C3*R2*R3*RL*RT1
-         + C3*R1*R3*RL*RT1 + C3*R1*R2*RL*RT1 + C1*RB1*RB2*RIN*RT1 + C2*R3*RB2*RIN*RT1
-         + C2*R2*RB2*RIN*RT1 + C1*R3*RB1*RIN*RT1 + C1*R2*RB1*RIN*RT1
-         + C2*R3*RB1*RB2*RT1 + C1*R3*RB1*RB2*RT1 + C2*R2*RB1*RB2*RT1
-         + C1*R1*RB1*RB2*RT1 + C2*R2*R3*RB2*RT1 + C2*R1*R3*RB2*RT1 + C2*R1*R2*RB2*RT1
-         + C1*R2*R3*RB1*RT1 + C1*R1*R3*RB1*RT1 + C1*R1*R2*RB1*RT1 + C3*RB1*RB2*RIN*RL
-         + C2*RB1*RB2*RIN*RL + C1*RB1*RB2*RIN*RL + C3*R3*RB2*RIN*RL + C2*R2*RB2*RIN*RL
-         + C3*R1*RB2*RIN*RL + C2*R1*RB2*RIN*RL + C3*R3*RB1*RIN*RL + C3*R2*RB1*RIN*RL
-         + C1*R2*RB1*RIN*RL + C1*R1*RB1*RIN*RL + C3*R2*R3*RIN*RL + C3*R1*R3*RIN*RL
-         + C3*R1*R2*RIN*RL + C2*R3*RB1*RB2*RIN + C1*R3*RB1*RB2*RIN + C2*R2*RB1*RB2*RIN
-         + C1*R1*RB1*RB2*RIN + C2*R2*R3*RB2*RIN + C2*R1*R3*RB2*RIN + C2*R1*R2*RB2*RIN
-         + C1*R2*R3*RB1*RIN + C1*R1*R3*RB1*RIN + C1*R1*R2*RB1*RIN;
+        var DEN_CIm = (- CT*RIN*RT1*RT2) - CT*RB1*RT1*RT2 - CT*R1*RT1*RT2 - CB2*RB2*RIN*RT2
+         - CT*RB1*RIN*RT2 - CB1*RB1*RIN*RT2 - CT*R3*RIN*RT2 - CT*R1*RIN*RT2
+         - CB2*RB1*RB2*RT2 - CB2*R1*RB2*RT2 - CB1*R1*RB1*RT2 - CT*RB2*RIN*RT1
+         - CB2*RB2*RIN*RT1 - CB1*RB1*RIN*RT1 - CT*R3*RIN*RT1 - CT*R2*RIN*RT1
+         - CT*RB1*RB2*RT1 - CB2*RB1*RB2*RT1 - CT*R3*RB2*RT1 - CT*R1*RB2*RT1
+         - CB2*R1*RB2*RT1 - CT*R3*RB1*RT1 - CT*R2*RB1*RT1 - CB1*R1*RB1*RT1
+         - CT*R2*R3*RT1 - CT*R1*R3*RT1 - CT*R1*R2*RT1 - CT*RB1*RB2*RIN
+         - CB2*RB1*RB2*RIN - CB1*RB1*RB2*RIN - CT*R3*RB2*RIN - CB2*R2*RB2*RIN
+         - CT*R1*RB2*RIN - CB2*R1*RB2*RIN - CT*R3*RB1*RIN - CT*R2*RB1*RIN
+         - CB1*R2*RB1*RIN - CB1*R1*RB1*RIN - CT*R2*R3*RIN - CT*R1*R3*RIN - CT*R1*R2*RIN;
 
-        var DEN_DRe = RIN*RL*RT2 + RB2*RL*RT2 + RB1*RL*RT2 + R2*RL*RT2 + R1*RL*RT2
-         + RB2*RIN*RT2 + R3*RIN*RT2 + R2*RIN*RT2 + RB1*RB2*RT2 + R3*RB2*RT2
-         + R1*RB2*RT2 + R3*RB1*RT2 + R2*RB1*RT2 + R2*R3*RT2 + R1*R3*RT2 + R1*R2*RT2
-         + RIN*RL*RT1 + RB2*RL*RT1 + RB1*RL*RT1 + R2*RL*RT1 + R1*RL*RT1 + RB2*RIN*RT1
-         + R3*RIN*RT1 + R2*RIN*RT1 + RB1*RB2*RT1 + R3*RB2*RT1 + R1*RB2*RT1 + R3*RB1*RT1
-         + R2*RB1*RT1 + R2*R3*RT1 + R1*R3*RT1 + R1*R2*RT1 + RB2*RIN*RL + RB1*RIN*RL
-         + R2*RIN*RL + R1*RIN*RL + RB1*RB2*RIN + R3*RB2*RIN + R1*RB2*RIN + R3*RB1*RIN
-         + R2*RB1*RIN + R2*R3*RIN + R1*R3*RIN + R1*R2*RIN;
+        var DEN_DRe = (- RIN*RT2) - RB1*RT2 - R1*RT2 - RIN*RT1 - RB1*RT1 - R1*RT1 - RB2*RIN
+         - RB1*RIN - R2*RIN - R1*RIN;
 
 
         // Transfer function numerator coefficients
 
         var NOM_I_XRe = 0;
 
-        var NOM_I_AIm = C1*C2*C3*R2*RB1*RB2*RL*RT1*RT2 + C1*C2*C3*R2*R3*RB1*RB2*RL*RT2
-         + C1*C2*C3*R1*R3*RB1*RB2*RL*RT2 + C1*C2*C3*R1*R2*RB1*RB2*RL*RT2;
+        var NOM_I_AIm = CB1*CB2*CT*R2*RB1*RB2*RT1*RT2 + CB1*CB2*CT*R2*R3*RB1*RB2*RT2
+         + CB1*CB2*CT*R1*R3*RB1*RB2*RT2 + CB1*CB2*CT*R1*R2*RB1*RB2*RT2;
 
-        var NOM_I_BRe = C1*C3*RB1*RB2*RL*RT1*RT2 + C2*C3*R2*RB2*RL*RT1*RT2
-         + C1*C3*R2*RB1*RL*RT1*RT2 + C2*C3*R3*RB1*RB2*RL*RT2 + C1*C3*R3*RB1*RB2*RL*RT2
-         + C2*C3*R2*RB1*RB2*RL*RT2 + C1*C2*R2*RB1*RB2*RL*RT2 + C1*C3*R1*RB1*RB2*RL*RT2
-         + C2*C3*R2*R3*RB2*RL*RT2 + C2*C3*R1*R3*RB2*RL*RT2 + C2*C3*R1*R2*RB2*RL*RT2
-         + C1*C3*R2*R3*RB1*RL*RT2 + C1*C3*R1*R3*RB1*RL*RT2 + C1*C3*R1*R2*RB1*RL*RT2
-         + C1*C2*R2*RB1*RB2*RL*RT1;
+        var NOM_I_BRe = CB1*CT*RB1*RB2*RT1*RT2 + CB2*CT*R2*RB2*RT1*RT2 + CB1*CT*R2*RB1*RT1*RT2
+         + CB2*CT*R3*RB1*RB2*RT2 + CB1*CT*R3*RB1*RB2*RT2 + CB2*CT*R2*RB1*RB2*RT2
+         + CB1*CB2*R2*RB1*RB2*RT2 + CB1*CT*R1*RB1*RB2*RT2 + CB2*CT*R2*R3*RB2*RT2
+         + CB2*CT*R1*R3*RB2*RT2 + CB2*CT*R1*R2*RB2*RT2 + CB1*CT*R2*R3*RB1*RT2
+         + CB1*CT*R1*R3*RB1*RT2 + CB1*CT*R1*R2*RB1*RT2 + CB1*CB2*R2*RB1*RB2*RT1;
 
-        var NOM_I_CIm = C3*RB2*RL*RT1*RT2 + C3*R2*RL*RT1*RT2 + C3*RB1*RB2*RL*RT2
-         + C1*RB1*RB2*RL*RT2 + C3*R3*RB2*RL*RT2 + C2*R2*RB2*RL*RT2 + C3*R1*RB2*RL*RT2
-         + C3*R3*RB1*RL*RT2 + C3*R2*RB1*RL*RT2 + C1*R2*RB1*RL*RT2 + C3*R2*R3*RL*RT2
-         + C3*R1*R3*RL*RT2 + C3*R1*R2*RL*RT2 + C1*RB1*RB2*RL*RT1 + C2*R2*RB2*RL*RT1
-         + C1*R2*RB1*RL*RT1;
+        var NOM_I_CIm = CT*RB2*RT1*RT2 + CT*R2*RT1*RT2 + CT*RB1*RB2*RT2 + CB1*RB1*RB2*RT2
+         + CT*R3*RB2*RT2 + CB2*R2*RB2*RT2 + CT*R1*RB2*RT2 + CT*R3*RB1*RT2
+         + CT*R2*RB1*RT2 + CB1*R2*RB1*RT2 + CT*R2*R3*RT2 + CT*R1*R3*RT2 + CT*R1*R2*RT2
+         + CB1*RB1*RB2*RT1 + CB2*R2*RB2*RT1 + CB1*R2*RB1*RT1;
 
-        var NOM_I_DRe = RB2*RL*RT2 + R2*RL*RT2 + RB2*RL*RT1 + R2*RL*RT1;
+        var NOM_I_DRe = RB2*RT2 + R2*RT2 + RB2*RT1 + R2*RT1;
 
 
         // loop through the selected frequency points and do calculation
@@ -443,7 +379,7 @@
             data.push(row);
         }
         if (!g) {
-            g = createDyGraph(data, "Baxandall");
+            g = createDyGraph(data, "Baxandall", 25);
         } else {
             g.updateOptions({file: data, labels: labelArray, colors: colorArray});
         }

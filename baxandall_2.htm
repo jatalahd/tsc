@@ -151,7 +151,7 @@
 
 <SCRIPT>
     // create links to all the tone stack pages to the top of the page
-    createLinks("linkDiv", "Baxandall", "Active");
+    createLinks("linkDiv", "Baxandall", "Active / Single Bass Capacitor");
 
     // component variables for calculation
     var RTreble;
@@ -268,11 +268,14 @@
         var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
         var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
 
+        // Calculated part values
         var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
         var RB1  = Math.round( RBass*(1.0 - 1.0*RotBass/10.0) );
         var RT2  = R5 + Math.round( RTreble*(1.0*RotTreble/10.0) );
         var RT1  = R4 + Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
 
+
+        // Transfer function denominator coefficients
 
         var DEN_XRe = 0;
 
@@ -303,7 +306,7 @@
          - RB1*RIN - R2*RIN - R1*RIN;
 
 
-        // Transfer function numerator multipliers for currents I5-I6
+        // Transfer function numerator coefficients
 
         var NOM_I_XRe = 0;
 

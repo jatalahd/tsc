@@ -2,8 +2,9 @@
 /* Global 2D arrays for navigation dropdown menus. When a new page  */
 /* is added, and belongs in a dropdown menu, add it here.           */
 var menuBaxandall = [
-    ["Active"  , 'baxandall_2.htm'      ],
-    ["Passive" , 'baxandall_passive.htm']
+    ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'      ],
+    ["Active / Single Bass Capacitor" , 'baxandall_2.htm'      ],
+    ["Passive / Dual Bass Capacitor"  , 'baxandall_passive.htm']
 ];
 
 /* Global 2D array for top-level navigation. When a new page is  */
