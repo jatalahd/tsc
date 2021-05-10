@@ -4,7 +4,8 @@
 var menuBaxandall = [
     ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'      ],
     ["Active / Single Bass Capacitor" , 'baxandall_2.htm'      ],
-    ["Passive / Dual Bass Capacitor"  , 'baxandall_passive.htm']
+    ["Passive / Dual Bass Capacitor"  , 'baxandall_passive.htm'],
+    ["Passive / Single Bass Capacitor", 'baxandall_passive_2.htm']
 ];
 
 /* Global 2D array for top-level navigation. When a new page is  */
