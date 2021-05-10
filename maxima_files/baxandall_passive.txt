@@ -3,9 +3,10 @@
 /* evaluated separately as polynomial coefficients in powers of complex variable s.    */
 /* Jarmo L. 14.9.2018 */
 
-/* This example solves the coefficients for a passive Baxandall tone control  */
-/* circuit as Vout/Vin. Details of the circuit analysis and matrix algebra    */
-/* are available in a separate document.                                      */
+/* This variation of a James/Baxandall two-band shelving tone stack offers:   */
+/*  - passive circuitry                                                       */
+/*  - two capacitors in the bass control                                      */
+/*  - one capacitor in the treble control                                     */
 /* Charles Day 26.4.2021 */
 
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */

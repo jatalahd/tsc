@@ -7,7 +7,7 @@
 /*  - active circuitry (opamp w/ negative feedback)                           */
 /*  - two capacitors in the bass control                                      */
 /*  - one capacitor in the treble control                                     */
-/* Charles Day 5.9.2021 */
+/* Charles Day 9.5.2021 */
 
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
