@@ -1,6 +1,11 @@
 
 /* Global 2D arrays for navigation dropdown menus. When a new page  */
 /* is added, and belongs in a dropdown menu, add it here.           */
+var menuJames = [
+    ["Passive / Dual Bass Capacitor"  , 'james.htm'],
+    ["Passive / Single Bass Capacitor", 'james_2.htm']
+];
+
 var menuBaxandall = [
     ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'      ],
     ["Active / Single Bass Capacitor" , 'baxandall_2.htm'      ],
@@ -14,7 +19,7 @@ var menuBaxandall = [
 var pages = [["Marshall"      , 'marshall.htm'],
              ["Fender"        , 'fender.htm'  ],
              ["Vox"           , 'vox.htm'     ],
-             ["James"         , 'james.htm'   ],
+             ["James"         , menuJames     ],
              ["Baxandall"     , menuBaxandall ],
              ["E-series"      , 'eseries.htm' ],
              ["Bench"         , 'bench.htm'   ],
@@ -86,7 +91,7 @@ function createLinks(divId, pageReference, dropdownReference) {
             dropElement = document.createElement('a');
             dropElement.setAttribute('href', arr[i][1]);
             dropElement.innerText = arr[i][0];
-            if (dropdownReference == arr[i][0]) {
+            if (pageReference == name && dropdownReference == arr[i][0]) {
                 dropElement.classList.add("disabled");
             }
             dropContent.appendChild(dropElement);
