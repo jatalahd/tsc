@@ -1,6 +1,7 @@
 body {
 	font-family: 'Raleway', sans-serif;
 	font-size: 14px;
+	-webkit-text-size-adjust: 100%;
 }
 
 a:visited {
