@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+
+<STYLE>
+#range_RB,
+#range_RT {
+    width: 300px;
+    margin: 0 auto 0px;
+    display: inline-block;
+}
+#value_RB,
+#value_RT {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+#label_RB,
+#label_RT {
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+}
+</STYLE>
+
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE align="center">
+    <TR>
+      <TD colspan="3" align="left" class="navbar">
+        <DIV id="linkDiv" style="float: left;" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" style="float: right;" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD align="center" valign="top" width="400" class="tonestack-image">
+        <IMG src="james_4_pic.png"></IMG>
+        <A href="./circuit_analysis/james_4.pdf" target="_blank">Circuit Analysis</A>
+      </TD>
+      <TD align="right" valign="top" width="180" class="tonestack-values">
+        <table class="tonestack-values-table">
+                <thead>
+                    <tr>
+                        <th class="tonestack-value-th-part">Part</th>
+                        <th class="tonestack-value-th-value">Value</th>
+                        <th class="tonestack-value-th-unit"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tonestack-value-label">RIN</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">R1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">R2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">R3</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="R3" id="id_R3" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RB</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">RT</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">CB</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CB" id="id_CB" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">pF</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">CT1</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CT1" id="id_CT1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">pF</td>
+                    </tr>
+                    <tr>
+                        <td class="tonestack-value-label">CT2</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="CT2" id="id_CT2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">pF</td>
+                    </tr>
+                </tbody>
+        </table>
+        <CENTER>
+        <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" onclick="editValues();" class="tonestack-values-button">
+        <INPUT type="button" name="apply" value="Apply" title="Apply values" id="id_apply" onclick="applyValues();" class="tonestack-values-button">
+        <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues();" class="tonestack-values-button">
+        </CENTER>
+      </TD>
+      <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
+        <div id="buttonContainer">
+            <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
+            <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
+            <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+            <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
+            <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders">
+        <BR>
+        <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="doCalc()">
+                                                              <option value="Linear" selected="selected">Linear</option>
+                                                              <option value="LogA">LogA</option>
+                                                              <option value="LogB">LogB</option></select>
+        </SPAN>
+        <DIV id="range_RB" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="doCalc()">
+                                                              <option value="Linear" selected="selected">Linear</option>
+                                                              <option value="LogA">LogA</option>
+                                                              <option value="LogB">LogB</option></select>
+        </SPAN>
+        <DIV id="range_RT" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page
+    createLinks("linkDiv", "James", "Active / Single Bass Capacitor");
+
+    // component variables for calculation
+    var RTreble;
+    var RBass;
+    var RIN;
+    var R1;
+    var R2;
+    var R3;
+    var CB;
+    var CT1;
+    var CT2;
+
+    var data = [];
+
+    var range_RB = document.getElementById('range_RB');
+    var range_RT = document.getElementById('range_RT');
+
+    // create sliders and save the div-element of the slider
+    var range_RB = createSlider('range_RB','value_RB');
+    var range_RT = createSlider('range_RT','value_RT');
+
+    // variable g will hold the graph object for synchronized updates
+    var g = null;
+
+    // data for frequency points is created here and saved to array X
+    X = createFrequencies(90,10,100000,1);
+
+    // set the default values to the component variables and input fields
+    setDefaultValues();
+
+    // start listening the onSlide event from the slider and run the analysis function
+    range_RB.noUiSlider.on('slide', doCalc);
+    range_RT.noUiSlider.on('slide', doCalc);
+
+    // this function is called when the Apply-button is clicked
+    function applyValues() {
+        RIN     = parseInt(document.frm.RIN.value);
+        R1      = parseInt(document.frm.R1.value);
+        RBass   = parseInt(document.frm.RB.value);
+        R2      = parseInt(document.frm.R2.value);
+        R3      = parseInt(document.frm.R3.value);
+        RTreble = parseInt(document.frm.RT.value);
+        CB      = (1e-12)*parseInt(document.frm.CB.value);
+        CT1     = (1e-12)*parseInt(document.frm.CT1.value);
+        CT2     = (1e-12)*parseInt(document.frm.CT2.value);
+
+        // set the input fields to readonly mode with gray background
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+                inputElements[i].style.backgroundColor = "#EBEBE4";
+            }
+        }
+        doCalc();
+    }
+
+
+    // this function is called when the Edit-button is clicked
+    function editValues() {
+        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+                inputElements[i].style.backgroundColor = "#FFFFFF";
+            }
+        }
+    }
+
+
+    // This function is called when the Set default values -button is clicked.
+    // It sets the hard-coded values to the input fields and applies the values.
+    function setDefaultValues() {
+        document.frm.RIN.value = 600;
+        document.frm.R1.value  = 2200;
+        document.frm.R2.value  = 2200;
+        document.frm.R3.value  = 2200;
+        document.frm.RB.value  = 10000;
+        document.frm.RT.value  = 10000;
+        document.frm.CB.value  = 220000;
+        document.frm.CT1.value = 10000;
+        document.frm.CT2.value = 10000;
+
+        applyValues();
+    }
+
+
+    // This function creates the sweep for extreme values
+    // and produces data for testing the accuracy of the model
+    function sweepValues() {
+        for (p = 0; p <= 10; p += 5) {
+            range_RB.noUiSlider.set(p);
+            for (q = 0; q <=10; q += 5) {
+                range_RT.noUiSlider.set(q);
+                doCalc();
+                console.log(data);
+                addSeries();
+            }
+        }
+    }
+
+
+    // This function is called with every change of the slider.
+    // It does the hard math and evaluates the filter transfer function
+    // for the given frequency range and updates values to the graph.
+    function doCalc() {
+        var row = [];
+        data = [];
+
+        // pot rotation 0 - 10 from the slider component
+        var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+        var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
+
+        // Calculated part values
+        var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
+        var RB1  = Math.round( RBass*(1.0 - 1.0*RotBass/10.0) );
+        var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
+        var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
+
+
+        // Transfer function denominator coefficients
+
+        var DEN_XRe = 0;
+
+        var DEN_AIm = (- CB*CT1*CT2*RB2*RIN*RT1*RT2) - CB*CT1*CT2*RB1*RIN*RT1*RT2
+         - CB*CT1*CT2*R1*RB2*RT1*RT2 - CB*CT1*CT2*R1*RB1*RT1*RT2
+         - CB*CT1*CT2*RB1*RB2*RIN*RT2 - CB*CT1*CT2*R3*RB2*RIN*RT2
+         - CB*CT1*CT2*R1*RB2*RIN*RT2 - CB*CT1*CT2*R3*RB1*RIN*RT2
+         - CB*CT1*CT2*R1*RB1*RIN*RT2 - CB*CT1*CT2*RB1*RB2*RIN*RT1
+         - CB*CT1*CT2*R3*RB2*RIN*RT1 - CB*CT1*CT2*R2*RB2*RIN*RT1
+         - CB*CT1*CT2*R3*RB1*RIN*RT1 - CB*CT1*CT2*R2*RB1*RIN*RT1
+         - CB*CT1*CT2*R2*RB1*RB2*RT1 - CB*CT1*CT2*R1*RB1*RB2*RT1
+         - CB*CT1*CT2*R2*R3*RB2*RT1 - CB*CT1*CT2*R1*R3*RB2*RT1
+         - CB*CT1*CT2*R1*R2*RB2*RT1 - CB*CT1*CT2*R2*R3*RB1*RT1
+         - CB*CT1*CT2*R1*R3*RB1*RT1 - CB*CT1*CT2*R1*R2*RB1*RT1
+         - CB*CT1*CT2*R2*RB1*RB2*RIN - CB*CT1*CT2*R1*RB1*RB2*RIN
+         - CB*CT1*CT2*R2*R3*RB2*RIN - CB*CT1*CT2*R1*R3*RB2*RIN
+         - CB*CT1*CT2*R1*R2*RB2*RIN - CB*CT1*CT2*R2*R3*RB1*RIN
+         - CB*CT1*CT2*R1*R3*RB1*RIN - CB*CT1*CT2*R1*R2*RB1*RIN;
+
+        var DEN_BRe = (- CT1*CT2*RIN*RT1*RT2) - CT1*CT2*RB1*RT1*RT2 - CT1*CT2*R1*RT1*RT2
+         - CB*CT2*RB2*RIN*RT2 - CT1*CT2*RB1*RIN*RT2 - CB*CT2*RB1*RIN*RT2
+         - CT1*CT2*R3*RIN*RT2 - CT1*CT2*R1*RIN*RT2 - CB*CT2*R1*RB2*RT2
+         - CB*CT2*R1*RB1*RT2 - CT1*CT2*RB2*RIN*RT1 - CB*CT1*RB2*RIN*RT1
+         - CB*CT1*RB1*RIN*RT1 - CT1*CT2*R3*RIN*RT1 - CT1*CT2*R2*RIN*RT1
+         - CT1*CT2*RB1*RB2*RT1 - CT1*CT2*R3*RB2*RT1 - CT1*CT2*R1*RB2*RT1
+         - CB*CT1*R1*RB2*RT1 - CT1*CT2*R3*RB1*RT1 - CT1*CT2*R2*RB1*RT1
+         - CB*CT1*R1*RB1*RT1 - CT1*CT2*R2*R3*RT1 - CT1*CT2*R1*R3*RT1
+         - CT1*CT2*R1*R2*RT1 - CT1*CT2*RB1*RB2*RIN - CB*CT2*RB1*RB2*RIN
+         - CB*CT1*RB1*RB2*RIN - CT1*CT2*R3*RB2*RIN - CB*CT2*R3*RB2*RIN
+         - CB*CT1*R3*RB2*RIN - CB*CT2*R2*RB2*RIN - CT1*CT2*R1*RB2*RIN
+         - CB*CT1*R1*RB2*RIN - CT1*CT2*R3*RB1*RIN - CB*CT2*R3*RB1*RIN
+         - CB*CT1*R3*RB1*RIN - CT1*CT2*R2*RB1*RIN - CB*CT2*R2*RB1*RIN
+         - CB*CT1*R1*RB1*RIN - CT1*CT2*R2*R3*RIN - CT1*CT2*R1*R3*RIN
+         - CT1*CT2*R1*R2*RIN - CB*CT2*R2*RB1*RB2 - CB*CT2*R1*RB1*RB2 - CB*CT2*R2*R3*RB2
+         - CB*CT2*R1*R3*RB2 - CB*CT2*R1*R2*RB2 - CB*CT2*R2*R3*RB1 - CB*CT2*R1*R3*RB1
+         - CB*CT2*R1*R2*RB1;
+
+        var DEN_CIm = (- CT2*RIN*RT2) - CT2*RB1*RT2 - CT2*R1*RT2 - CT1*RIN*RT1 - CT1*RB1*RT1
+         - CT1*R1*RT1 - CT2*RB2*RIN - CB*RB2*RIN - CT1*RB1*RIN - CB*RB1*RIN
+         - CT2*R3*RIN - CT1*R3*RIN - CT2*R2*RIN - CT1*R1*RIN - CT2*RB1*RB2 - CT2*R3*RB2
+         - CT2*R1*RB2 - CB*R1*RB2 - CT2*R3*RB1 - CT2*R2*RB1 - CB*R1*RB1 - CT2*R2*R3
+         - CT2*R1*R3 - CT2*R1*R2;
+
+        var DEN_DRe = (- RIN) - RB1 - R1;
+
+
+        // Transfer function numerator coefficients
+
+        var NOM_I_XRe = 0;
+
+        var NOM_I_AIm = CB*CT1*CT2*R2*RB2*RT1*RT2 + CB*CT1*CT2*R2*RB1*RT1*RT2
+         + CB*CT1*CT2*R2*RB1*RB2*RT2 + CB*CT1*CT2*R1*RB1*RB2*RT2
+         + CB*CT1*CT2*R2*R3*RB2*RT2 + CB*CT1*CT2*R1*R3*RB2*RT2
+         + CB*CT1*CT2*R1*R2*RB2*RT2 + CB*CT1*CT2*R2*R3*RB1*RT2
+         + CB*CT1*CT2*R1*R3*RB1*RT2 + CB*CT1*CT2*R1*R2*RB1*RT2;
+
+        var NOM_I_BRe = CT1*CT2*RB2*RT1*RT2 + CT1*CT2*R2*RT1*RT2 + CT1*CT2*RB1*RB2*RT2
+         + CT1*CT2*R3*RB2*RT2 + CB*CT2*R2*RB2*RT2 + CT1*CT2*R1*RB2*RT2
+         + CT1*CT2*R3*RB1*RT2 + CT1*CT2*R2*RB1*RT2 + CB*CT2*R2*RB1*RT2
+         + CT1*CT2*R2*R3*RT2 + CT1*CT2*R1*R3*RT2 + CT1*CT2*R1*R2*RT2
+         + CB*CT1*R2*RB2*RT1 + CB*CT1*R2*RB1*RT1 + CB*CT1*R2*RB1*RB2
+         + CB*CT1*R1*RB1*RB2 + CB*CT1*R2*R3*RB2 + CB*CT1*R1*R3*RB2 + CB*CT1*R1*R2*RB2
+         + CB*CT1*R2*R3*RB1 + CB*CT1*R1*R3*RB1 + CB*CT1*R1*R2*RB1;
+
+        var NOM_I_CIm = CT2*RB2*RT2 + CT2*R2*RT2 + CT1*RB2*RT1 + CT1*R2*RT1 + CT1*RB1*RB2
+         + CT1*R3*RB2 + CB*R2*RB2 + CT1*R1*RB2 + CT1*R3*RB1 + CT1*R2*RB1 + CB*R2*RB1
+         + CT1*R2*R3 + CT1*R1*R3 + CT1*R1*R2;
+
+        var NOM_I_DRe = RB2 + R2;
+
+
+        // loop through the selected frequency points and do calculation
+        for (j = 0; j < X.length; j++) {
+            // w = 2*pi*f
+            var w = 2*Math.PI*X[j];
+
+            var XDEN_XRe =  w*w*w*w*DEN_XRe;
+            var XDEN_AIm = -w*w*w*DEN_AIm;
+            var XDEN_BRe = -w*w*DEN_BRe;
+            var XDEN_CIm =  w*DEN_CIm;
+            var XDEN_DRe =  DEN_DRe;
+
+            var DENOMINATOR = ( (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XDEN_AIm + XDEN_CIm)*(XDEN_AIm + XDEN_CIm) );
+
+            var XNOM_I_XRe =  w*w*w*w*NOM_I_XRe;
+            var XNOM_I_AIm = -w*w*w*NOM_I_AIm;
+            var XNOM_I_BRe = -w*w*NOM_I_BRe;
+            var XNOM_I_CIm =  w*NOM_I_CIm;
+            var XNOM_I_DRe =  NOM_I_DRe;
+
+            var NUMERATOR_Re = (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_AIm + XNOM_I_CIm)*(XDEN_AIm + XDEN_CIm);
+            var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
+
+            var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+
+            row = [];
+            row.push(X[j]);
+            // add possible snapshot data from storage
+            for (k = 1; k < series; k++) {
+                row.push(storeData[j][k]);
+            }
+            row.push( 20*Math.log(voltage)/Math.log(10) );
+            data.push(row);
+        }
+        if (!g) {
+            g = createDyGraph(data, "James", 25);
+        } else {
+            g.updateOptions({file: data, labels: labelArray, colors: colorArray});
+        }
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>

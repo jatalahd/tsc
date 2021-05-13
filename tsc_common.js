@@ -3,7 +3,8 @@
 /* is added, and belongs in a dropdown menu, add it here.           */
 var menuJames = [
     ["Passive / Dual Bass Capacitor"  , 'james.htm'],
-    ["Passive / Single Bass Capacitor", 'james_2.htm']
+    ["Passive / Single Bass Capacitor", 'james_2.htm'],
+    ["Active / Single Bass Capacitor" , 'james_4.htm']
 ];
 
 var menuBaxandall = [
