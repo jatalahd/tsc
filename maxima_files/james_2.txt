@@ -4,7 +4,7 @@
 /* Jarmo L. 14.9.2018 */
 
 /* This variation of a James/Baxandall two-band shelving tone stack offers:   */
-/*  - passive circuitry (opamp w/ negative feedback)                          */
+/*  - passive circuitry                                                       */
 /*  - one capacitor in the bass control                                       */
 /*  - two capacitors in the treble control                                    */
 /* Charles Day 11.5.2021 */
