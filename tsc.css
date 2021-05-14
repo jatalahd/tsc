@@ -43,16 +43,23 @@ a.disabled {
     position: relative;
     display: inline-block;
     margin: 0;
+    padding: 0;
 }
 
 .dropdown button {
     margin: 0;
-    padding: 0 5px;
+    padding: 0 2px;
     color: inherit;
     background-color: inherit;
     border: none;
     font-size: 13px;
     font-family: inherit;
+}
+
+.dropdown button .material-icons {
+    vertical-align: middle;
+    margin-left: 1px;
+    font-size: 16px;
 }
 
 .dropdown-content {

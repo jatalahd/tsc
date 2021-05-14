@@ -84,6 +84,9 @@ function createLinks(divId, pageReference, dropdownReference) {
         var dropElement = document.createElement('button');
         dropElement.innerText = name;
         dropDiv.appendChild(dropElement);
+        dropElement = dropElement.appendChild(document.createElement('span'));
+        dropElement.className = "material-icons";
+        dropElement.innerText = "expand_more";
 
         // Dropdown contents
         var dropContent = document.createElement('div');
