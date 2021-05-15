@@ -13,13 +13,14 @@ stardisp: true$           /* multiplication is displayed with an asterisk betwee
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from node analysis of the circuit */
 matrix(
-    [1/RIN+1/R1+s*CT1,    -1/R1      ,       0        ,       0       ,  -s*CT1   ,     0     ,   0  ],
-    [     -1/R1      ,1/R1+1/RB1+s*CB,     -1/RB1     ,     -s*CB     ,     0     ,     0     ,   0  ],
-    [       0        ,    -1/RB1     ,1/RB1+1/RB2+1/R3,     -1/RB2    ,     0     ,     0     ,   0  ],
-    [       0        ,    -s*CB      ,     -1/RB2     ,1/RB2+1/R2+s*CB,     0     ,     0     ,-1/R2 ],
-    [     -s*CT1     ,       0       ,       0        ,       0       ,1/RT1+s*CT1,     0     ,   0  ],
-    [       0        ,       0       ,       0        ,       0       ,     0     ,1/RT2+s*CT2,-s*CT2],
-    [       0        ,       0       ,     -1/R3      ,       0       ,  -1/RT1   ,  -1/RT2   ,   0  ]
+  [1/RIN+1/R1+s*CT1,    -1/R1      ,       0        ,       0       ,  -s*CT1   ,     0     ,       0       ,  0  ],
+  [     -1/R1      ,1/R1+1/RB1+s*CB,     -1/RB1     ,     -s*CB     ,     0     ,     0     ,       0       ,  0  ],
+  [       0        ,    -1/RB1     ,1/RB1+1/RB2+1/R3,     -1/RB2    ,     0     ,     0     ,       0       ,  0  ],
+  [       0        ,    -s*CB      ,     -1/RB2     ,1/RB2+1/R2+s*CB,     0     ,     0     ,     -1/R2     ,  0  ],
+  [     -s*CT1     ,       0       ,       0        ,       0       ,1/RT1+s*CT1,     0     ,       0       ,  0  ],
+  [       0        ,       0       ,       0        ,       0       ,     0     ,1/RT2+s*CT2,    -s*CT2     ,  0  ],
+  [       0        ,       0       ,       0        ,     -1/R2     ,     0     ,  -s*CT2   ,1/R2+1/RF+s*CT2,-1/RF],
+  [       0        ,       0       ,     -1/R3      ,       0       ,  -1/RT1   ,  -1/RT2   ,       0       ,  0  ]
 )$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
@@ -36,18 +37,19 @@ DEN_DRe: coeff(pld,s,0);
 
 /* matrix to solve Vout/Vin using Cramer's rule */
 matrix(
-    [     -1/R1      ,1/R1+1/RB1+s*CB,     -1/RB1     ,     -s*CB     ,     0     ,     0     ],
-    [       0        ,    -1/RB1     ,1/RB1+1/RB2+1/R3,     -1/RB2    ,     0     ,     0     ],
-    [       0        ,    -s*CB      ,     -1/RB2     ,1/RB2+1/R2+s*CB,     0     ,     0     ],
-    [     -s*CT1     ,       0       ,       0        ,       0       ,1/RT1+s*CT1,     0     ],
-    [       0        ,       0       ,       0        ,       0       ,     0     ,1/RT2+s*CT2],
-    [       0        ,       0       ,     -1/R3      ,       0       ,  -1/RT1   ,  -1/RT2   ]
+  [     -1/R1      ,1/R1+1/RB1+s*CB,     -1/RB1     ,     -s*CB     ,     0     ,     0     ,       0       ],
+  [       0        ,    -1/RB1     ,1/RB1+1/RB2+1/R3,     -1/RB2    ,     0     ,     0     ,       0       ],
+  [       0        ,    -s*CB      ,     -1/RB2     ,1/RB2+1/R2+s*CB,     0     ,     0     ,     -1/R2     ],
+  [     -s*CT1     ,       0       ,       0        ,       0       ,1/RT1+s*CT1,     0     ,       0       ],
+  [       0        ,       0       ,       0        ,       0       ,     0     ,1/RT2+s*CT2,    -s*CT2     ],
+  [       0        ,       0       ,       0        ,     -1/R2     ,     0     ,  -s*CT2   ,1/R2+1/RF+s*CT2],
+  [       0        ,       0       ,     -1/R3      ,       0       ,  -1/RT1   ,  -1/RT2   ,       0       ]
 )$
-M1_7: determinant(%)$
+M1_8: determinant(%)$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
 /* expand to common denominator for numerator and denominator in Cramer's division */
-pln: expand((1/RIN)*num(NUM_fs)*DEN_den/NUM_den)$
+pln: expand((-1/RIN)*num(NUM_fs)*DEN_den/NUM_den)$
 /* extract numerator coefficients in the powers of s to designated variables */
 NUM_ZRe: coeff(pln,s,6);
 NUM_YIm: coeff(pln,s,5);
