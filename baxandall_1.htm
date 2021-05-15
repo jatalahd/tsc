@@ -100,6 +100,11 @@
                         <td class="tonestack-value-unit">&Omega;</td>
                     </tr>
                     <tr>
+                        <td class="tonestack-value-label">RF</td>
+                        <td class="tonestack-value-value"><INPUT type="text" name="RF" id="id_RF" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+                        <td class="tonestack-value-unit">&Omega;</td>
+                    </tr>
+                    <tr>
                         <td class="tonestack-value-label">CB1</td>
                         <td class="tonestack-value-value"><INPUT type="text" name="CB1" id="id_CB1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
                         <td class="tonestack-value-unit">pF</td>
@@ -168,6 +173,7 @@
     var R3;
     var R4;
     var R5;
+    var RF;
     var CB1;
     var CB2;
     var CT;
@@ -204,6 +210,7 @@
         R4      = parseInt(document.frm.R4.value);
         R5      = parseInt(document.frm.R5.value);
         RTreble = parseInt(document.frm.RT.value);
+        RF      = parseInt(document.frm.RF.value);
         CB1     = (1e-12)*parseInt(document.frm.CB1.value);
         CB2     = (1e-12)*parseInt(document.frm.CB2.value);
         CT      = (1e-12)*parseInt(document.frm.CT.value);
@@ -243,6 +250,7 @@
         document.frm.R5.value  = 10000;
         document.frm.RB.value  = 100000;
         document.frm.RT.value  = 100000;
+        document.frm.RF.value  = 600;
         document.frm.CB1.value = 47000;
         document.frm.CB2.value = 47000;
         document.frm.CT.value  = 560;
@@ -329,21 +337,41 @@
 
         var NOM_I_XRe = 0;
 
-        var NOM_I_AIm = CB1*CB2*CT*R2*RB1*RB2*RT1*RT2 + CB1*CB2*CT*R2*R3*RB1*RB2*RT2
-         + CB1*CB2*CT*R1*R3*RB1*RB2*RT2 + CB1*CB2*CT*R1*R2*RB1*RB2*RT2;
+        var NOM_I_AIm = CB1*CB2*CT*RB1*RB2*RF*RT1*RT2 + CB1*CB2*CT*R2*RB1*RB2*RT1*RT2
+         + CB1*CB2*CT*R3*RB1*RB2*RF*RT2 + CB1*CB2*CT*R1*RB1*RB2*RF*RT2
+         + CB1*CB2*CT*R2*R3*RB1*RB2*RT2 + CB1*CB2*CT*R1*R3*RB1*RB2*RT2
+         + CB1*CB2*CT*R1*R2*RB1*RB2*RT2 + CB1*CB2*CT*R3*RB1*RB2*RF*RT1
+         + CB1*CB2*CT*R2*RB1*RB2*RF*RT1 + CB1*CB2*CT*R2*R3*RB1*RB2*RF
+         + CB1*CB2*CT*R1*R3*RB1*RB2*RF + CB1*CB2*CT*R1*R2*RB1*RB2*RF;
 
-        var NOM_I_BRe = CB1*CT*RB1*RB2*RT1*RT2 + CB2*CT*R2*RB2*RT1*RT2 + CB1*CT*R2*RB1*RT1*RT2
-         + CB2*CT*R3*RB1*RB2*RT2 + CB1*CT*R3*RB1*RB2*RT2 + CB2*CT*R2*RB1*RB2*RT2
-         + CB1*CB2*R2*RB1*RB2*RT2 + CB1*CT*R1*RB1*RB2*RT2 + CB2*CT*R2*R3*RB2*RT2
-         + CB2*CT*R1*R3*RB2*RT2 + CB2*CT*R1*R2*RB2*RT2 + CB1*CT*R2*R3*RB1*RT2
-         + CB1*CT*R1*R3*RB1*RT2 + CB1*CT*R1*R2*RB1*RT2 + CB1*CB2*R2*RB1*RB2*RT1;
+        var NOM_I_BRe = CB2*CT*RB2*RF*RT1*RT2 + CB1*CT*RB1*RF*RT1*RT2 + CB1*CT*RB1*RB2*RT1*RT2
+         + CB2*CT*R2*RB2*RT1*RT2 + CB1*CT*R2*RB1*RT1*RT2 + CB2*CT*RB1*RB2*RF*RT2
+         + CB1*CB2*RB1*RB2*RF*RT2 + CB2*CT*R3*RB2*RF*RT2 + CB2*CT*R1*RB2*RF*RT2
+         + CB1*CT*R3*RB1*RF*RT2 + CB1*CT*R1*RB1*RF*RT2 + CB2*CT*R3*RB1*RB2*RT2
+         + CB1*CT*R3*RB1*RB2*RT2 + CB2*CT*R2*RB1*RB2*RT2 + CB1*CB2*R2*RB1*RB2*RT2
+         + CB1*CT*R1*RB1*RB2*RT2 + CB2*CT*R2*R3*RB2*RT2 + CB2*CT*R1*R3*RB2*RT2
+         + CB2*CT*R1*R2*RB2*RT2 + CB1*CT*R2*R3*RB1*RT2 + CB1*CT*R1*R3*RB1*RT2
+         + CB1*CT*R1*R2*RB1*RT2 + CB1*CT*RB1*RB2*RF*RT1 + CB1*CB2*RB1*RB2*RF*RT1
+         + CB2*CT*R3*RB2*RF*RT1 + CB2*CT*R2*RB2*RF*RT1 + CB1*CT*R3*RB1*RF*RT1
+         + CB1*CT*R2*RB1*RF*RT1 + CB1*CB2*R2*RB1*RB2*RT1 + CB2*CT*R3*RB1*RB2*RF
+         + CB1*CT*R3*RB1*RB2*RF + CB2*CT*R2*RB1*RB2*RF + CB1*CB2*R2*RB1*RB2*RF
+         + CB1*CT*R1*RB1*RB2*RF + CB1*CB2*R1*RB1*RB2*RF + CB2*CT*R2*R3*RB2*RF
+         + CB2*CT*R1*R3*RB2*RF + CB2*CT*R1*R2*RB2*RF + CB1*CT*R2*R3*RB1*RF
+         + CB1*CT*R1*R3*RB1*RF + CB1*CT*R1*R2*RB1*RF;
 
-        var NOM_I_CIm = CT*RB2*RT1*RT2 + CT*R2*RT1*RT2 + CT*RB1*RB2*RT2 + CB1*RB1*RB2*RT2
-         + CT*R3*RB2*RT2 + CB2*R2*RB2*RT2 + CT*R1*RB2*RT2 + CT*R3*RB1*RT2
-         + CT*R2*RB1*RT2 + CB1*R2*RB1*RT2 + CT*R2*R3*RT2 + CT*R1*R3*RT2 + CT*R1*R2*RT2
-         + CB1*RB1*RB2*RT1 + CB2*R2*RB2*RT1 + CB1*R2*RB1*RT1;
+        var NOM_I_CIm = CT*RF*RT1*RT2 + CT*RB2*RT1*RT2 + CT*R2*RT1*RT2 + CB2*RB2*RF*RT2
+         + CT*RB1*RF*RT2 + CB1*RB1*RF*RT2 + CT*R3*RF*RT2 + CT*R1*RF*RT2
+         + CT*RB1*RB2*RT2 + CB1*RB1*RB2*RT2 + CT*R3*RB2*RT2 + CB2*R2*RB2*RT2
+         + CT*R1*RB2*RT2 + CT*R3*RB1*RT2 + CT*R2*RB1*RT2 + CB1*R2*RB1*RT2
+         + CT*R2*R3*RT2 + CT*R1*R3*RT2 + CT*R1*R2*RT2 + CT*RB2*RF*RT1 + CB2*RB2*RF*RT1
+         + CB1*RB1*RF*RT1 + CT*R3*RF*RT1 + CT*R2*RF*RT1 + CB1*RB1*RB2*RT1
+         + CB2*R2*RB2*RT1 + CB1*R2*RB1*RT1 + CT*RB1*RB2*RF + CB2*RB1*RB2*RF
+         + CB1*RB1*RB2*RF + CT*R3*RB2*RF + CB2*R2*RB2*RF + CT*R1*RB2*RF + CB2*R1*RB2*RF
+         + CT*R3*RB1*RF + CT*R2*RB1*RF + CB1*R2*RB1*RF + CB1*R1*RB1*RF + CT*R2*R3*RF
+         + CT*R1*R3*RF + CT*R1*R2*RF;
 
-        var NOM_I_DRe = RB2*RT2 + R2*RT2 + RB2*RT1 + R2*RT1;
+        var NOM_I_DRe = RF*RT2 + RB2*RT2 + R2*RT2 + RF*RT1 + RB2*RT1 + R2*RT1 + RB2*RF + RB1*RF
+         + R2*RF + R1*RF;
 
 
         // loop through the selected frequency points and do calculation
