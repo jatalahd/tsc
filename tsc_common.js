@@ -1,44 +1,55 @@
 /* Global 2D arrays for navigation dropdown menus. When a new page  */
 /* is added, and belongs in a dropdown menu, add it here.           */
+var menuFender = [
+    ["Treble-Mid-Bass (TMB)", 'fender.htm'  ],
+    ["Brownface"            , 'brownface.htm'],
+    ["E-series"             , 'eseries.htm' ],
+    ["Princeton 5E2"        , 'princeton5e2.htm'],
+    ["Princeton 5F2A"       , 'princeton.htm'],
+];
+
+var menuDumble = [
+    ["Jazz", 'dumble_jazz2.htm'],
+    ["Rock", 'dumble_rock2.htm'],
+];
+
 var menuJames = [
     ["Passive / Dual Bass Capacitor"  , 'james.htm'  ],
     ["Passive / Single Bass Capacitor", 'james_2.htm'],
     ["Active / Dual Bass Capacitor"   , 'james_3.htm'],
-    ["Active / Single Bass Capacitor" , 'james_4.htm']
+    ["Active / Single Bass Capacitor" , 'james_4.htm'],
 ];
 
 var menuBaxandall = [
     ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'        ],
     ["Active / Single Bass Capacitor" , 'baxandall_2.htm'        ],
     ["Passive / Dual Bass Capacitor"  , 'baxandall_passive.htm'  ],
-    ["Passive / Single Bass Capacitor", 'baxandall_passive_2.htm']
+    ["Passive / Single Bass Capacitor", 'baxandall_passive_2.htm'],
 ];
 
 
 /* Global 2D array for top-level navigation. When a new page is  */
 /* added, and doesn't go in a dropdown, add it here so all pages */
 /* will have the updated links.                                  */
-var pages = [["Marshall"      , 'marshall.htm'],
-             ["Fender"        , 'fender.htm'  ],
-             ["Vox"           , 'vox.htm'     ],
-             ["James"         , menuJames     ],
-             ["Baxandall"     , menuBaxandall ],
-             ["E-series"      , 'eseries.htm' ],
-             ["Bench"         , 'bench.htm'   ],
-             ["Big Muff"      , 'bigmuff.htm' ],
-             ["Hiwatt"        , 'hiwatt.htm'  ],
-             ["Crate"         , 'crate.htm'   ],
-             ["Dumble R"      , 'dumble_rock2.htm'],
-             ["Dumble J"      , 'dumble_jazz2.htm'],
-             ["Aria"          , 'aria.htm'    ],
-             ["Framus"        , 'framus.htm'  ],
-             ["Princeton 5F2A", 'princeton.htm'],
-             ["Princeton 5E2" , 'princeton5e2.htm'],
-             ["Bone Ray"      , 'boneray.htm'],
-             ["Brownface"     , 'brownface.htm'],
-             ["Blackstar"     , 'blackstar.htm'],
-             ["Wah"           , 'wah.htm'     ]];
-			 
+var pages = [
+    ["Marshall"      , 'marshall.htm' ],
+    ["Fender"        , menuFender     ],
+    ["Vox"           , 'vox.htm'      ],
+    ["James"         , menuJames      ],
+    ["Baxandall"     , menuBaxandall  ],
+    ["Bench"         , 'bench.htm'    ],
+    ["Big Muff"      , 'bigmuff.htm'  ],
+    ["Hiwatt"        , 'hiwatt.htm'   ],
+    ["Crate"         , 'crate.htm'    ],
+    ["Dumble"        , menuDumble     ],
+    ["Aria"          , 'aria.htm'     ],
+    ["Framus"        , 'framus.htm'   ],
+    ["Bone Ray"      , 'boneray.htm'  ],
+    ["Blackstar"     , 'blackstar.htm'],
+    ["Wah"           , 'wah.htm'      ],
+];
+
+
 /* Global specification for color spinner in snapshots */
 var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];
 var origLabels = [ "frequency [Hz]", "amplitude [dB]" ];
@@ -58,7 +69,7 @@ function addSeries() {
     labelArray.push(origLabels[1] + series);
     doCalc();
 }
-	
+
 /* Removes all snapshot traces from the graph */
 function clearSnapshots() {
     series = 1;
@@ -167,17 +178,17 @@ function createFrequencies(deviation, startfreq, stopfreq, mode) {
 function createSlider(rangeDiv, valueDiv, startValue=5) {
     var range_RX = document.getElementById(rangeDiv);
     noUiSlider.create(range_RX, {
-	start: startValue,
+        start: startValue,
         step: 0.10,
-	range: {min: 0, max: 10},
-	pips: {mode: 'values', values: [0, 5 ,10], density: 10}
+        range: {min: 0, max: 10},
+        pips: {mode: 'values', values: [0, 5 ,10], density: 10}
     });
 
     var value_RX = document.getElementById(valueDiv);
     range_RX.noUiSlider.on('update', function( values, handle ){
-	value_RX.innerHTML = values[handle];
+        value_RX.innerHTML = values[handle];
     });
-    
+
     return range_RX;
 }
 
@@ -230,7 +241,7 @@ function legendFormatter(data){
     var html = data.xHTML + ' Hz' + ' : ';
     data.series.forEach(function(series) {
         html += ' ' + series.yHTML.fontcolor(series.color) + ' dB ';
-    });	
+    });
     return html;
 }
 
