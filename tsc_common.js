@@ -21,10 +21,10 @@ var menuJames = [
 ];
 
 var menuBaxandall = [
-    ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'        ],
-    ["Active / Single Bass Capacitor" , 'baxandall_2.htm'        ],
     ["Passive / Dual Bass Capacitor"  , 'baxandall_passive.htm'  ],
     ["Passive / Single Bass Capacitor", 'baxandall_passive_2.htm'],
+    ["Active / Dual Bass Capacitor"   , 'baxandall_1.htm'        ],
+    ["Active / Single Bass Capacitor" , 'baxandall_2.htm'        ],
 ];
 
 
