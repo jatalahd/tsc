@@ -12,13 +12,13 @@
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
-matrix(
-    [RIN+R1+RB1+RB2+R2, -R1, -RB1, -RB2, -R2, 0],
-    [-R1, R1+R3+RT1+1/(s*C1)+1/(s*C3), -1/(s*C1), 0, -R3, -1/(s*C3)],
-    [-RB1, -1/(s*C1), RB1+1/(s*C1), 0, 0, 0],
-    [-RB2, 0, 0, RB2+1/(s*C2), -1/(s*C2), 0],
-    [-R2, -R3, 0, -1/(s*C2), R2+R3+RL+1/(s*C2), -RL],
-    [0, -1/(s*C3), 0, 0, -RL, RT2+RL+1/(s*C3)]
+A: matrix(
+  [RIN+R1+RB1+RB2+R2,            -R1            ,    -RB1    ,   -RB2     ,       -R2       ,        0       ],
+  [       -R1       ,R1+R3+RT1+1/(s*C1)+1/(s*C3), -1/(s*C1)  ,     0      ,       -R3       ,   -1/(s*C3)    ],
+  [      -RB1       ,         -1/(s*C1)         ,RB1+1/(s*C1),     0      ,        0        ,        0       ],
+  [      -RB2       ,             0             ,     0      ,RB2+1/(s*C2),    -1/(s*C2)    ,        0       ],
+  [       -R2       ,            -R3            ,     0      , -1/(s*C2)  ,R2+R3+RL+1/(s*C2),       -RL      ],
+  [        0        ,         -1/(s*C3)         ,     0      ,     0      ,       -RL       , RT2+RL+1/(s*C3)]
 )$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
@@ -32,22 +32,8 @@ DEN_CIm: coeff(pld,s,1);
 DEN_DRe: coeff(pld,s,0);
 
 /* matrices to solve Vout/Vin using Cramer's rule */
-matrix(
-    [-R1, R1+R3+RT1+1/(s*C1)+1/(s*C3), -1/(s*C1), 0, -1/(s*C3)],
-    [-RB1, -1/(s*C1), RB1+1/(s*C1), 0, 0],
-    [-RB2, 0, 0, RB2+1/(s*C2), 0],
-    [-R2, -R3, 0, -1/(s*C2), -RL],
-    [0, -1/(s*C3), 0, 0, RT2+RL+1/(s*C3)]
-)$
-M1_5: determinant(%)$
-matrix(
-    [-R1, R1+R3+RT1+1/(s*C1)+1/(s*C3), -1/(s*C1), 0, -R3],
-    [-RB1, -1/(s*C1), RB1+1/(s*C1), 0, 0],
-    [-RB2, 0, 0, RB2+1/(s*C2), -1/(s*C2)],
-    [-R2, -R3, 0, -1/(s*C2), R2+R3+RL+1/(s*C2)],
-    [0, -1/(s*C3), 0, 0, -RL]
-)$
-M1_6: determinant(%)$
+M1_5: determinant(minor(A,1,5))$
+M1_6: determinant(minor(A,1,6))$
 M1_5+M1_6$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
