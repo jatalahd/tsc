@@ -7,7 +7,12 @@
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
-matrix([RIN+RT2+1/(s*C1)+1/(s*C2),-RT2-1/(s*C2),0,0],[-RT2-1/(s*C2),RT2+RV1+RV2+1/(s*C2),-RV1,-RV2],[0,-RV1,RV1+RT1+1/(s*C3),0],[0,-RV2,0,RV2+RL])$
+matrix(
+  [RIN+RT2+1/(s*C1)+1/(s*C2),   -RT2-1/(s*C2)    ,       0        ,  0   ],
+  [      -RT2-1/(s*C2)      ,RT2+RV1+RV2+1/(s*C2),     -RV1       , -RV2 ],
+  [            0            ,        -RV1        ,RV1+RT1+1/(s*C3),  0   ],
+  [            0            ,        -RV2        ,       0        ,RV2+RL]
+)$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
@@ -19,7 +24,12 @@ DEN_CIm: coeff(pld,s,1);
 DEN_DRe: coeff(pld,s,0);
 
 /* matrix to solve Iout using Cramer's rule */
-matrix([RIN+RT2+1/(s*C1)+1/(s*C2),-RT2-1/(s*C2),0,1],[-RT2-1/(s*C2),RT2+RV1+RV2+1/(s*C2),-RV1,0],[0,-RV1,RV1+RT1+1/(s*C3),0],[0,-RV2,0,0])$
+matrix(
+  [RIN+RT2+1/(s*C1)+1/(s*C2),   -RT2-1/(s*C2)    ,       0        ,  1   ],
+  [      -RT2-1/(s*C2)      ,RT2+RV1+RV2+1/(s*C2),     -RV1       ,  0   ],
+  [            0            ,        -RV1        ,RV1+RT1+1/(s*C3),  0   ],
+  [            0            ,        -RV2        ,       0        ,  0   ]
+)$
 determinant(%)$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$

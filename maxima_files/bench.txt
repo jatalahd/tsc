@@ -7,7 +7,14 @@
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
-matrix([1/RIN+1/RM1+1/RB1+1/RT1+1/R4,-1/RM1,0,-1/R4,-1/RB1,-1/RT1],[-1/RM1,1/RM1+1/RM2+s*C1,-s*C1,0,0,0],[0,-s*C1,1/(s*L1)+s*C1,-1/(s*L1),0,0],[-1/R4,0,-1/(s*L1),s*C2+1/R4+1/R5+1/(s*L1)+1/(s*L2),-1/(s*L2),-s*C2],[-1/RB1,0,0,-1/(s*L2),1/(s*L2)+1/RB1+1/RB2,0],[-1/RT1,0,0,-s*C2,0,1/RT1+1/RT2+s*C2])$
+matrix(
+  [1/RIN+1/RM1+1/RB1+1/RT1+1/R4,     -1/RM1     ,      0      ,             -1/R4              ,       -1/RB1       ,     -1/RT1     ],
+  [           -1/RM1           ,1/RM1+1/RM2+s*C1,    -s*C1    ,               0                ,         0          ,       0        ],
+  [             0              ,     -s*C1      ,1/(s*L1)+s*C1,           -1/(s*L1)            ,         0          ,       0        ],
+  [           -1/R4            ,       0        ,  -1/(s*L1)  ,s*C2+1/R4+1/R5+1/(s*L1)+1/(s*L2),     -1/(s*L2)      ,     -s*C2      ],
+  [           -1/RB1           ,       0        ,      0      ,           -1/(s*L2)            ,1/(s*L2)+1/RB1+1/RB2,       0        ],
+  [           -1/RT1           ,       0        ,      0      ,             -s*C2              ,         0          ,1/RT1+1/RT2+s*C2]
+)$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
@@ -20,7 +27,14 @@ DEN_CIm: coeff(pld,s,1);
 DEN_DRe: coeff(pld,s,0);
 
 /* matrix to solve Vout using Cramer's rule */
-matrix([1/RIN+1/RM1+1/RB1+1/RT1+1/R4,-1/RM1,0,1/RIN,-1/RB1,-1/RT1],[-1/RM1,1/RM1+1/RM2+s*C1,-s*C1,0,0,0],[0,-s*C1,1/(s*L1)+s*C1,0,0,0],[-1/R4,0,-1/(s*L1),0,-1/(s*L2),-s*C2],[-1/RB1,0,0,0,1/(s*L2)+1/RB1+1/RB2,0],[-1/RT1,0,0,0,0,1/RT1+1/RT2+s*C2])$
+matrix(
+  [1/RIN+1/RM1+1/RB1+1/RT1+1/R4,     -1/RM1     ,      0      ,             1/RIN              ,       -1/RB1       ,     -1/RT1     ],
+  [           -1/RM1           ,1/RM1+1/RM2+s*C1,    -s*C1    ,               0                ,         0          ,       0        ],
+  [             0              ,     -s*C1      ,1/(s*L1)+s*C1,               0                ,         0          ,       0        ],
+  [           -1/R4            ,       0        ,  -1/(s*L1)  ,               0                ,     -1/(s*L2)      ,     -s*C2      ],
+  [           -1/RB1           ,       0        ,      0      ,               0                ,1/(s*L2)+1/RB1+1/RB2,       0        ],
+  [           -1/RT1           ,       0        ,      0      ,               0                ,         0          ,1/RT1+1/RT2+s*C2]
+)$
 determinant(%)$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$

@@ -7,7 +7,14 @@
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
-matrix([RIN+R1+R2+RB1+RB2,-R1,-RB1,-RB2,-R2,0],[-R1,R1+R3+RT1+1/(s*CB1)+1/(s*CT1),-1/(s*CB1),0,-R3,0],[-RB1,-1/(s*CB1),RB1+1/(s*CB1),0,0,0],[-RB2,0,0,RB2+1/(s*CB2),-1/(s*CB2),0],[-R2,-R3,0,-1/(s*CB2),RL+R3+R2+1/(s*CB2),-RL],[0,0,0,0,-RL,RL+RT2+1/(s*CT2)])$
+matrix(
+  [RIN+R1+R2+RB1+RB2,             -R1             ,    -RB1     ,    -RB2     ,       -R2        ,       0        ],
+  [       -R1       ,R1+R3+RT1+1/(s*CB1)+1/(s*CT1), -1/(s*CB1)  ,      0      ,       -R3        ,       0        ],
+  [      -RB1       ,         -1/(s*CB1)          ,RB1+1/(s*CB1),      0      ,        0         ,       0        ],
+  [      -RB2       ,              0              ,      0      ,RB2+1/(s*CB2),    -1/(s*CB2)    ,       0        ],
+  [       -R2       ,             -R3             ,      0      , -1/(s*CB2)  ,RL+R3+R2+1/(s*CB2),      -RL       ],
+  [        0        ,              0              ,      0      ,      0      ,       -RL        ,RL+RT2+1/(s*CT2)]
+)$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
@@ -20,9 +27,23 @@ DEN_CIm: coeff(pld,s,1);
 DEN_DRe: coeff(pld,s,0);
 
 /* matrix to solve Iout using Cramer's rule */
-matrix([RIN+R1+R2+RB1+RB2,-R1,-RB1,-RB2,1,0],[-R1,R1+R3+RT1+1/(s*CB1)+1/(s*CT1),-1/(s*CB1),0,0,0],[-RB1,-1/(s*CB1),RB1+1/(s*CB1),0,0,0],[-RB2,0,0,RB2+1/(s*CB2),0,0],[-R2,-R3,0,-1/(s*CB2),0,-RL],[0,0,0,0,0,RL+RT2+1/(s*CT2)])$
+matrix(
+  [RIN+R1+R2+RB1+RB2,             -R1             ,    -RB1     ,    -RB2     ,        1         ,       0        ],
+  [       -R1       ,R1+R3+RT1+1/(s*CB1)+1/(s*CT1), -1/(s*CB1)  ,      0      ,        0         ,       0        ],
+  [      -RB1       ,         -1/(s*CB1)          ,RB1+1/(s*CB1),      0      ,        0         ,       0        ],
+  [      -RB2       ,              0              ,      0      ,RB2+1/(s*CB2),        0         ,       0        ],
+  [       -R2       ,             -R3             ,      0      , -1/(s*CB2)  ,        0         ,      -RL       ],
+  [        0        ,              0              ,      0      ,      0      ,        0         ,RL+RT2+1/(s*CT2)]
+)$
 IIIII: determinant(%)$
-matrix([RIN+R1+R2+RB1+RB2,-R1,-RB1,-RB2,-R2,1],[-R1,R1+R3+RT1+1/(s*CB1)+1/(s*CT1),-1/(s*CB1),0,-R3,0],[-RB1,-1/(s*CB1),RB1+1/(s*CB1),0,0,0],[-RB2,0,0,RB2+1/(s*CB2),-1/(s*CB2),0],[-R2,-R3,0,-1/(s*CB2),RL+R3+R2+1/(s*CB2),0],[0,0,0,0,-RL,0])$
+matrix(
+  [RIN+R1+R2+RB1+RB2,             -R1             ,    -RB1     ,    -RB2     ,       -R2        ,       1        ],
+  [       -R1       ,R1+R3+RT1+1/(s*CB1)+1/(s*CT1), -1/(s*CB1)  ,      0      ,       -R3        ,       0        ],
+  [      -RB1       ,         -1/(s*CB1)          ,RB1+1/(s*CB1),      0      ,        0         ,       0        ],
+  [      -RB2       ,              0              ,      0      ,RB2+1/(s*CB2),    -1/(s*CB2)    ,       0        ],
+  [       -R2       ,             -R3             ,      0      , -1/(s*CB2)  ,RL+R3+R2+1/(s*CB2),       0        ],
+  [        0        ,              0              ,      0      ,      0      ,       -RL        ,       0        ]
+)$
 IIIIII: determinant(%)$
 IIIII-IIIIII$
 NUM_fs: factor(%)$

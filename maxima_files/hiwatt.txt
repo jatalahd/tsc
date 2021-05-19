@@ -8,7 +8,14 @@ stardisp: true$           /* multiplication is displayed with an asterisk betwee
 ratmx: true$              /* matrix operations  are performed in CRE */
 writefile("den.txt");
 /* matrix obtained from current loops in the circuit */
-matrix([RIN+R1+1/(s*C1),-R1,0,0,-1/(s*C1),0],[-R1,R1+R2+R3+1/(s*C2)+1/(s*C3)+1/(s*C5),-R2,-1/(s*C5),-1/(s*C3),-R3],[0,-R2,R2+RT1+RT2+1/(s*C4),0,0,-RT2],[0,-1/(s*C5),0,RM+1/(s*C5),0,-RM],[-1/(s*C1),-1/(s*C3),0,0,RB+1/(s*C1)+1/(s*C3),-RB],[0,-R3,-RT2,-RM,-RB,R3+R4+R5+RT2+RM+RB])$
+matrix(
+  [RIN+R1+1/(s*C1),                -R1                ,         0         ,     0     ,     -1/(s*C1)      ,        0         ],
+  [      -R1      ,R1+R2+R3+1/(s*C2)+1/(s*C3)+1/(s*C5),        -R2        , -1/(s*C5) ,     -1/(s*C3)      ,       -R3        ],
+  [       0       ,                -R2                ,R2+RT1+RT2+1/(s*C4),     0     ,         0          ,       -RT2       ],
+  [       0       ,             -1/(s*C5)             ,         0         ,RM+1/(s*C5),         0          ,       -RM        ],
+  [   -1/(s*C1)   ,             -1/(s*C3)             ,         0         ,     0     ,RB+1/(s*C1)+1/(s*C3),       -RB        ],
+  [       0       ,                -R3                ,       -RT2        ,    -RM    ,        -RB         ,R3+R4+R5+RT2+RM+RB]
+)$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
@@ -24,7 +31,14 @@ closefile();
 
 /* matrix to solve Iout using Cramer's rule */
 writefile("num.txt");
-matrix([RIN+R1+1/(s*C1),-R1,0,0,-1/(s*C1),1],[-R1,R1+R2+R3+1/(s*C2)+1/(s*C3)+1/(s*C5),-R2,-1/(s*C5),-1/(s*C3),0],[0,-R2,R2+RT1+RT2+1/(s*C4),0,0,0],[0,-1/(s*C5),0,RM+1/(s*C5),0,0],[-1/(s*C1),-1/(s*C3),0,0,RB+1/(s*C1)+1/(s*C3),0],[0,-R3,-RT2,-RM,-RB,0])$
+matrix(
+  [RIN+R1+1/(s*C1),                -R1                ,         0         ,     0     ,     -1/(s*C1)      ,        1         ],
+  [      -R1      ,R1+R2+R3+1/(s*C2)+1/(s*C3)+1/(s*C5),        -R2        , -1/(s*C5) ,     -1/(s*C3)      ,        0         ],
+  [       0       ,                -R2                ,R2+RT1+RT2+1/(s*C4),     0     ,         0          ,        0         ],
+  [       0       ,             -1/(s*C5)             ,         0         ,RM+1/(s*C5),         0          ,        0         ],
+  [   -1/(s*C1)   ,             -1/(s*C3)             ,         0         ,     0     ,RB+1/(s*C1)+1/(s*C3),        0         ],
+  [       0       ,                -R3                ,       -RT2        ,    -RM    ,        -RB         ,        0         ]
+)$
 determinant(%)$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$                /* because of (1 + s*C1*RT2)/(s*C1) is the terminating impedance */

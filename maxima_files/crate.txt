@@ -7,7 +7,13 @@
 stardisp: true$           /* multiplication is displayed with an asterisk between operands */
 ratmx: true$              /* matrix operations  are performed in CRE */
 /* matrix obtained from current loops in the circuit */
-matrix([RIN+R1+RM+1/(s*C3),-R1,-1/(s*C3),-RM, 0],[-R1,R1+RT1+RT2+1/(s*C1)+1/(s*C2),-1/(s*C2),0,-RT2],[-1/(s*C3),-1/(s*C2),RB+1/(s*C2)+1/(s*C3)+1/(s*C4),-1/(s*C4),-RB],[-RM,0,-1/(s*C4),RM+1/(s*C4),0],[0,-RT2,-RB,0,RB+RT2+RL])$
+matrix(
+  [RIN+R1+RM+1/(s*C3),            -R1             ,          -1/(s*C3)          ,    -RM    ,    0    ],
+  [       -R1        ,R1+RT1+RT2+1/(s*C1)+1/(s*C2),          -1/(s*C2)          ,     0     ,  -RT2   ],
+  [    -1/(s*C3)     ,          -1/(s*C2)         ,RB+1/(s*C2)+1/(s*C3)+1/(s*C4), -1/(s*C4) ,   -RB   ],
+  [       -RM        ,             0              ,          -1/(s*C4)          ,RM+1/(s*C4),    0    ],
+  [        0         ,            -RT2            ,             -RB             ,     0     ,RB+RT2+RL]
+)$
 determinant(%)$           /* evaluates the determinant of the previous output % */
 DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
 DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
@@ -20,7 +26,13 @@ DEN_CIm: coeff(pld,s,1);
 DEN_DRe: coeff(pld,s,0);
 
 /* matrix to solve Iout using Cramer's rule */
-matrix([RIN+R1+RM+1/(s*C3),-R1,-1/(s*C3),-RM,1],[-R1,R1+RT1+RT2+1/(s*C1)+1/(s*C2),-1/(s*C2),0,0],[-1/(s*C3),-1/(s*C2),RB+1/(s*C2)+1/(s*C3)+1/(s*C4),-1/(s*C4),0],[-RM,0,-1/(s*C4),RM+1/(s*C4),0],[0,-RT2,-RB,0,0])$
+matrix(
+  [RIN+R1+RM+1/(s*C3),            -R1             ,          -1/(s*C3)          ,    -RM    ,    1    ],
+  [       -R1        ,R1+RT1+RT2+1/(s*C1)+1/(s*C2),          -1/(s*C2)          ,     0     ,    0    ],
+  [    -1/(s*C3)     ,          -1/(s*C2)         ,RB+1/(s*C2)+1/(s*C3)+1/(s*C4), -1/(s*C4) ,    0    ],
+  [       -RM        ,             0              ,          -1/(s*C4)          ,RM+1/(s*C4),    0    ],
+  [        0         ,            -RT2            ,             -RB             ,     0     ,    0    ]
+)$
 determinant(%)$
 NUM_fs: factor(%)$
 NUM_den: denom(NUM_fs)$
