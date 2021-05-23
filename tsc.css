@@ -97,6 +97,40 @@ a.disabled {
     background-color: #ddd;
 }
 
+.toggle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 32px;
+  height: 22px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  border-radius: 50px;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: #007dc1;
+}
+
+.toggle:before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+}
+
+.toggle:checked:before {
+  left: 12px;
+}
+
 .tonestack-image {
 	padding-top: 5px;
 	border: 1px solid #ddd;
