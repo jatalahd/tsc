@@ -117,10 +117,10 @@
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
         <div id="buttonContainer" style="overflow: hidden; width: 100%">
             <div style="float: left; padding-left: 4px;">
-                Amplitude<INPUT type="checkbox" onclick="swapGraphs(); doCalc();" class="toggle">Phase
+                Amplitude<input type="checkbox" onclick="swapGraphs();" class="toggle">Phase
             </div>
-            <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="currentGraph.clearSnapshots(); doCalc();" class="tonestack-values-button" style="float: right;">
-            <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="currentGraph.addSeries(); doCalc();" class="tonestack-values-button" style="float: right;">
+            <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
+            <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
             <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
@@ -184,7 +184,7 @@
     // Graph objects
     var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Fender");
     var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Fender", 0, "graph2");
-    var currentGraph = graph1;
+    currentGraph = graph1;
 
     // set the default values to the component variables and input fields
     setDefaultValues();
@@ -194,15 +194,6 @@
     range_RM.noUiSlider.on('slide', doCalc);
     range_RT.noUiSlider.on('slide', doCalc);
 
-
-    // This function swaps display between the two graphs
-    function swapGraphs() {
-        currentGraph.div.style.display = "none";
-        currentGraph = currentGraph === graph1 ? graph2 : graph1;
-        currentGraph.div.style.display = "block";
-        currentGraph.update();
-        return currentGraph;
-    }
 
     // This function is called when the Apply-button is clicked
     function applyValues() {
@@ -261,15 +252,15 @@
         range_RM.noUiSlider.set(5);
         range_RT.noUiSlider.set(5);
         doCalc();
-        currentGraph.addSeries();
         for (p = 0; p <= 10; p += 10) {
             range_RB.noUiSlider.set(p);
             for (q = 0; q <=10; q += 10) {
                 range_RM.noUiSlider.set(q);
                 for (r = 0; r <=10; r += 10) {
                     range_RT.noUiSlider.set(r);
+                    graph1.addSeries();
+                    graph2.addSeries();
                     doCalc();
-                    currentGraph.addSeries();
                 }
             }
         }

@@ -52,6 +52,7 @@ var pages = [
 
 /* Global specification for color spinner in snapshots */
 var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];
+var currentGraph;
 var origLabels = [ "frequency [Hz]", "amplitude [dB]" ];
 
 /* Global array for storing snapshots */
@@ -63,6 +64,8 @@ var colorArray = [colorSpectrum[0]];
 
 /* Adds a snapshot series to graph */
 function addSeries() {
+    if (currentGraph) return addSeriesPair();
+
     storeData = data;
     colorArray.push(colorSpectrum[series%colorSpectrum.length]);
     series = storeData[0].length;
@@ -70,11 +73,28 @@ function addSeries() {
     doCalc();
 }
 
+/* Add a snapshot to a pair of tscGraphs */
+function addSeriesPair(a = graph1, b = graph2) {
+    a.addSeries();
+    b.addSeries();
+    doCalc();
+}
+
 /* Removes all snapshot traces from the graph */
 function clearSnapshots() {
+    if (currentGraph) return clearSnapshotsPair();
+
     series = 1;
     colorArray = [colorSpectrum[0]];
     labelArray = [ "frequency [Hz]", "amplitude [dB]" ];
+    doCalc();
+}
+
+
+/* Remove all snapshots traces from a pair of tscGraphs */
+function clearSnapshotsPair(a = graph1, b = graph2) {
+    a.clearSnapshots();
+    b.clearSnapshots();
     doCalc();
 }
 
@@ -305,6 +325,15 @@ function createDyGraph(data, titleText, offset=0) {
     return grph;
 }
 
+// This function swaps display between two graphs
+function swapGraphs(a = graph1, b = graph2) {
+    currentGraph.div.style.display = "none";
+    currentGraph = currentGraph === a ? b : a;
+    currentGraph.div.style.display = "block";
+    currentGraph.update();
+    return currentGraph;
+}
+
 
 
 /*
@@ -394,7 +423,6 @@ function tscGraph(xValues, xLabel = "X", yLabel = "Y", title = null, offset = 0,
         this.series++;
         this.colors.push(colorSpectrum[this.series%colorSpectrum.length]);
         this.labels.push(yLabel + this.series);
-        //console.log(graph2);
     }
 
     // Clear saved y values for all series and prepare for a new series
