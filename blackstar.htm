@@ -152,15 +152,19 @@
         </CENTER>
       </TD>
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
-        <div id="buttonContainer">
-          <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
-          <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
-          <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+        <div id="buttonContainer" style="overflow: hidden; width: 100%;">
+          <div style="float: left; padding-left: 4px;">
+            Amplitude<input type="checkbox" onclick="swapGraphs();" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
-          <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
-          <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
-       </div>
+          <div id="graph" style="height: 480px; width: 640px;"></div>
+          <div id="graph2" style="height: 480px; width: 640px; display:none;"></div>
+          <div id="legendDiv" class="tonestack-graph-value"></div>
+        </div>
       </TD>
     </TR>
     <TR>
@@ -220,19 +224,19 @@
     var C5;
     var CIN
 
-    var data = [];
-
     // create sliders and save the div-element of the slider
     var range_RB = createSlider('range_RB','value_RB');
     var range_RM = createSlider('range_RM','value_RM');
     var range_RT = createSlider('range_RT','value_RT');
     var range_RISF = createSlider('range_RISF','value_RISF');
 
-    // variable g will hold the graph object for synchronized updates
-    var g = null;
-
     // data for frequency points is created here and saved to array X
-    X = createFrequencies(90,10,100000,1);
+    var X = createFrequencies(90,10,100000,1);
+
+    // Graph objects
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Blackstar HT5");
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Blackstar HT5", 0, "graph2");
+    var currentGraph = graph1;
 
     // set the default values to the component variables and input fields
     setDefaultValues();
@@ -318,8 +322,6 @@
         range_RB.noUiSlider.set(5);
         range_RM.noUiSlider.set(5);
         range_RT.noUiSlider.set(5);
-        doCalc();
-        console.log(data);
         addSeries();
         for (p = 0; p <= 10; p += 10) {
             range_RB.noUiSlider.set(p);
@@ -327,8 +329,6 @@
                 range_RM.noUiSlider.set(q);
                 for (r = 0; r <=10; r += 10) {
                     range_RT.noUiSlider.set(r);
-                    doCalc();
-                    console.log(data);
                     addSeries();
                 }
             }
@@ -340,8 +340,6 @@
     // It does the hard math and evaluates the filter transfer function
     // for the given frequency range and updates values to the graph.
     function doCalc() {
-        var row = [];
-        data = [];
 
         // pot rotation 0 - 10 from the slider component
         var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
@@ -349,15 +347,14 @@
         var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
         var RotISF    = getRotationForPotType(range_RISF.noUiSlider.get(), document.frm.RISF_pot.value);
 
-
-        var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
-        var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
-        //var RB   = Math.round( RBass*(1.0*RotBass/10.0) );
-        var RB  = Math.round( RBass*(1.0*RotBass/10.0) );
+        // Calculated part values
+        var RT2   = Math.round( RTreble*(1.0*RotTreble/10.0) );
+        var RT1   = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
+        var RB    = Math.round( RBass*(1.0*RotBass/10.0) );
         var RI11  = Math.round( RISF*(1.0*RotISF/10.0) );
-        var RI12 = Math.round( RISF*(1.0 - 1.0*RotISF/10.0) );
-        var RI21 = Math.round( RISF*(1.0 - 1.0*RotISF/10.0) );
-        var RM  = Math.round( RMid*(1.0*RotMid/10.0) );
+        var RI12  = Math.round( RISF*(1.0 - 1.0*RotISF/10.0) );
+        var RI21  = Math.round( RISF*(1.0 - 1.0*RotISF/10.0) );
+        var RM    = Math.round( RMid*(1.0*RotMid/10.0) );
 
         console.log("RB="+RB)
         console.log("RM="+RM)
@@ -367,6 +364,8 @@
         console.log("RI12="+RI12)
         console.log("RI21="+RI21)
 
+
+        // Transfer function denominator coefficients
 
 var DEN_PIm = 0;
 
@@ -4354,9 +4353,10 @@ var DEN_DRe =  RM*RT2 + RI12*RT2 + R2*RT2 + R1*RT2 + RM*RT1 + RI12*RT1 + R2*RT1
  + R1*RT1 + RI21*RM + R3*RM + RI12*RI21 + R2*RI21 + R1*RI21 + R3*RI12 + R2*R3
  + R1*R3;
 
+
+        // Transfer function numerator coefficients
+
 var NOM_PIm = 0;
-
-
 
 var NOM_ZRe = C1*C2*C3*C4*C5*CIN*RB*RI11*RI12*RI21*RIN*RL*RM*RT2
  + C1*C2*C3*C4*C5*CIN*R4*RI11*RI12*RI21*RIN*RL*RM*RT2
@@ -4827,22 +4827,12 @@ var NOM_DRe = 0;
             var NUMERATOR_Im = (XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_PIm + XNOM_I_YIm + XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_ZRe + XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_PIm + XDEN_YIm + XDEN_AIm + XDEN_CIm);
 
             var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+            var phase   = Math.atan2(NUMERATOR_Im, NUMERATOR_Re) * 180 / Math.PI;
 
-            row = [];
-            row.push(X[j]);
-            // add possible snapshot data from storage
-            for (k = 1; k < series; k++) {
-                row.push(storeData[j][k]);
-            }
-            row.push( 20*Math.log(voltage)/Math.log(10) );
-            data.push(row);
+            graph1.data[j][graph1.series] = 20*Math.log(voltage)/Math.log(10);
+            graph2.data[j][graph2.series] = phase;
         }
-
-        if (!g) {
-            g = createDyGraph(data, "Blackstar HT5");
-        } else {
-            g.updateOptions({file: data, labels: labelArray, colors: colorArray});
-        }
+        currentGraph.update();
     }
 
 </SCRIPT>
