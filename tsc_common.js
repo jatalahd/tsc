@@ -52,6 +52,7 @@ var pages = [
 
 /* Global specification for color spinner in snapshots */
 var colorSpectrum = ["#D50","blue","green","black","red","slateblue","violet","gray","tomato","lightgray"];
+var currentGraph;
 var origLabels = [ "frequency [Hz]", "amplitude [dB]" ];
 
 /* Global array for storing snapshots */
@@ -63,6 +64,8 @@ var colorArray = [colorSpectrum[0]];
 
 /* Adds a snapshot series to graph */
 function addSeries() {
+    if (currentGraph) return addSeriesPair();
+
     storeData = data;
     colorArray.push(colorSpectrum[series%colorSpectrum.length]);
     series = storeData[0].length;
@@ -70,11 +73,28 @@ function addSeries() {
     doCalc();
 }
 
+/* Add a snapshot to a pair of tscGraphs */
+function addSeriesPair(a = graph1, b = graph2) {
+    a.addSeries();
+    b.addSeries();
+    doCalc();
+}
+
 /* Removes all snapshot traces from the graph */
 function clearSnapshots() {
+    if (currentGraph) return clearSnapshotsPair();
+
     series = 1;
     colorArray = [colorSpectrum[0]];
     labelArray = [ "frequency [Hz]", "amplitude [dB]" ];
+    doCalc();
+}
+
+
+/* Remove all snapshots traces from a pair of tscGraphs */
+function clearSnapshotsPair(a = graph1, b = graph2) {
+    a.clearSnapshots();
+    b.clearSnapshots();
     doCalc();
 }
 
@@ -303,4 +323,294 @@ function createDyGraph(data, titleText, offset=0) {
                      { v: 100000 }, { label_v: 100000, label: '100000' }
             ]}}}});
     return grph;
+}
+
+// This function swaps display between two graphs
+function swapGraphs(a = graph1, b = graph2) {
+    currentGraph.div.style.display = "none";
+    currentGraph = currentGraph === a ? b : a;
+    currentGraph.div.style.display = "block";
+    currentGraph.update();
+    return currentGraph;
+}
+
+
+
+/*
+ * tscGraph: Object representing a Tone Stack Calculator graph
+ * ----------------------------------------------------------------------------
+ *
+ * This object helps with management of Tone Stack Calculator graphs. It holds
+ * the data and settings specific to a single graph, and offers methods for
+ * common tasks, such as management of snapshots.
+ *
+ *
+ * -- Properties --
+ *
+ * title: The title of the graph. May contain HTML.
+ *
+ * xLabel, yLabel:
+ * The labels for the x and y axes of the graph.
+ *
+ * div:
+ * The id of the HTML div to be used to contain the display of the graph. If
+ * not specified, "graph" is assumed.
+ *
+ * offset:
+ * An amount by which to raise or lower the default range displayed on the y
+ * axis. For phase graphs, this is ignored.
+ *
+ * data:
+ * The data property represents a table of rows and columns. It
+ * is defined as an array of rows, where each row is itself an
+ * array. Each column consists of the nth elements in each row.
+ *
+ * The first column of the table contains the x values, which must
+ * be common to all data series. The second column contains the
+ * the corresponding y values for the first data series, the third
+ * column has the y values for the second data series, and so on.
+ *
+ * For example, if the data property is
+ *     [ [1, 5, 10], [2, 6, 7] ]
+ * then the first data series has points (1, 5) and (2, 6), while
+ * the second data series has points (1, 10) and (2, 7).
+ *
+ * series:
+ * The total number of data series, including the series that is recalculated
+ * "live" as the user interacts with controls.
+ *
+ * labels:
+ * An array containing a label for each column in the data table, as required
+ * by the dygraphs library. These are managed automatically when using the
+ * clearSnapshots and addSeries methods.
+ *
+ * colors:
+ * An array containing the graphing colors, one for each data series. These are
+ * managed automatically when using the clearSnapshots and addSeries methods.
+ *
+ *
+ * -- Methods --
+ *
+ * addSeries:
+ * Saves the current "live" series away and prepares for a new one that the
+ * user can interact with. After calling this, the y values for the new series
+ * must be added before the graph's display can be updated.
+ *
+ * clearSnapshots:
+ * Clears away all series and prepares for a new "live" series. After using
+ * this, the y values for the new series must be added before the graph's
+ * display can be updated.
+ *
+ * update:
+ * Redraws the graph. Call this after series data has been updated. Also useful
+ * if the graph's div has been "display: none" but has now become visible.
+ *
+ * createDyGraph:
+ * Creates a default graph (Bode magnitude plot) using the dygraphs library.
+ * This is automatically done if the graph does not already exist when the
+ * update() method is used.
+ *
+ * createDyGraphPhase:
+ * Creates a phase graph (Bode phase plot) using the dygraphs library.
+ * This is automatically done if the graph does not already exist when the
+ * update() method is used, and the y axis has been labeled "phase".
+ *
+ */
+function tscGraph(xValues, xLabel = "X", yLabel = "Y", title = null, offset = 0, div) {
+
+    // Save the current series y values and prepare for a new series
+    this.addSeries = function() {
+        this.series++;
+        this.colors.push(colorSpectrum[this.series%colorSpectrum.length]);
+        this.labels.push(yLabel + this.series);
+    }
+
+    // Clear saved y values for all series and prepare for a new series
+    this.clearSnapshots = function() {
+        this.series = 1;
+        this.colors = [colorSpectrum[0]];
+        this.labels = [this.xLabel, this.yLabel + this.series];
+
+        // Reset the data table to one column containing the x values
+        this.data = [];
+        for (var i = 0; i < xValues.length; i++) {
+            this.data.push([xValues[i]]);
+        }
+    }
+
+    // Private function for specifying dygraphs axis style for frequencies
+    this._tickerHz = function(min, max, pixels) {
+        return [
+            { v: 10 }, { label_v: 10, label: '10' },
+            { v: 20 },
+            { v: 30 },
+            { v: 40 },
+            { v: 50 },
+            { v: 60 },
+            { v: 70 },
+            { v: 80 },
+            { v: 90 },
+            { v: 100 }, { label_v: 100, label: '100' },
+            { v: 200 },
+            { v: 300 },
+            { v: 400 },
+            { v: 500 },
+            { v: 600 },
+            { v: 700 },
+            { v: 800 },
+            { v: 900 },
+            { v: 1000 }, { label_v: 1000, label: '1K' },
+            { v: 2000 },
+            { v: 3000 },
+            { v: 4000 },
+            { v: 5000 },
+            { v: 6000 },
+            { v: 7000 },
+            { v: 8000 },
+            { v: 9000 },
+            { v: 10000 }, { label_v: 10000, label: '10K' },
+            { v: 20000 },
+            { v: 30000 },
+            { v: 40000 },
+            { v: 50000 },
+            { v: 60000 },
+            { v: 70000 },
+            { v: 80000 },
+            { v: 90000 },
+            { v: 100000 }, { label_v: 100000, label: '100K' }
+        ]
+    };
+
+    /* Create a graph with layout for Bode magnitude plot */
+    this.createDyGraph = function() {
+
+        /* Customized legend for the graph for all data series */
+        function _legendFormatter(data){
+            //console.log(data);
+            if(data.x == undefined){
+                return '';
+            }
+            var html = data.xHTML + ' Hz' + ' : ';
+            data.series.forEach(function(series) {
+                html += ' ' + series.yHTML.fontcolor(series.color) + ' dB ';
+            });
+            return html;
+        }
+
+        this.graph = new Dygraph(
+            this.div,
+            this.data,
+            {
+                labels: this.labels,
+                strokeWidth: 2.0,
+                colors: this.colors,
+                title: this.title,
+                xlabel: this.xLabel,
+                ylabel: this.yLabel,
+                axisLabelFontSize: 18,
+                xLabelHeight: 20,
+                legend: "always",
+                legendFormatter: _legendFormatter,
+                labelsDiv: document.getElementById('legendDiv'),
+                maxNumberWidth: 7,
+                digitsAfterDecimal: 1,
+                axes: {
+                    y: {valueRange: [-50 + offset, 1 + this.offset]},
+                    x: {
+                        logscale: true,
+                        ticker: this._tickerHz
+                    },
+                },
+            },
+        );
+
+        return this.graph;
+    }
+
+    /* Create a graph with layout for Bode phase plot */
+    this.createDyGraphPhase = function() {
+
+        /* Customized legend for the graph for all data series */
+        function _legendFormatter(data){
+            if (data.x == undefined) {
+                return '';
+            }
+            var html = data.xHTML + ' Hz' + ' : ';
+            data.series.forEach(function(series) {
+                html += ' ' + series.yHTML.fontcolor(series.color) + '&deg ';
+            });
+            return html;
+        }
+
+        this.graph = new Dygraph(
+            this.div,
+            this.data,
+            {
+                labels: this.labels,
+                strokeWidth: 2.0,
+                colors: this.colors,
+                title: this.title,
+                xlabel: this.xLabel,
+                ylabel: this.yLabel,
+                axisLabelFontSize: 18,
+                xLabelHeight: 20,
+                legend: "always",
+                legendFormatter: _legendFormatter,
+                labelsDiv: document.getElementById('legendDiv'),
+                maxNumberWidth: 7,
+                digitsAfterDecimal: 1,
+                axes: {
+                    y: {
+                        valueRange: [-180, 181],
+                        drawAxis: true,
+                        ticker: function(min, max, pixels) {
+                            return [ { v: -180 }, { label_v: -180, label: '-180&deg' },
+                                     { v: -135 }, { label_v: -135, label: '-135&deg' },
+                                     { v:  -90 }, { label_v:  -90, label: '-90&deg'  },
+                                     { v:  -45 }, { label_v:  -45, label: '-45&deg'  },
+                                     { v:    0 }, { label_v:    0, label: '0&deg'    },
+                                     { v:   45 }, { label_v:   45, label: '45&deg'   },
+                                     { v:   90 }, { label_v:   90, label: '90&deg'   },
+                                     { v:  135 }, { label_v:  135, label: '135&deg'  },
+                                     { v:  180 }, { label_v:  180, label: '180&deg'  },
+                                   ]
+                        },
+                    },
+                    x: {
+                        logscale: true,
+                        ticker: this._tickerHz
+                    },
+                },
+            },
+        );
+
+        return this.graph;
+    }
+
+    /* Update the graph, or create one if it doesn't exist already. */
+    this.update = function() {
+        if (this.graph) {
+            this.graph.updateOptions({file: this.data, labels: this.labels, colors: this.colors});
+            this.graph.resize();
+        } else {
+            switch (this.yLabel) {
+                case "phase":
+                    this.createDyGraphPhase();
+                    break;
+                default:
+                    this.createDyGraph();
+            }
+        }
+    }
+
+    // Initialize the object
+    this.title = title;
+    this.xLabel = xLabel;
+    this.yLabel = yLabel;
+    this.div = typeof div !== 'undefined' ? document.getElementById(div) :
+                                            document.getElementById('graph');
+    this.offset = offset;
+    this.clearSnapshots();
+
+    //console.log(this);
 }

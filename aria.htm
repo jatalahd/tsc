@@ -127,16 +127,20 @@
         <INPUT type="button" name="apply" value="Apply" title="Apply values" id="id_apply" onclick="applyValues();" class="tonestack-values-button">
         <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues();" class="tonestack-values-button">
         </CENTER>
-      </TD>  
+      </TD>
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
-         <div id="buttonContainer">
-            <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
-            <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
-            <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+        <div id="buttonContainer" style="overflow: hidden; width: 100%;">
+            <div style="float: left; padding-left: 4px;">
+                Amplitude<input type="checkbox" onclick="swapGraphs();" class="toggle">Phase
+            </div>
+            <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
+            <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
+            <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
-            <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
-            <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
+            <div id="graph" style="height: 480px; width: 640px;"></div>
+            <div id="graph2" style="height: 480px; width: 640px; display:none;"></div>
+            <div id="legendDiv" class="tonestack-graph-value"></div>
         </div>
       </TD>
     </TR>
@@ -144,23 +148,23 @@
       <TD colspan="2" class="tonestack-sliders">
         <BR>
         <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="doCalc()">
-                                                              <option value="Linear">Linear</option>
-                                                              <option value="LogA">LogA</option>
-                                                              <option value="LogB" selected="selected">LogB</option></select> 
+            <option value="Linear">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB" selected="selected">LogB</option></select>
         </SPAN>
         <DIV id="range_RB" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
         <SPAN id="label_RM" class="tonestack-slider-label">RM <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="doCalc()">
-                                                              <option value="Linear">Linear</option>
-                                                              <option value="LogA">LogA</option>
-                                                              <option value="LogB" selected="selected">LogB</option></select> 
+            <option value="Linear">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB" selected="selected">LogB</option></select>
         </SPAN>
         <DIV id="range_RM" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RM" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
         <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="doCalc()">
-                                                              <option value="Linear">Linear</option>
-                                                              <option value="LogA">LogA</option>
-                                                              <option value="LogB" selected="selected">LogB</option></select> 
+            <option value="Linear">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB" selected="selected">LogB</option></select>
         </SPAN>
         <DIV id="range_RT" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
@@ -169,7 +173,7 @@
   </TABLE>
 
 <SCRIPT>
-    // create links to all the tone stack pages to the top of the page 
+    // create links to all the tone stack pages to the top of the page
     createLinks("linkDiv","Aria");
 
     // define component variables for calculation
@@ -186,18 +190,18 @@
     var CT2;
     var CB1;
 
-    var data = [];
-
     // create sliders and save the div-element of the slider
     var range_RB = createSlider('range_RB','value_RB');
     var range_RM = createSlider('range_RM','value_RM');
     var range_RT = createSlider('range_RT','value_RT');
 
-    // variable g will hold the graph object for synchronized updates
-    var g = null;
-
     // data for frequency points is created here and saved to array X
-    X = createFrequencies(90,10,100000,1);
+    var X = createFrequencies(90,10,100000,1);
+
+    // Graph objects
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Baxandall");
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Baxandall", 0, "graph2");
+    var currentGraph = graph1;
 
     // set the default values to the component variables and input fields
     setDefaultValues();
@@ -261,11 +265,11 @@
         document.frm.CT1.value  = 1000;
         document.frm.CT2.value  = 1000;
         document.frm.CB1.value  = 220000;
-        
+
         applyValues();
     }
-    
-    
+
+
     // creates a sweep plot with max and mid values
     // prints amplitude data to console for testing
     // against model validity. Use "store as global variable"
@@ -274,8 +278,6 @@
         range_RB.noUiSlider.set(5);
         range_RM.noUiSlider.set(5);
         range_RT.noUiSlider.set(5);
-        doCalc();
-        console.log(data);
         addSeries();
         for (p = 0; p <= 10; p += 10) {
             range_RB.noUiSlider.set(p);
@@ -283,8 +285,6 @@
                 range_RM.noUiSlider.set(q);
                 for (r = 0; r <=10; r += 10) {
                     range_RT.noUiSlider.set(r);
-                    doCalc();
-                    console.log(data);
                     addSeries();
                 }
             }
@@ -296,15 +296,13 @@
     // It does the hard math and evaluates the filter transfer function
     // for the given frequency range and updates values to the graph.
     function doCalc() {
-        var row = [];
-        data = [];
 
         // pot rotation 0 - 10 from the slider component
         var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
         var RotMid    = getRotationForPotType(range_RM.noUiSlider.get(), document.frm.RM_pot.value);
         var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
 
-
+        // Calculated part values
         var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
         var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
         var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
@@ -1130,22 +1128,12 @@ var NOM_DRe = RB2*RL*RM2*RM3*RT3 + RB2*RL*RM1*RM3*RT3 + RB2*RL*RM1*RM2*RT3
             var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
 
             var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
+            var phase   = Math.atan2(NUMERATOR_Im, NUMERATOR_Re) * 180 / Math.PI;
 
-            row = [];
-            row.push(X[j]);
-            // add possible snapshot data from storage
-            for (k = 1; k < series; k++) {
-                row.push(storeData[j][k]);
-            }
-            row.push( 20*Math.log(voltage)/Math.log(10) );
-            data.push(row);
+            graph1.data[j][graph1.series] = 20*Math.log(voltage)/Math.log(10);
+            graph2.data[j][graph2.series] = phase;
         }
-
-        if (!g) {
-            g = createDyGraph(data, "Aria");
-        } else {
-            g.updateOptions({file: data, labels: labelArray, colors: colorArray});
-        }
+        currentGraph.update();
     }
 
 </SCRIPT>
