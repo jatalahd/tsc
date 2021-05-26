@@ -308,8 +308,6 @@
         // Transfer function coefficients
 
 if (belowTap) {
-var DEN_ZRe = 0
-
 var DEN_YIm = C1*C2*C3*C4*CIN*R2*RB*RIN*RT12*RT21*RT22
  + C1*C2*C3*C4*CIN*R1*RB*RIN*RT12*RT21*RT22
  + C1*C2*C3*C4*CIN*R2*RB*RIN*RT11*RT21*RT22
@@ -557,7 +555,6 @@ var DEN_CIm = C4*RT21*RT22 + C4*RL*RT22 + C4*RB*RT22 + C4*R2*RT22 + C1*RT12*RT21
 var DEN_DRe = RT21 + RL + RB + R2;
 
 
-var NOM_ZRe = 0
 var NOM_YIm = C1*C2*C3*C4*CIN*R2*RB*RIN*RL*RT12*RT22
  + C1*C2*C3*C4*CIN*R2*RB*RIN*RL*RT11*RT22
  + C1*C2*C3*C4*CIN*R1*R2*RB*RIN*RL*RT22;
@@ -599,7 +596,6 @@ var NOM_DRe = 0;
 
 } else {
 
-var DEN_ZRe = 0
 var DEN_YIm = C1*C2*C3*C4*CIN*R2*RB*RIN*RT11*RT12*RT22
  + C1*C2*C3*C4*CIN*R1*RB*RIN*RT11*RT12*RT22
  + C1*C2*C3*C4*CIN*R2*RB*RIN*RL*RT12*RT22
@@ -865,7 +861,6 @@ var DEN_CIm = C4*RT12*RT22 + C4*RL*RT22 + C4*RB*RT22 + C4*R2*RT22 + C4*RT12*RT21
 var DEN_DRe = RT12 + RL + RB + R2;
 
 
-var NOM_ZRe = 0
 var NOM_YIm = C1*C2*C3*C4*CIN*R2*RB*RIN*RL*RT12*RT22
  + C1*C2*C3*C4*CIN*R1*RB*RIN*RL*RT12*RT22
  + C1*C2*C3*C4*CIN*R2*RB*RIN*RL*RT11*RT22
@@ -941,43 +936,14 @@ var NOM_CIm = C1*RL*RT12 + C2*RB*RL + C1*RB*RL + C3*R2*RL + C2*R2*RL + C1*R2*RL
 
 var NOM_DRe = 0;
 
-
 }
 
 
-
-        // loop through the selected frequency points and do calculation
-        for (j = 0; j < X.length; j++) {
-            // w = 2*pi*f
-            var w = 2*Math.PI*X[j];
-
-            var XDEN_ZRe = -w*w*w*w*w*w*DEN_ZRe;
-            var XDEN_YIm =  w*w*w*w*w*DEN_YIm;
-            var XDEN_XRe =  w*w*w*w*DEN_XRe;
-            var XDEN_AIm = -w*w*w*DEN_AIm;
-            var XDEN_BRe = -w*w*DEN_BRe;
-            var XDEN_CIm =  w*DEN_CIm;
-            var XDEN_DRe =  DEN_DRe;
-
-            var DENOMINATOR = ( (XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XDEN_YIm + XDEN_AIm + XDEN_CIm)*(XDEN_YIm + XDEN_AIm + XDEN_CIm) );
-
-            var XNOM_I_ZRe = -w*w*w*w*w*w*NOM_ZRe;
-            var XNOM_I_YIm =  w*w*w*w*w*NOM_YIm;
-            var XNOM_I_XRe =  w*w*w*w*NOM_XRe;
-            var XNOM_I_AIm = -w*w*w*NOM_AIm;
-            var XNOM_I_BRe = -w*w*NOM_BRe;
-            var XNOM_I_CIm =  w*NOM_CIm;
-            var XNOM_I_DRe =  NOM_DRe;
-
-            var NUMERATOR_Re = (XNOM_I_ZRe + XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_YIm + XNOM_I_AIm + XNOM_I_CIm)*(XDEN_YIm + XDEN_AIm + XDEN_CIm);
-            var NUMERATOR_Im = (XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_YIm + XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_ZRe + XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_YIm + XDEN_AIm + XDEN_CIm);
-
-            var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
-            var phase   = Math.atan2(NUMERATOR_Im, NUMERATOR_Re) * 180 / Math.PI;
-
-            graph1.data[j][graph1.series] = 20*Math.log(voltage)/Math.log(10);
-            graph2.data[j][graph2.series] = phase;
-        }
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(
+            [ NOM_DRe, NOM_CIm, NOM_BRe, NOM_AIm, NOM_XRe, NOM_YIm ],
+            [ DEN_DRe, DEN_CIm, DEN_BRe, DEN_AIm, DEN_XRe, DEN_YIm ]
+        );
         currentGraph.update();
     }
 

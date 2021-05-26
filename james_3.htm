@@ -345,14 +345,14 @@
 
         // Transfer function numerator coefficients
 
-        var NOM_I_XRe = CB1*CB2*CT1*CT2*RB1*RB2*RF*RT1*RT2 + CB1*CB2*CT1*CT2*R2*RB1*RB2*RT1*RT2
+        var NOM_XRe = CB1*CB2*CT1*CT2*RB1*RB2*RF*RT1*RT2 + CB1*CB2*CT1*CT2*R2*RB1*RB2*RT1*RT2
          + CB1*CB2*CT1*CT2*R3*RB1*RB2*RF*RT2 + CB1*CB2*CT1*CT2*R1*RB1*RB2*RF*RT2
          + CB1*CB2*CT1*CT2*R2*R3*RB1*RB2*RT2 + CB1*CB2*CT1*CT2*R1*R3*RB1*RB2*RT2
          + CB1*CB2*CT1*CT2*R1*R2*RB1*RB2*RT2 + CB1*CB2*CT1*CT2*R3*RB1*RB2*RF*RT1
          + CB1*CB2*CT1*CT2*R2*RB1*RB2*RF*RT1 + CB1*CB2*CT1*CT2*R2*R3*RB1*RB2*RF
          + CB1*CB2*CT1*CT2*R1*R3*RB1*RB2*RF + CB1*CB2*CT1*CT2*R1*R2*RB1*RB2*RF;
 
-        var NOM_I_AIm = CB2*CT1*CT2*RB2*RF*RT1*RT2 + CB1*CT1*CT2*RB1*RF*RT1*RT2
+        var NOM_AIm = CB2*CT1*CT2*RB2*RF*RT1*RT2 + CB1*CT1*CT2*RB1*RF*RT1*RT2
          + CB1*CT1*CT2*RB1*RB2*RT1*RT2 + CB2*CT1*CT2*R2*RB2*RT1*RT2
          + CB1*CT1*CT2*R2*RB1*RT1*RT2 + CB2*CT1*CT2*RB1*RB2*RF*RT2
          + CB1*CB2*CT2*RB1*RB2*RF*RT2 + CB2*CT1*CT2*R3*RB2*RF*RT2
@@ -376,7 +376,7 @@
          + CB1*CT1*CT2*R1*R2*RB1*RF + CB1*CB2*CT1*R2*R3*RB1*RB2
          + CB1*CB2*CT1*R1*R3*RB1*RB2 + CB1*CB2*CT1*R1*R2*RB1*RB2;
 
-        var NOM_I_BRe = CT1*CT2*RF*RT1*RT2 + CT1*CT2*RB2*RT1*RT2 + CT1*CT2*R2*RT1*RT2
+        var NOM_BRe = CT1*CT2*RF*RT1*RT2 + CT1*CT2*RB2*RT1*RT2 + CT1*CT2*R2*RT1*RT2
          + CB2*CT2*RB2*RF*RT2 + CT1*CT2*RB1*RF*RT2 + CB1*CT2*RB1*RF*RT2
          + CT1*CT2*R3*RF*RT2 + CT1*CT2*R1*RF*RT2 + CT1*CT2*RB1*RB2*RT2
          + CB1*CT2*RB1*RB2*RT2 + CT1*CT2*R3*RB2*RT2 + CB2*CT2*R2*RB2*RT2
@@ -396,43 +396,20 @@
          + CB2*CT1*R1*R3*RB2 + CB2*CT1*R1*R2*RB2 + CB1*CT1*R2*R3*RB1
          + CB1*CT1*R1*R3*RB1 + CB1*CT1*R1*R2*RB1;
 
-        var NOM_I_CIm = CT2*RF*RT2 + CT2*RB2*RT2 + CT2*R2*RT2 + CT1*RF*RT1 + CT1*RB2*RT1
+        var NOM_CIm = CT2*RF*RT2 + CT2*RB2*RT2 + CT2*R2*RT2 + CT1*RF*RT1 + CT1*RB2*RT1
          + CT1*R2*RT1 + CT2*RB2*RF + CB2*RB2*RF + CT1*RB1*RF + CB1*RB1*RF + CT2*R3*RF
          + CT1*R3*RF + CT2*R2*RF + CT1*R1*RF + CT1*RB1*RB2 + CB1*RB1*RB2 + CT1*R3*RB2
          + CB2*R2*RB2 + CT1*R1*RB2 + CT1*R3*RB1 + CT1*R2*RB1 + CB1*R2*RB1 + CT1*R2*R3
          + CT1*R1*R3 + CT1*R1*R2;
 
-        var NOM_I_DRe = RF + RB2 + R2;
+        var NOM_DRe = RF + RB2 + R2;
 
 
-        // loop through the selected frequency points and do calculation
-        for (j = 0; j < X.length; j++) {
-            // w = 2*pi*f
-            var w = 2*Math.PI*X[j];
-
-            var XDEN_XRe =  w*w*w*w*DEN_XRe;
-            var XDEN_AIm = -w*w*w*DEN_AIm;
-            var XDEN_BRe = -w*w*DEN_BRe;
-            var XDEN_CIm =  w*DEN_CIm;
-            var XDEN_DRe =  DEN_DRe;
-
-            var DENOMINATOR = ( (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XDEN_AIm + XDEN_CIm)*(XDEN_AIm + XDEN_CIm) );
-
-            var XNOM_I_XRe =  w*w*w*w*NOM_I_XRe;
-            var XNOM_I_AIm = -w*w*w*NOM_I_AIm;
-            var XNOM_I_BRe = -w*w*NOM_I_BRe;
-            var XNOM_I_CIm =  w*NOM_I_CIm;
-            var XNOM_I_DRe =  NOM_I_DRe;
-
-            var NUMERATOR_Re = (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_XRe + XDEN_BRe + XDEN_DRe) + (XNOM_I_AIm + XNOM_I_CIm)*(XDEN_AIm + XDEN_CIm);
-            var NUMERATOR_Im = (XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_AIm + XDEN_CIm);
-
-            var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
-            var phase   = Math.atan2(NUMERATOR_Im, NUMERATOR_Re) * 180 / Math.PI;
-
-            graph1.data[j][graph1.series] = 20*Math.log(voltage)/Math.log(10);
-            graph2.data[j][graph2.series] = phase;
-        }
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(
+            [ NOM_DRe, NOM_CIm, NOM_BRe, NOM_AIm, NOM_XRe ],
+            [ DEN_DRe, DEN_CIm, DEN_BRe, DEN_AIm, DEN_XRe ]
+        );
         currentGraph.update();
     }
 </SCRIPT>

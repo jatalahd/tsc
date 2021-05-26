@@ -174,7 +174,7 @@ function createFrequencies(deviation, startfreq, stopfreq, mode) {
     var f = startfreq;
     var z = f;
 
-    // create an array X[] of analysis frequency points 
+    // create an array X[] of analysis frequency points
     for (j = 0; j <= k; j++) {
         var limit = Math.pow(10,(j+1)) - adder;
         var increment = adder*Math.pow(10,j);
@@ -241,7 +241,7 @@ function logBPotModel(rotation) {
 function getRotationForPotType(rotation, type) {
     // Linear pot model as default
     var rot = rotation;
-    
+
     // LogA and LogB pot models selected per given type
     if ("LogA" == type) {
         rot = logAPotModel(rotation);
@@ -282,7 +282,7 @@ function createDyGraph(data, titleText, offset=0) {
                                                                      , maxNumberWidth: 7
                                                                      , digitsAfterDecimal: 3
                                                                      , axes: {  y: {valueRange: [-50+offset, 1+offset]}
-                                                                     , x: {logscale: true, ticker: 
+                                                                     , x: {logscale: true, ticker:
         function(min, max, pixels) {
             return [ { v: 10 }, { label_v: 10, label: '10' },
                      { v: 20 },
@@ -292,7 +292,7 @@ function createDyGraph(data, titleText, offset=0) {
                      { v: 60 },
                      { v: 70 },
                      { v: 80 },
-                     { v: 90 }, 
+                     { v: 90 },
                      { v: 100 }, { label_v: 100, label: '100' },
                      { v: 200 },
                      { v: 300 },
@@ -301,7 +301,7 @@ function createDyGraph(data, titleText, offset=0) {
                      { v: 600 },
                      { v: 700 },
                      { v: 800 },
-                     { v: 900 }, 
+                     { v: 900 },
                      { v: 1000 }, { label_v: 1000, label: '1000' },
                      { v: 2000 },
                      { v: 3000 },
@@ -310,7 +310,7 @@ function createDyGraph(data, titleText, offset=0) {
                      { v: 6000 },
                      { v: 7000 },
                      { v: 8000 },
-                     { v: 9000 }, 
+                     { v: 9000 },
                      { v: 10000 }, { label_v: 10000, label: '10000' },
                      { v: 20000 },
                      { v: 30000 },
@@ -319,13 +319,13 @@ function createDyGraph(data, titleText, offset=0) {
                      { v: 60000 },
                      { v: 70000 },
                      { v: 80000 },
-                     { v: 90000 }, 
+                     { v: 90000 },
                      { v: 100000 }, { label_v: 100000, label: '100000' }
             ]}}}});
     return grph;
 }
 
-// This function swaps display between two graphs
+/* This function swaps display between two tscGraphs */
 function swapGraphs(a = graph1, b = graph2) {
     currentGraph.div.style.display = "none";
     currentGraph = currentGraph === a ? b : a;
@@ -613,4 +613,85 @@ function tscGraph(xValues, xLabel = "X", yLabel = "Y", title = null, offset = 0,
     this.clearSnapshots();
 
     //console.log(this);
+}
+
+
+/*
+ * Given the coefficients of a linear, time invariant transfer function H(s),
+ * and a set of frequencies, this function calculates the magnitude and phase
+ * of H(jw), where w is the angular frequency (2*pi*f). The results are saved
+ * in the latest data series of the given tscGraphs. If both graphs are given
+ * then their sets of frequencies are assumed to be the same.
+ *
+ * The transfer function takes the form of increasing powers of s:
+ *     a0 + a1*s + a2*s^2 + a3*s^3 + ...
+ *     ---------------------------------
+ *     b0 + b1*s + b2*s^2 + b3*s^3 + ...
+ *
+ * The coefficients of the transfer function must be passed as parameters in
+ * array form.
+ *      numCoeffs: [ a0, a1, a2, a3, ... ]
+ *      denCoeffs: [ b0, b1, b2, b3, ... ]
+ *
+ */
+function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2) {
+
+    // Determine the number of frequencies to use for calculation.
+    var g = magGraph? magGraph : phaseGraph;
+    var n = g? g.data.length : 0;
+
+    for (var j = 0; j < n; j++) {
+        // Angular frequency w = 2*pi*f
+        var w = 2*Math.PI*g.data[j][0];
+
+        // Separately sum the real and imaginary parts of the numerator.
+        // Each term is multiplied by s=jw in increasing power. Even powers
+        // of jw are real, while odd powers are imaginary.
+        var NUM_Re_SUM = 0;
+        var NUM_Im_SUM = 0;
+        numCoeffs.forEach(function(value, k) {
+            if (k%2 != 0) {
+                NUM_Im_SUM += value * w**k * (-1)**(Math.floor(k/2));
+            } else {
+                NUM_Re_SUM += value * w**k * (-1)**(k/2);
+            }
+        });
+
+        // Separately sum the real and imaginary parts of the denominator.
+        var DEN_Re_SUM = 0;
+        var DEN_Im_SUM = 0;
+        denCoeffs.forEach(function(value, k) {
+            if (k%2 != 0) {
+                DEN_Im_SUM += value * w**k * (-1)**(Math.floor(k/2));
+            } else {
+                DEN_Re_SUM += value * w**k * (-1)**(k/2);
+            }
+        });
+
+        // Rearrange the expression so that all imaginary terms are in the
+        // numerator. This can be accomplished by multiplying the numerator
+        // and denominator by the denominator's complex conjugate.
+        //     A + jB     C - jD     (AC + BD) + j(BC - AD)
+        //     ------  *  ------  =  ----------------------
+        //     C + jD     C - jD           C*C + D*D
+        var NUMERATOR_Re = NUM_Re_SUM * DEN_Re_SUM + NUM_Im_SUM * DEN_Im_SUM;
+        var NUMERATOR_Im = NUM_Im_SUM * DEN_Re_SUM - NUM_Re_SUM * DEN_Im_SUM;
+        var DENOMINATOR  = DEN_Re_SUM * DEN_Re_SUM + DEN_Im_SUM * DEN_Im_SUM;
+
+        // Get the magnitude and phase. The numerator is a phasor and the
+        // denominator is real and positive. The magnitude may be found by
+        // using the Pythagorean theorem on the phasor, then scaling by a
+        // factor of 1/DENOMINATOR. The scale factor is irrelevant to phase,
+        // which may be found by figuring the inverse tangent of the phasor.
+        var magnitude = Math.sqrt(NUMERATOR_Re**2 + NUMERATOR_Im**2)/DENOMINATOR;
+        var phase     = Math.atan2(NUMERATOR_Im, NUMERATOR_Re);
+
+        // Record the magnitude in dB and the phase in degrees.
+        if (magGraph) {
+            magGraph.data[j][magGraph.series]     = 20*Math.log10(magnitude);
+        }
+        if (phaseGraph) {
+            phaseGraph.data[j][phaseGraph.series] = phase * 180 / Math.PI;
+        }
+    }
 }
