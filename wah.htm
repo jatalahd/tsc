@@ -159,14 +159,18 @@
         </CENTER>
       </TD>
       <TD rowspan="3" align="center" valign="top" width="700" class="tonestack-graph">
-        <div id="buttonContainer">
-          <INPUT type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;"> &nbsp;
-          <INPUT type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;"> &nbsp;
-          <INPUT type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+        <div id="buttonContainer" style="overflow: hidden; width: 100%;">
+          <div style="float: left; padding-left: 4px;">
+            Amplitude<input type="checkbox" onclick="swapGraphs();" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
-          <DIV id="graph" style="height: 480px; width: 640px;"></DIV>
-          <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
+          <div id="graph" style="height: 480px; width: 640px;"></div>
+          <div id="graph2" style="height: 480px; width: 640px; display:none;"></div>
+          <div id="legendDiv" class="tonestack-graph-value"></div>
         </div>
       </TD>
     </TR>
@@ -222,16 +226,16 @@
     var RB12;
     var maxValue;
 
-    var data = [];
-
     // create sliders and save the div-element of the slider
     var range_RM = createSlider('range_RM','value_RM');
 
-    // variable g will hold the graph object for synchronized updates
-    var g = null;
-
     // data for frequency points is created here and saved to array X
-    X = createFrequencies(90,10,100000,1);
+    var X = createFrequencies(90,10,100000,1);
+
+    // Graph objects
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Wah", 20);
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Wah", 0, "graph2");
+    var currentGraph = graph1;
 
     // set the default values to the component variables and input fields
     setDefaultValues();
@@ -365,22 +369,22 @@
     function sweepValues() {
         for (p = 0; p <= 10; p+=2) {
             range_RM.noUiSlider.set(p);
-            doCalc();
-            console.log(data);
             addSeries();
         }
     }
 
     // function calculates the frequency response for the given component values
     function doCalc() {
-        var row = [];
-        data = [];
 
         // treble pot rotation 0 - 10 from the slider component
         var RotMid = getRotationForPotType(range_RM.noUiSlider.get(), document.frm.RM_pot.value);
 
+        // Calculated part values
         var RG2 = 1+Math.round( RW*(1.0*RotMid/10.0) );
         var RG1 = Math.round( RW*(1.0 - 1.0*RotMid/10.0) );
+
+
+        // Transfer function denominator coefficients
 
 var DEN_ZRe = C*C2*C3*CB1*CI*L*RB12*RC1*RG1*RG2*RI*RQ*rpi1*rpi2
  + C*C2*C3*CB1*CI*L*RB1*RB12*RG1*RG2*RI*RQ*rpi1*rpi2
@@ -4263,6 +4267,7 @@ var DEN_DRe = RC1*RQ*rpi1*rpi2 + RB12*RQ*rpi1*rpi2 + RB1*RQ*rpi1*rpi2
  + B1*RB12*RB2*RC1*RQ + RB12*RB2*RC1*RQ + RB1*RB12*RC1*RQ + RB1*RB12*RB2*RQ;
 
 
+        // Transfer function numerator coefficients
 
 var NOM_ZRe = (- B1*C*C2*C3*CB1*CI*L*RB1*RB12*RC1*RF*RG1*RG2*RQ*rpi2)
  - B1*C*C2*C3*CB1*CI*L*RB1*RB12*RC1*RE2*RG1*RG2*RQ*rpi2
@@ -4728,31 +4733,22 @@ var NOM_DRe = 0;
             var NUMERATOR_Im = (XDEN_ZRe + XDEN_XRe + XDEN_BRe + XDEN_DRe)*(XNOM_I_YIm + XNOM_I_AIm + XNOM_I_CIm) - (XNOM_I_ZRe + XNOM_I_XRe + XNOM_I_BRe + XNOM_I_DRe)*(XDEN_YIm + XDEN_AIm + XDEN_CIm);
 
             var voltage = Math.sqrt(NUMERATOR_Re*NUMERATOR_Re + NUMERATOR_Im*NUMERATOR_Im)/DENOMINATOR;
-            var AvdB = 20*Math.log(voltage)/Math.log(10);
+            var AvdB    = 20*Math.log(voltage)/Math.log(10);
+            var phase   = Math.atan2(NUMERATOR_Im, NUMERATOR_Re) * 180 / Math.PI;
 
-            row = [];
-            row.push(X[j]);
-            // add possible snapshot data from storage
-            for (k = 1; k < series; k++) {
-                var dataValue = storeData[j][k];
-                if (maxValue < dataValue) {
-                    maxValue = dataValue;
-                }
-                row.push(dataValue);
-            }
             // follow the maximum amplitude for graphing purposes
             if (maxValue < AvdB) {
                 maxValue = AvdB;
             }
-            row.push( AvdB );
-            data.push(row);
-        }
 
-        if (!g) {
-            g = createDyGraph(data, "Wah", 20);
-        } else {
+            graph1.data[j][graph1.series] = AvdB;
+            graph2.data[j][graph2.series] = phase;
+        }
+        currentGraph.update();
+
+        if (currentGraph === graph1) {
             var yMax = maxValue + (5-maxValue%5) + 1;
-            g.updateOptions({file: data, labels: labelArray, colors: colorArray, axes: { y: {valueRange: [-30, yMax]}}});
+            currentGraph.graph.updateOptions({axes: { y: {valueRange: [-30, yMax]}}});
         }
     }
 </SCRIPT>
