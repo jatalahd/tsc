@@ -617,6 +617,39 @@ function tscGraph(xValues, xLabel = "X", yLabel = "Y", title = null, offset = 0,
 
 
 /*
+ * Given coefficients of a polynomial in s, and angular frequency w,
+ * this function calculates the sums of the real and imaginary parts.
+ *
+ * The polynomial must take the form of increasing powers of s:
+ *     a0 + a1*s + a2*s^2 + a3*s^3 + ...
+ *
+ * The coefficients must be passed as parameters in array form, like:
+ *     [ a0, a1, a2, a3, ... ]
+ */
+function sumCoeffs(coeffs, w) {
+    // Each term is multiplied by s=jw in increasing powers of s.
+    // Even powers of s are real, while odd powers are imaginary.
+    var sumRe = 0;
+    var sumIm = 0;
+    var multip = 1;
+    coeffs.forEach(function(value, k) {
+        if (k%2 != 0) {
+            sumIm += multip * value;
+            multip *= -w;
+        } else {
+            sumRe += multip * value;
+            multip *= w;
+        }
+    });
+
+    return {
+        re : sumRe,
+        im : sumIm,
+    };
+}
+
+
+/*
  * Given the coefficients of a linear, time invariant transfer function H(s),
  * and a set of frequencies, this function calculates the magnitude and phase
  * of H(jw), where w is the angular frequency (2*pi*f). The results are saved
@@ -644,33 +677,13 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         // Angular frequency w = 2*pi*f
         var w = 2*Math.PI*g.data[j][0];
 
-        // Separately sum the real and imaginary parts of the numerator.
-        // Each term is multiplied by s=jw in increasing power. Even powers
-        // of jw are real, while odd powers are imaginary.
-        var NUM_Re_SUM = 0;
-        var NUM_Im_SUM = 0;
-        var multip = 1;
-        numCoeffs.forEach(function(value, k) {
-            if (k%2 != 0) {
-                NUM_Im_SUM += multip * value * w**k;
-                multip *= -1;
-            } else {
-                NUM_Re_SUM += multip * value * w**k;
-            }
-        });
-
-        // Separately sum the real and imaginary parts of the denominator.
-        var DEN_Re_SUM = 0;
-        var DEN_Im_SUM = 0;
-        multip = 1
-        denCoeffs.forEach(function(value, k) {
-            if (k%2 != 0) {
-                DEN_Im_SUM += multip * value * w**k;
-                multip *= -1;
-            } else {
-                DEN_Re_SUM += multip * value * w**k;
-            }
-        });
+        // Sum the real and imaginary parts of the numerator and denominator.
+        var sum = sumCoeffs(numCoeffs, w);
+        NUM_Re_SUM = sum.re;
+        NUM_Im_SUM = sum.im;
+        sum = sumCoeffs(denCoeffs, w);
+        DEN_Re_SUM = sum.re;
+        DEN_Im_SUM = sum.im;
 
         // Rearrange the expression so that all imaginary terms are in the
         // numerator. This can be accomplished by multiplying the numerator
@@ -699,3 +712,4 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         }
     }
 }
+
