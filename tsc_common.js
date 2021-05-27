@@ -649,22 +649,26 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         // of jw are real, while odd powers are imaginary.
         var NUM_Re_SUM = 0;
         var NUM_Im_SUM = 0;
+        var multip = 1;
         numCoeffs.forEach(function(value, k) {
             if (k%2 != 0) {
-                NUM_Im_SUM += value * w**k * (-1)**(Math.floor(k/2));
+                NUM_Im_SUM += multip * value * w**k;
+                multip *= -1;
             } else {
-                NUM_Re_SUM += value * w**k * (-1)**(k/2);
+                NUM_Re_SUM += multip * value * w**k;
             }
         });
 
         // Separately sum the real and imaginary parts of the denominator.
         var DEN_Re_SUM = 0;
         var DEN_Im_SUM = 0;
+        multip = 1
         denCoeffs.forEach(function(value, k) {
             if (k%2 != 0) {
-                DEN_Im_SUM += value * w**k * (-1)**(Math.floor(k/2));
+                DEN_Im_SUM += multip * value * w**k;
+                multip *= -1;
             } else {
-                DEN_Re_SUM += value * w**k * (-1)**(k/2);
+                DEN_Re_SUM += multip * value * w**k;
             }
         });
 
