@@ -709,3 +709,33 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
     }
 }
 
+
+/*
+ * Function to set part values based on any parameters after the URL hash (#)
+ */
+function setCustomValues() {
+    var params = new URLSearchParams(location.hash.substring(1));
+    params.forEach(function(value, key) {
+        //console.log(key, value);
+        if (document.frm[key]) {
+            document.frm[key].value = value;
+        }
+    });
+    if (params.has("graphToggle") && document.frm.graphToggle) {
+        document.frm.graphToggle.checked = true;
+    }
+}
+
+
+/*
+ * This function combines all part values into query parameter form and places
+ * them into the URL. Then if the page is refreshed, or the URL is shared, the
+ * part values are remembered. To prevent an automatic page reload, the hash
+ * identifier (#) is used instead of the search identifier (?).
+ */
+function updateURL () {
+    var formData = new FormData(document.frm);
+    var searchParams = new URLSearchParams(formData);
+    location.hash = searchParams.toString();
+}
+
