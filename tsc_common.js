@@ -678,12 +678,8 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         var w = 2*Math.PI*g.data[j][0];
 
         // Sum the real and imaginary parts of the numerator and denominator.
-        var sum = sumCoeffs(numCoeffs, w);
-        NUM_Re_SUM = sum.re;
-        NUM_Im_SUM = sum.im;
-        sum = sumCoeffs(denCoeffs, w);
-        DEN_Re_SUM = sum.re;
-        DEN_Im_SUM = sum.im;
+        var sumNum = sumCoeffs(numCoeffs, w);
+        var sumDen = sumCoeffs(denCoeffs, w);
 
         // Rearrange the expression so that all imaginary terms are in the
         // numerator. This can be accomplished by multiplying the numerator
@@ -691,9 +687,9 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         //     A + jB     C - jD     (AC + BD) + j(BC - AD)
         //     ------  *  ------  =  ----------------------
         //     C + jD     C - jD           C*C + D*D
-        var NUMERATOR_Re = NUM_Re_SUM * DEN_Re_SUM + NUM_Im_SUM * DEN_Im_SUM;
-        var NUMERATOR_Im = NUM_Im_SUM * DEN_Re_SUM - NUM_Re_SUM * DEN_Im_SUM;
-        var DENOMINATOR  = DEN_Re_SUM * DEN_Re_SUM + DEN_Im_SUM * DEN_Im_SUM;
+        var NUMERATOR_Re = sumNum.re * sumDen.re + sumNum.im * sumDen.im;
+        var NUMERATOR_Im = sumNum.im * sumDen.re - sumNum.re * sumDen.im;
+        var DENOMINATOR  = sumDen.re**2 + sumDen.im**2;
 
         // Get the magnitude and phase. The numerator is a phasor and the
         // denominator is real and positive. The magnitude may be found by
@@ -705,7 +701,7 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
 
         // Record the magnitude in dB and the phase in degrees.
         if (magGraph) {
-            magGraph.data[j][magGraph.series]     = 20*Math.log10(magnitude);
+            magGraph.data[j][magGraph.series]     = 20 * Math.log10(magnitude);
         }
         if (phaseGraph) {
             phaseGraph.data[j][phaseGraph.series] = phase * 180 / Math.PI;
