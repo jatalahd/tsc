@@ -16,6 +16,7 @@ a.disabled {
 .navbar {
     border-bottom: 2px solid #3D9FDE;
     font-size: 13px;
+    background-color: white;
 }
 
 .navbar a {
@@ -39,6 +40,18 @@ a.disabled {
     color: #000;
 }
 
+.navbar-menu-item-icon {
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+    opacity: 0.5;
+}
+
+.navbar-menu-item.disabled .navbar-menu-item-icon {
+    opacity: 1;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -54,12 +67,6 @@ a.disabled {
     border: none;
     font-size: 13px;
     font-family: inherit;
-}
-
-.dropdown button .material-icons {
-    vertical-align: middle;
-    margin-left: 1px;
-    font-size: 16px;
 }
 
 .dropdown-content {
@@ -91,6 +98,11 @@ a.disabled {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.dropdown:hover .navbar-menu-item-icon {
+    opacity: 1;
+    filter: invert(100%);
 }
 
 .dropdown-content a:hover {
