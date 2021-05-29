@@ -668,6 +668,10 @@ function sumCoeffs(coeffs, w) {
  *
  */
 function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2) {
+    var dBMin;
+    var dBMax;
+    var degMin;
+    var degMax;
 
     // Determine the number of frequencies to use for calculation.
     var g = magGraph? magGraph : phaseGraph;
@@ -700,13 +704,36 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         var phase     = Math.atan2(NUMERATOR_Im, NUMERATOR_Re);
 
         // Record the magnitude in dB and the phase in degrees.
+        var dB  = 20 * Math.log10(magnitude);
+        var deg = phase * 180 / Math.PI;
         if (magGraph) {
-            magGraph.data[j][magGraph.series]     = 20 * Math.log10(magnitude);
+            magGraph.data[j][magGraph.series]     = dB;
         }
         if (phaseGraph) {
-            phaseGraph.data[j][phaseGraph.series] = phase * 180 / Math.PI;
+            phaseGraph.data[j][phaseGraph.series] = deg;
+        }
+
+        // Track the largest and smallest values in dB and degrees
+        if (dBMin == undefined || dB < dBMin) {
+            dBMin = dB;
+        }
+        if (dBMax == undefined || dB > dBMax) {
+            dBMax = dB;
+        }
+        if (degMin == undefined || deg < degMin) {
+            degMin = deg;
+        }
+        if (degMax == undefined || deg > degMax) {
+            degMax = deg;
         }
     }
+
+    return {
+        dBMin:  dBMin,
+        dBMax:  dBMax,
+        degMin: degMin,
+        degMax: degMax,
+    };
 }
 
 
