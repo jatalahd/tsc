@@ -35,7 +35,7 @@
 
 </HEAD>
 <BODY>
-<FORM name="frm">
+<FORM name="frm" onsubmit="applyValues(); return false;">
   <TABLE align="center">
     <TR>
       <TD colspan="3" align="left" class="navbar">
@@ -118,13 +118,13 @@
         <CENTER>
           <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" onclick="editValues();" class="tonestack-values-button">
           <INPUT type="button" name="apply" value="Apply" title="Apply values" id="id_apply" onclick="applyValues();" class="tonestack-values-button">
-          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues();" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues(); applyValues();" class="tonestack-values-button">
         </CENTER>
       </TD>
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
         <div id="buttonContainer" style="overflow: hidden; width: 100%;">
           <div style="float: left; padding-left: 4px;">
-            Amplitude<input type="checkbox" onclick="swapGraphs();" class="toggle">Phase
+            Amplitude<input type="checkbox" name="graphToggle" onclick="updateURL(); swapGraphs();" class="toggle">Phase
           </div>
           <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
           <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
@@ -140,14 +140,14 @@
     <TR>
       <TD colspan="2" class="tonestack-sliders">
         <BR>
-        <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="doCalc()">
+        <SPAN id="label_RB" class="tonestack-slider-label">RB <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
           <option value="Linear" selected="selected">Linear</option>
           <option value="LogA">LogA</option>
           <option value="LogB">LogB</option></select>
         </SPAN>
         <DIV id="range_RB" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
-        <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="doCalc()">
+        <SPAN id="label_RT" class="tonestack-slider-label">RT <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
           <option value="Linear" selected="selected">Linear</option>
           <option value="LogA">LogA</option>
           <option value="LogB">LogB</option></select>
@@ -187,8 +187,15 @@
     var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "James", 0, "graph2");
     var currentGraph = graph1;
 
-    // set the default values to the component variables and input fields
+    // Set default part values, plus any customizations
     setDefaultValues();
+    setCustomValues();
+
+    // Apply part values and display settings
+    applyValues();
+    if (document.frm.graphToggle.checked) {
+        swapGraphs();
+    }
 
     // start listening the onSlide event from the slider and run the analysis function
     range_RB.noUiSlider.on('slide', doCalc);
@@ -216,6 +223,7 @@
                 inputElements[i].style.backgroundColor = "#EBEBE4";
             }
         }
+        updateURL();
         doCalc();
     }
 
@@ -246,8 +254,8 @@
         document.frm.CB2.value = 220000;
         document.frm.CT1.value = 10000;
         document.frm.CT2.value = 10000;
-
-        applyValues();
+        document.frm.RB_pot.value = "Linear";
+        document.frm.RT_pot.value = "Linear";
     }
 
 
