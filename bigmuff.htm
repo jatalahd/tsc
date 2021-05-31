@@ -15,8 +15,8 @@
   <TABLE align="center">
     <TR>
       <TD colspan="3" align="left" class="navbar">
-        <DIV id="linkDiv" style="float: left;" class="navbar-stack"></DIV>
-        <DIV id="infoDiv" style="float: right;" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+        <DIV id="linkDiv" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
       </TD>
     </TR>
     <TR>
@@ -35,37 +35,37 @@
           <tbody>
             <tr>
               <td class="tonestack-value-label">RIN</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">R1</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">R2</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">RM</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RM" id="id_RM" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RM" id="id_RM" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">RL</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">C1</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">pF</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">C2</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" style="text-align: right" class="tonestack-value-input"></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" class="tonestack-value-input"></td>
               <td class="tonestack-value-unit">pF</td>
             </tr>
           </tbody>
@@ -77,7 +77,7 @@
         </CENTER>
       </TD>
       <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
-        <div id="buttonContainer" style="overflow: hidden; width: 100%;">
+        <div id="buttonContainer">
           <div style="float: left; padding-left: 4px;">
             Amplitude<input type="checkbox" name="graphToggle" onclick="updateURL(); swapGraphs();" class="toggle">Phase
           </div>
@@ -95,10 +95,12 @@
     <TR>
       <TD colspan="2" class="tonestack-sliders" style="padding-bottom: 100px;">
         <BR>
-        <SPAN id="label_RM" class="tonestack-slider-label">RM <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
-          <option value="Linear" selected="selected">Linear</option>
-          <option value="LogA">LogA</option>
-          <option value="LogB">LogB</option></select>
+        <SPAN id="label_RM" class="tonestack-slider-label">RM
+          <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
+            <option value="Linear" selected="selected">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
         </SPAN>
         <DIV id="range_RM" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RM" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>

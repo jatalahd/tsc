@@ -24,11 +24,11 @@ a.disabled {
 }
 
 .navbar-stack {
-
+    float: left;
 }
 
 .navbar-info {
-
+    float: right;
 }
 
 .navbar-menu-item {
@@ -186,6 +186,7 @@ a.disabled {
 
 .tonestack-value-input {
     width: 95%;
+    text-align: right;
 }
 
 .tonestack-value-unit {
@@ -245,7 +246,6 @@ a.disabled {
     width: 150px;
     margin: 0;
     text-align: center;
-    font-size: 14px;
 }
 
 .tonestack-slider-input {
@@ -259,7 +259,6 @@ a.disabled {
     width: 70px;
     margin: 0;
     text-align: center;
-    font-size: 12px;
 }
 
 .tonestack-graph-container {
@@ -269,6 +268,11 @@ a.disabled {
 .tonestack-graph {
     padding-top: 5px;
     border: 1px solid #ddd;
+}
+
+#buttonContainer {
+    width: 100%;
+    overflow: hidden;
 }
 
 .tonestack-graph-title {
