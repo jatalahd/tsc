@@ -241,14 +241,24 @@ a.disabled {
 }
 
 .tonestack-slider-label {
+    display: inline-block;
+    width: 150px;
+    margin: 0;
+    text-align: center;
     font-size: 14px;
 }
 
 .tonestack-slider-input {
-
+    display: inline-block;
+    width: 300px;
+    margin: 0 auto 0px;
 }
 
-.tonstack-slider-value {
+.tonestack-slider-value {
+    display: inline-block;
+    width: 70px;
+    margin: 0;
+    text-align: center;
     font-size: 12px;
 }
 
