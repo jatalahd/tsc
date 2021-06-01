@@ -12,18 +12,18 @@
 </HEAD>
 <BODY>
 <FORM name="frm" onsubmit="applyValues(); return false;">
-  <TABLE align="center">
+  <TABLE class="tonestack-layout">
     <TR>
-      <TD colspan="3" align="left" class="navbar">
+      <TD colspan="3" class="navbar">
         <DIV id="linkDiv" class="navbar-stack"></DIV>
         <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
       </TD>
     </TR>
     <TR>
-      <TD align="center" valign="top" width="400" class="tonestack-image">
+      <TD class="tonestack-image">
         <IMG src="marshall2_pic.png"></IMG>
       </TD>
-      <TD align="right" valign="top" width="180" class="tonestack-values">
+      <TD class="tonestack-values">
         <table class="tonestack-values-table">
           <thead>
             <tr>
@@ -86,18 +86,18 @@
           <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues(); applyValues();" class="tonestack-values-button">
         </CENTER>
       </TD>
-      <TD rowspan="2" align="center" valign="top" width="700" class="tonestack-graph">
-        <div id="buttonContainer">
-          <div style="float: left; padding-left: 4px;">
+      <TD rowspan="2" class="tonestack-graph-panel">
+        <div class="tonestack-bar">
+          <div class="tonestack-graph-toggle">
             Amplitude<input type="checkbox" name="graphToggle" onclick="updateURL(); swapGraphs();" class="toggle">Phase
           </div>
-          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button" style="float: right;">
-          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button" style="float: right;">
-          <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button" style="float: right;">
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button tonestack-graph-button">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
-          <div id="graph" style="height: 480px; width: 640px;"></div>
-          <div id="graph2" style="height: 480px; width: 640px; display:none;"></div>
+          <div id="graph" class="tonestack-graph"></div>
+          <div id="graph2" class="tonestack-graph hidden"></div>
           <div id="legendDiv" class="tonestack-graph-value"></div>
         </div>
       </TD>
