@@ -9,6 +9,7 @@
 <LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
 <SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
 </HEAD>
 <BODY>
 <FORM name="frm" onsubmit="applyValues(); return false;">
@@ -82,12 +83,12 @@
             <tr>
               <td class="tonestack-value-label">CB</td>
               <td class="tonestack-value-value"><INPUT type="text" name="CB" id="id_CB" size="7" readonly="readonly" class="tonestack-value-input"></td>
-              <td class="tonestack-value-unit">pF</td>
+              <td class="tonestack-value-unit">F</td>
             </tr>
             <tr>
               <td class="tonestack-value-label">CT</td>
               <td class="tonestack-value-value"><INPUT type="text" name="CT" id="id_CT" size="7" readonly="readonly" class="tonestack-value-input"></td>
-              <td class="tonestack-value-unit">pF</td>
+              <td class="tonestack-value-unit">F</td>
             </tr>
           </tbody>
         </table>
@@ -185,17 +186,17 @@
 
     // this function is called when the Apply-button is clicked
     function applyValues() {
-        RIN     = parseInt(document.frm.RIN.value);
-        R1      = parseInt(document.frm.R1.value);
-        RBass   = parseInt(document.frm.RB.value);
-        R2      = parseInt(document.frm.R2.value);
-        R3      = parseInt(document.frm.R3.value);
-        R4      = parseInt(document.frm.R4.value);
-        R5      = parseInt(document.frm.R5.value);
-        RTreble = parseInt(document.frm.RT.value);
-        RF      = parseInt(document.frm.RF.value);
-        CB      = (1e-12)*parseInt(document.frm.CB.value);
-        CT      = (1e-12)*parseInt(document.frm.CT.value);
+        RIN     = resistors.parseElement(document.frm.RIN);
+        R1      = resistors.parseElement(document.frm.R1);
+        RBass   = resistors.parseElement(document.frm.RB);
+        R2      = resistors.parseElement(document.frm.R2);
+        R3      = resistors.parseElement(document.frm.R3);
+        R4      = resistors.parseElement(document.frm.R4);
+        R5      = resistors.parseElement(document.frm.R5);
+        RTreble = resistors.parseElement(document.frm.RT);
+        RF      = resistors.parseElement(document.frm.RF);
+        CB      = capacitors.parseElement(document.frm.CB);
+        CT      = capacitors.parseElement(document.frm.CT);
 
         // set the input fields to readonly mode with gray background
         var inputElements = document.forms["frm"].getElementsByTagName('input');
@@ -225,17 +226,17 @@
     // This function is called when the Set default values -button is clicked.
     // It sets the hard-coded values to the input fields and applies the values.
     function setDefaultValues() {
-        document.frm.RIN.value = 600;
-        document.frm.R1.value  = 22000;
-        document.frm.R2.value  = 22000;
-        document.frm.R3.value  = 22000;
-        document.frm.R4.value  = 10000;
-        document.frm.R5.value  = 10000;
-        document.frm.RB.value  = 100000;
-        document.frm.RT.value  = 100000;
-        document.frm.RF.value  = 600;
-        document.frm.CB.value  = 47000;
-        document.frm.CT.value  = 560;
+        document.frm.RIN.value    = 600;
+        document.frm.R1.value     = "22k";
+        document.frm.R2.value     = "22k";
+        document.frm.R3.value     = "22k";
+        document.frm.R4.value     = "10k";
+        document.frm.R5.value     = "10k";
+        document.frm.RB.value     = "100k";
+        document.frm.RT.value     = "100k";
+        document.frm.RF.value     = 600;
+        document.frm.CB.value     = "47n";
+        document.frm.CT.value     = "560p";
         document.frm.RB_pot.value = "Linear";
         document.frm.RT_pot.value = "Linear";
     }
