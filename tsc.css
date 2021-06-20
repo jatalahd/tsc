@@ -204,6 +204,11 @@ a.disabled {
 .tonestack-value-input {
     width: 95%;
     text-align: right;
+    background-color: white;
+}
+
+.tonestack-value-input:read-only {
+    background-color: #ebebe4;
 }
 
 .tonestack-value-unit {

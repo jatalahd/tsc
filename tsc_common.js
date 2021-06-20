@@ -762,6 +762,7 @@ function setCustomValues() {
  */
 function updateURL () {
     var formData = new FormData(document.frm);
+    formData.delete("apply");
     var searchParams = new URLSearchParams(formData);
     location.hash = searchParams.toString();
 }

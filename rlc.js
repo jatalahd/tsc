@@ -1,314 +1,311 @@
 /*
- * rlc: Objects to parse resistance, capacitance, and inductance values
+ * Objects to support text input of values using multipliers or RKM codes
  * ----------------------------------------------------------------------------
  *
- * This script creates three objects (resistors, capacitors, and inductors) for
- * parsing text into numbers. RKM codes and common multipliers like "k" (1000x)
- * are interpreted and reflected in the returned value. Each of the objects has
- * the same properties and methods.
+ * This script creates objects for parsing text into numeric values. RKM codes
+ * and common multipliers like "k" (kilo) are interpreted and reflected in the
+ * resulting value. Each of the objects has the same properties and methods.
  *
- * Note that if the parsed text contains only a number, for capacitors the unit
- * is assumed to be pF. For inductors, the unit is assumed to be mH.
+ * The base class, TSCValue, can validate and parse unitless values. All values
+ * must be positive.
+ *
+ *   Example format   Integer   Float
+ *   ---------------  -------  -------
+ *   Numeric only        2500   0.0005
+ *   With multiplier     2.5k     500n
+ *   RKM code             2K5       m5 
+ *
+ * Derived classes TSCResistance, TSCCapacitance, and TSCInductance can parse
+ * text representing ohms, farads, and henries. Note that for capacitance, if
+ * the parsed text contains only a number, the unit is assumed to be pF. For
+ * inductance, the unit is assumed to be mH.
+ *
+ * For convenience, each class has been instantiated in global variables
+ * tscValue, tscResistance, tscCapacitance, and tscInductance.
  *
  *
  * -- Properties --
  *
- * value:     numeric value of the part in ohms, farads, or henries
+ * value:           numeric value of the parsed text
  *
- * formatted: a unit-less, cleaned-up version of the text, including multiplier
+ * formatted:       a cleaned-up version of the parsed text
  *
  *
  * -- Methods --
  *
- * parse:        Given text, returns the value.
+ * parse:           Parses the given text, and sets the value and formatted
+ *                  properties accordingly. Returns true for valid text, and
+ *                  false otherwise.
  *
- * parseElement: Given a text input element, parses its text, updates its text
- *               with a formatted version, and returns the value.
+ * parseElement:    Given a text input element, parses its text, updates its
+ *                  text with a cleaned-up version, and returns the value.
+ *
+ * validateElement: Given a text input element, parses its text. Returns true
+ *                  for valid text. Otherwise, sets a helpful message for the
+ *                  user and returns false.
  *
  */
 
-var resistors  = [];
-var capacitors = [];
-var inductors  = [];
 
 
+/*
+ * TSCValue: Base class for parsing unitless values, and containing properties
+ * and methods for inheritance by classes using units.
+ */
+function TSCValue () {
+    // Derived classes can override these as needed.
 
-resistors.parse = function(str) {
+    // The multipliers properties pairs characters to multiplication factors.
+    this.multipliers = {
+        p      : 1e-12,
+        P      : 1e-12,
+        n      : 1e-9,
+        N      : 1e-9,
+        u      : 1e-6,
+        U      : 1e-6,
+        \u00b5 : 1e-6,
+        \u03bc : 1e-6,
+        m      : 1e-3,
+        k      : 1e3,
+        K      : 1e3,
+        M      : 1e6,
+        g      : 1e9,
+        G      : 1e9,
+        t      : 1e12,
+        T      : 1e12,
+    };
 
-    // Remove all spaces, and any leading sign or trailing decimal point
+
+    // The patternDecimal property defines a regular expression used to
+    // determine the allowable patterns for an integer or floating point
+    // value followed by a multiplier. The first group must capture the
+    // numeric portion, and the second group must capture the multiplier.
+
+    // Allow all multipliers by default
+    var mults = Object.keys(this.multipliers).join("");
+    this.patternDecimal = new RegExp("^(\\d*\\.\\d*|\\d+)([" + mults + "])$");
+
+
+    // The patternRKM property defines a regular expression used to determine
+    // the allowable patterns for RKM codes not already covered by the
+    // patternDecimal pattern. The integer portion(s) of the code must be
+    // captured by the first and third groups. Although both of these groups
+    // are specified as optional in the regular expression, the parsing code
+    // will test to ensure that at least one of them is non-empty. The
+    // multiplier must be captured by the second group.
+    this.patternRKM = new RegExp("^(\\d+)?([" + mults + "])(\\d+)?$");
+
+
+    // The tip property defines text to show the user when invalid input is
+    // detected.
+    this.tip = "Enter a value";
+
+
+    // The prefilter property specifies an optional function to perform any
+    // custom manipulation of the text prior to parsing. The text is passed
+    // as the parameter, and the function must return the filtered version.
+    this.prefilter = undefined;
+
+
+    // The defaultMultiplier property specifies a multiplier character to use
+    // by default if the text does not specify one. This property is optional.
+    this.defaultMultiplier = null;
+};
+
+
+TSCValue.prototype.parse = function(str) {
+
+    // Set default results
+    this.value = 0;
+    this.formatted = "0";
+
+    // Fail immediately if not given a string
+    if (typeof str != "string") return false;
+
+    // Remove all spaces and leading plus, and unneeded decimal points
     str = str.replace(/ +?/g, "")
-             .replace(/^[\+\-]/, "")
-             .replace(/\.$/, "");
+             .replace(/^[\+]/, "")
+             .replace(/\.([^\d])/g, "$1");
 
-    // Remove any units and convert "meg" (used in SPICE) to M
-    str = str.replace(/ohm[s]?$/i, "")
-             .replace(/\u2126/, "")
-             .replace(/meg$/i, "M");
+    // Do any custom filtering defined for this instance.
+    if (this.prefilter) {
+        str = this.prefilter(str);
+    }
 
-    // Check for known formats. It is assumed that "m" means mega, not milli.
-    var match = str.match(/^(\d+)?(\.(\d+))?([kmgt])$/i);
-    if (match && (match[1] || match[3])) {
+    // Empty strings are accepted as zero.
+    if (!str) return true;
+
+    // Reject leading negative sign
+    if (str.charAt(0) == "-") return false;
+
+    var multiplier;
+    var match = str.match(this.patternDecimal);
+    if (match) {
         // Integer or decimal point float, followed by a multiplier.
-        // No commas allowed. 0.18, 18, 18R, 1.8k, 18K
-        resistors.formatted = str;
-        resistors.value = parseFloat(str);
-
-        // Use the multiplier
-        if (match[4] == "k" || match[4] == "K") {
-            resistors.value *= 1000;
-        } else if (match[4] == "m" || match[4] == "M") {
-            resistors.value *= 1000000;
-        } else if (match[4] == "g" || match[4] == "G") {
-            resistors.value *= 1000000000;
-        } else if (match[4] == "t" || match[4] == "T") {
-            resistors.value *= 1000000000000;
-        }
-    } else if (match = str.match(/^(\d+)?([rkmgt])(\d+)$/i)) {
+        // No commas allowed. 18k, 1.8u, etc
+        this.value = parseFloat(match[1]);
+        multiplier = match[2];
+        this.formatted = str.replace(/^\./, "0.")
+    } else if ((match = str.match(this.patternRKM)) && (match[1] || match[3])) {
         // RKM codes not matched earlier, like R5, 10R2, 1K87, 25M5
-        resistors.formatted = str;
-        resistors.value = parseFloat((match[1] || "0") + "." + match[3]);
+        this.value = parseFloat((match[1] || "0") + "." + (match[3] || "0"));
+        multiplier = match[2];
+        this.formatted = str;
+    } else if (!isNaN(str)) {
+        // Purely numeric
 
-        // Use the multiplier
-        if (match[2] == "k" || match[2] == "K") {
-            resistors.value *= 1000;
-        } else if (match[2] == "m" || match[2] == "M") {
-            resistors.value *= 1000000;
-        } else if (match[2] == "g" || match[2] == "G") {
-            resistors.value *= 1000000000;
-        } else if (match[2] == "t" || match[2] == "T") {
-            resistors.value *= 1000000000000;
+        this.value = parseFloat(str);
+        this.formatted = this.value.toString();
+        if (this.defaultMultiplier) {
+            multiplier = this.defaultMultiplier;
+            this.formatted += multiplier;
         }
     } else {
-        // Default behavior
-        resistors.value = parseFloat(str);
-        if (resistors.value && resistors.value > 0) {
-            resistors.formatted = resistors.value.toString();
-        } else {
-            resistors.value = 0;
-            resistors.formatted = "0";
-        }
+        // Unrecognized format
+        return false;
     }
 
-    return resistors.value;
-}
-
-resistors.parseElement = function(el) {
-    // Convert the element text to a number
-    resistors.parse(el.value);
-
-    // Update the element with the formatted value
-    if (resistors.formatted) {
-        el.value = resistors.formatted;
-    }
-    return resistors.value;
-}
-
-
-
-capacitors.parse = function(str) {
-
-    // Remove all spaces, and any leading sign or trailing decimal point
-    str = str.replace(/ +?/g, "")
-             .replace(/^[\+\-]/, "")
-             .replace(/\.$/, "");
-
-    // Simplify any units to "F"
-    str = str.replace(/f(arad)?s?$/i, "F");
-
-    // Check for known formats
-    var match = str.match(/^(\d+)?(\.(\d+))?([pPnNuUmM\u03bc])F?$/);
-    if (match && (match[1] || match[3])) {
-        // Integer or decimal point float, followed by a multiplier.
-        // No commas allowed. 1.8u, 18n
-        capacitors.formatted = str.replace(/F$/, "");
-        capacitors.value = parseFloat(str);
-
-        // Use the multiplier
-        if (match[4] == "m" || match[4] == "M") {
-            capacitors.value *= 1e-3;
-        } else if (match[4] == "u" || match[4] == "U" || match[4] == "\u03bc") {
-            capacitors.value *= 1e-6;
-        } else if (match[4] == "n" || match[4] == "N") {
-            capacitors.value *= 1e-9;
-        } else if (match[4] == "p" || match[4] == "P") {
-            capacitors.value *= 1e-12;
-        }
-    } else if (match = str.match(/^(\d+)?([fFpPnNuUmM\u03bc])(\d+)$/i)) {
-        // RKM codes not matched earlier, like F5, 2u2
-        capacitors.formatted = str;
-        capacitors.value = parseFloat((match[1] || "0") + "." + match[3]);
-
-        // Use the multiplier
-        if (match[2] == "m" || match[2] == "M") {
-            capacitors.value *= 1e-3;
-        } else if (match[2] == "u" || match[2] == "U") {
-            capacitors.value *= 1e-6;
-        } else if (match[2] == "n" || match[2] == "N") {
-            capacitors.value *= 1e-9;
-            capacitors.value *= 0.000000001;
-        } else if (match[2] == "p" || match[2] == "P") {
-            capacitors.value *= 1e-12;
-        }
-    } else if (match = str.match(/^(\d+)?(\.(\d+))?F$/)) {
-        // No multiplier, but ends with "F". 1.8F, 18F
-        capacitors.formatted = str.replace(/F$/, "");
-        capacitors.value = parseFloat(str);
-    } else if (match = str.match(/^(\d+)?(\.(\d+))?$/)) {
-        // Integer or float without multiplier or units. Assume pF.
-        capacitors.formatted = str + "p";
-        capacitors.value = parseFloat(str) * 1e-12;
-    } else {
-        capacitors.formatted = "0";
-        capacitors.value = 0;
+    // Recognized format. Use its multiplier.
+    if (this.multipliers[multiplier]) {
+        this.value *= this.multipliers[multiplier];
     }
 
-    return capacitors.value;
-}
-
-capacitors.parseElement = function(el) {
-    // Convert the element text to a number
-    capacitors.parse(el.value);
-
-    // Update the element with the formatted value
-    if (capacitors.formatted) {
-        el.value = capacitors.formatted;
-    }
-    return capacitors.value;
+    return true;
 }
 
 
+/*
+ * Utility method for performing validity tests. Given some text, and whether
+ * the text is expected to be valid, logs the test result to the console.
+ */
+TSCValue.prototype.test = function(str, expectedValidity = true) {
+    var valid = this.parse(str);
+    var passed = (valid == expectedValidity);
+    console.log(this.constructor.name + " test " + (passed? "OK" : "FAIL"),
+                str, this.formatted, this.value, valid);
+    return passed;
+}
 
-inductors.parse = function(str) {
 
-    // Remove all spaces, and any leading sign or trailing decimal point
-    str = str.replace(/ +?/g, "")
-             .replace(/^[\+\-]/, "")
-             .replace(/\.$/, "");
+TSCValue.prototype.parseElement = function(el) {
+    // Parse the element text
+    this.parse(el.value);
 
-    // Simplify any units to "H"
-    str = str.replace(/h(enry)?(enries)?s?$/i, "H");
-
-    // Check for known formats
-    var match = str.match(/^(\d+)?(\.(\d+))?([pPnNuUmM])H?$/);
-    if (match && (match[1] || match[3])) {
-        // Integer or decimal point float, followed by a multiplier.
-        // No commas allowed. 1.8u, 18n
-        inductors.formatted = str.replace(/H$/, "");
-        inductors.value = parseFloat(str);
-
-        // Use the multiplier
-        if (match[4] == "m" || match[4] == "M") {
-            inductors.value *= 1e-3;
-        } else if (match[4] == "u" || match[4] == "U" || match[4] == "\u03bc") {
-            inductors.value *= 1e-6;
-        } else if (match[4] == "n" || match[4] == "N") {
-            inductors.value *= 1e-9;
-        } else if (match[4] == "p" || match[4] == "P") {
-            inductors.value *= 1e-12;
-        }
-    } else if (match = str.match(/^(\d+)?([fFpPnNuUmM])(\d+)$/i)) {
-        // RKM codes not matched earlier, like F5, 2u2
-        inductors.formatted = str;
-        inductors.value = parseFloat((match[1] || "0") + "." + match[3]);
-
-        // Use the multiplier
-        if (match[2] == "m" || match[2] == "M") {
-            inductors.value *= 1e-3;
-        } else if (match[2] == "u" || match[2] == "U") {
-            inductors.value *= 1e-6;
-        } else if (match[2] == "n" || match[2] == "N") {
-            inductors.value *= 1e-9;
-        } else if (match[2] == "p" || match[2] == "P") {
-            inductors.value *= 1e-12;
-        }
-    } else if (match = str.match(/^(\d+)?(\.(\d+))?H$/)) {
-        // No multiplier, but ends with "H". 1.8H, 18H
-        inductors.formatted = str.replace(/H$/, "");
-        inductors.value = parseFloat(str);
-    } else if (match = str.match(/^(\d+)?(\.(\d+))?$/)) {
-        // Integer or float without multiplier or units. Assume mH.
-        inductors.formatted = str + "m";
-        inductors.value = parseFloat(str) * 1e-3;
-    } else {
-        inductors.formatted = "0";
-        inductors.value = 0;
+    if (this.formatted) {
+        // Update the element with the formatted value
+        el.value = this.formatted;
     }
 
-    return inductors.value;
+    return this.value;
 }
 
-inductors.parseElement = function(el) {
-    // Convert the element text to a number
-    inductors.parse(el.value);
 
-    // Update the element with the formatted value
-    if (inductors.formatted) {
-        el.value = inductors.formatted;
+TSCValue.prototype.validateElement = function(el) {
+
+    // Check for valid format
+    if (this.parse(el.value)) {
+        el.setCustomValidity("");
+        return true;
     }
-    return inductors.value;
+
+    // Validation failed
+    el.setCustomValidity(this.tip);
+    //console.log("validateElement", "failed", el.validity.customError, this.tip);
+    el.reportValidity();
+    return false;
 }
 
 
 
-/* Tests: resistors
-resistors.test = function(s) {
-    resistors.parse(s);
-    console.log("resistors:", s, resistors.formatted, resistors.value);
-}
-resistors.test("1k5 ohms");
-resistors.test("1k5 Ohm");
-resistors.test("1");
-resistors.test("1.");
-resistors.test("0.1");
-resistors.test("0.1T");
-resistors.test("0.1t");
-resistors.test("1G");
-resistors.test("1g");
-resistors.test("1.2M");
-resistors.test("1.2m");
-resistors.test("1.2Meg");
-resistors.test("1K");
-resistors.test("1k");
-*/
+/*
+ * TSCResistance: Class containing all customizations for resistance values
+ */
+function TSCResistance() {
+    TSCValue.call(this);
 
-/* Tests: capacitors
-capacitors.test = function(s) {
-    capacitors.parse(s);
-    console.log("capacitors:", s, capacitors.formatted, capacitors.value);
-}
-capacitors.test("1.5 F");
-capacitors.test("1.5 farad ");
-capacitors.test(" 1.5 Farads");
-capacitors.test("1");
-capacitors.test("1.");
-capacitors.test("0.1");
-capacitors.test("0.1M");
-capacitors.test("0.1mF");
-capacitors.test("1U");
-capacitors.test("1u");
-capacitors.test("1.2N");
-capacitors.test("1.2n");
-capacitors.test("1P");
-capacitors.test("1p");
-*/
+    this.prefilter = function(str) {
+        // Remove any units
+        str = str.replace(/ohm[s]?$/i, "")
+                 .replace(/\u2126$/, "");
 
-/* Tests: inductors
-inductors.test = function(s) {
-    inductors.parse(s);
-    console.log("inductors:", s, inductors.formatted, inductors.value);
+        // Capitalize mega or giga multipliers (and convert "meg" used in SPICE.)
+        // It is assumed that "m" means mega, not milli.
+        str = str.replace(/meg$/i, "M")
+                 .replace("m", "M")
+                 .replace("g", "G");
+
+        return str;
+    }
+
+    this.patternDecimal = /^(\d*\.\d*|\d+)([kmg])$/i;
+    this.patternRKM = /^(\d+)?([rkmg])(\d+)?$/i;
+    this.tip = "Enter a resistance value.\nExamples: 2200, 2.2k, 2K2";
 }
-inductors.test("1.5 H");
-inductors.test("1.5 Henries ");
-inductors.test(" 1.5 henry");
-inductors.test("1H");
-inductors.test("1.");
-inductors.test("0.1");
-inductors.test("0.1M");
-inductors.test("0.1m");
-inductors.test("1U");
-inductors.test("1u");
-inductors.test("1.2N");
-inductors.test("1.2n");
-inductors.test("1P");
-inductors.test("1p");
-*/
+TSCResistance.prototype = Object.create(TSCValue.prototype);
+TSCResistance.prototype.constructor = TSCResistance;
+
+
+
+/*
+ * TSCCapacitance: Class containing all customizations for capacitance values
+ */
+function TSCCapacitance() {
+    TSCValue.call(this);
+
+    this.prefilter = function(str) {
+        // Simplify any unit to single letter
+        str = str.replace(/(f)(arad)?s?$/i, "$1");
+        return str;
+    }
+
+    this.patternDecimal = /^(\d*\.\d*|\d+)([pPnNuU\u00b5\u03bcmMfF])[fF]?$/;
+    this.patternRKM     = /^(\d+)?([pPnNuU\u00b5\u03bcmMfF])(\d+)?$/
+    this.tip = "Enter a capacitance value.\nExamples: 2200p, 2.2n, 2N2";
+
+    // If no multiplier is given, assume pico. Use "F" for whole Farads.
+    this.defaultMultiplier = "p";
+    this.multipliers.f = 1;
+    this.multipliers.F = 1;
+
+    // Capital "M" is acceptable but only means milli, never mega.
+    this.multipliers.M = 1e-3;
+}
+TSCCapacitance.prototype = Object.create(TSCValue.prototype);
+TSCCapacitance.prototype.constructor = TSCCapacitance;
+
+
+
+/*
+ * TSCInductance: Class containing all customizations for inductance values
+ */
+function TSCInductance() {
+    TSCValue.call(this);
+
+    this.prefilter = function(str) {
+        // Simplify any units to single letter
+        str = str.replace(/(h)(enry|enrie)?s?$/i, "$1");
+        return str;
+    }
+
+    this.patternDecimal = /^(\d*\.\d*|\d+)([uU\u00b5\u03bcmMhH])[hH]?$/;
+    this.patternRKM     = /^(\d+)?([uU\u00b5\u03bcmMhH])(\d+)?$/
+    this.tip = "Enter an inductance.\nExamples: 2200m, 2.2H, 2H2";
+
+    // If no multiplier is given, assume milli. Use "H" for whole Henries.
+    this.defaultMultiplier = "m";
+    this.multipliers.h = 1;
+    this.multipliers.H = 1;
+
+    // Capital "M" is acceptable but only means milli, never mega.
+    this.multipliers.M = 1e-3;
+}
+TSCInductance.prototype = Object.create(TSCValue.prototype);
+TSCInductance.prototype.constructor = TSCInductance;
+
+
+
+var tscValue       = new TSCValue;
+var tscResistance  = new TSCResistance;
+var tscCapacitance = new TSCCapacitance;
+var tscInductance  = new TSCInductance;
+
