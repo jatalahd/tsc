@@ -767,3 +767,71 @@ function updateURL () {
     location.hash = searchParams.toString();
 }
 
+
+
+function initializeForm() {
+    const f = document.frm;
+
+    // Add form validation functions
+    var els = f.getElementsByTagName("input");
+    for (var i = 0; els[i]; i++) {
+        if (els[i].classList.contains("resistance")) {
+            els[i].addEventListener("input", function(event) {
+                tscResistance.validateElement(event.target);
+            });
+        } else if (els[i].classList.contains("capacitance")) {
+            els[i].addEventListener("input", function(event) {
+                tscCapacitance.validateElement(event.target);
+            });
+        } else if (els[i].classList.contains("inductance")) {
+            els[i].addEventListener("input", function(event) {
+                tscInductance.validateElement(event.target);
+            });
+        } else if (els[i].classList.contains("tonestack-value-input")) {
+            els[i].addEventListener("input", function(event) {
+                tscValue.validateElement(event.target);
+            });
+        }
+    }
+
+    // Add potentiometer type selection functions
+    els = f.getElementsByClassName("tonestack-select-pot");
+    for (var i = 0; els[i]; i++) {
+        els[i].addEventListener("change", function(event) {
+            updateURL();
+            doCalc();
+        });
+    }
+
+    // Add potentiometer slider functions
+    els = f.getElementsByClassName("tonestack-slider-input");
+    for (var i = 0; els[i]; i++) {
+        if (els[i].noUiSlider) {
+            els[i].noUiSlider.on("slide", doCalc);
+        }
+    }
+
+    // Assign form button functions
+    f.edit.addEventListener("click", editValues);
+    f.defaults.addEventListener("click", function(event) {
+        setDefaultValues();
+        applyValues();
+    });
+
+    // Assign graph control functions
+    f.graphToggle.addEventListener("click", function(event) {
+        updateURL();
+        swapGraphs();
+    });
+    f.Clear.addEventListener("click", clearSnapshots);
+    f.Snapshot.addEventListener("click", addSeries);
+    f.Sweep.addEventListener("click", sweepValues);
+
+    // Assign form submit function
+    f.addEventListener("submit", function(event) {
+        applyValues();
+        event.preventDefault();
+    });
+}
+
+
