@@ -8,10 +8,11 @@
 <LINK href="tsc.css" rel="stylesheet"/>
 <LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
 <SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
 <SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
 </HEAD>
 <BODY>
-<FORM name="frm" onsubmit="applyValues(); return false;">
+<FORM name="frm">
   <TABLE class="tonestack-layout">
     <TR>
       <TD colspan="3" class="navbar">
@@ -34,81 +35,81 @@
           </thead>
           <tbody>
             <tr>
-              <td class="tonestack-value-label">RIN</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RIN">RIN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">RT</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RT">RT</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">RB</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RB">RB</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">RM</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RM" id="id_RM" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RM">RM</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RM" id="id_RM" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">R1</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RB3" id="id_RB3" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RB3">R1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RB3" id="id_RB3" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">R2</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RT3" id="id_RT3" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RT3">R2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT3" id="id_RT3" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">R3</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RB4" id="id_RB4" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RB4">R3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RB4" id="id_RB4" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">R4</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RM3" id="id_RM3" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RM3">R4</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RM3" id="id_RM3" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">RL</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input"></td>
+              <td class="tonestack-value-label"><label for="id_RL">RL</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
               <td class="tonestack-value-unit">&Omega;</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">C1</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="CT1" id="id_CT1" size="7" readonly="readonly" class="tonestack-value-input"></td>
-              <td class="tonestack-value-unit">pF</td>
+              <td class="tonestack-value-label"><label for="id_CT1">C1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="CT1" id="id_CT1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">C2</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="CB1" id="id_CB1" size="7" readonly="readonly" class="tonestack-value-input"></td>
-              <td class="tonestack-value-unit">pF</td>
+              <td class="tonestack-value-label"><label for="id_CB1">C2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="CB1" id="id_CB1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
             </tr>
             <tr>
-              <td class="tonestack-value-label">C3</td>
-              <td class="tonestack-value-value"><INPUT type="text" name="CT2" id="id_CT2" size="7" readonly="readonly" class="tonestack-value-input"></td>
-              <td class="tonestack-value-unit">pF</td>
+              <td class="tonestack-value-label"><label for="id_CT2">C3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="CT2" id="id_CT2" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
             </tr>
           </tbody>
         </table>
         <CENTER>
-          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" onclick="editValues();" class="tonestack-values-button">
-          <INPUT type="button" name="apply" value="Apply" title="Apply values" id="id_apply" onclick="applyValues();" class="tonestack-values-button">
-          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" onclick="setDefaultValues(); applyValues();" class="tonestack-values-button">
+          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" class="tonestack-values-button">
+          <INPUT type="submit" name="apply" value="Apply" title="Apply values" id="id_apply" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" class="tonestack-values-button">
         </CENTER>
       </TD>
       <TD rowspan="2" class="tonestack-graph-panel">
         <div class="tonestack-bar">
           <div class="tonestack-graph-toggle">
-            Amplitude<input type="checkbox" name="graphToggle" onclick="updateURL(); swapGraphs();" class="toggle">Phase
+            Amplitude<input type="checkbox" name="graphToggle" class="toggle">Phase
           </div>
-          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" onclick="clearSnapshots();" class="tonestack-values-button tonestack-graph-button">
-          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" onclick="addSeries();" class="tonestack-values-button tonestack-graph-button">
-          <input type="button" name="Sweep" value="Sweep" id="id_sweep" onclick="sweepValues();" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" class="tonestack-values-button tonestack-graph-button">
         </div>
         <div id="graphContainer" class="tonestack-graph-container">
           <div id="graph" class="tonestack-graph"></div>
@@ -121,7 +122,7 @@
       <TD colspan="2" class="tonestack-sliders">
         <BR>
         <SPAN id="label_RB" class="tonestack-slider-label">RB
-          <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
+          <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot">
             <option value="Linear">Linear</option>
             <option value="LogA">LogA</option>
             <option value="LogB" selected="selected">LogB</option>
@@ -130,7 +131,7 @@
         <DIV id="range_RB" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
         <SPAN id="label_RM" class="tonestack-slider-label">RM
-          <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
+          <select id="id_RM_pot" name="RM_pot" class="tonestack-select-pot">
             <option value="Linear">Linear</option>
             <option value="LogA">LogA</option>
             <option value="LogB" selected="selected">LogB</option>
@@ -139,7 +140,7 @@
         <DIV id="range_RM" class="tonestack-slider-input"></DIV>
         <SPAN id="value_RM" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
         <SPAN id="label_RT" class="tonestack-slider-label">RT
-          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot" onchange="updateURL(); doCalc()">
+          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot">
             <option value="Linear">Linear</option>
             <option value="LogA">LogA</option>
             <option value="LogB" selected="selected">LogB</option>
@@ -174,13 +175,13 @@
     var range_RM = createSlider('range_RM','value_RM');
     var range_RT = createSlider('range_RT','value_RT');
 
-    // data for frequency points is created here and saved to array X
-    var X = createFrequencies(90,10,100000,1);
-
     // Graph objects
+    var X = createFrequencies(90,10,100000,1);
     var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Aria");
     var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Aria", 0, "graph2");
     currentGraph = graph1;
+
+    initializeForm();
 
     // Set default part values, plus any customizations
     setDefaultValues();
@@ -192,34 +193,32 @@
         swapGraphs();
     }
 
-    // start listening the onSlide event from the slider and run the analysis function
-    range_RB.noUiSlider.on('slide', doCalc);
-    range_RM.noUiSlider.on('slide', doCalc);
-    range_RT.noUiSlider.on('slide', doCalc);
 
     // this function is called when the Apply-button is clicked
     function applyValues() {
-        RIN     = parseInt(document.frm.RIN.value);
-        RBass   = parseInt(document.frm.RB.value);
-        RMid    = parseInt(document.frm.RM.value);
-        RTreble = parseInt(document.frm.RT.value);
-        RT3     = parseInt(document.frm.RT3.value);
-        RM3     = parseInt(document.frm.RM3.value);
-        RB3     = parseInt(document.frm.RB3.value);
-        RB4     = parseInt(document.frm.RB4.value);
-        RL      = parseInt(document.frm.RL.value);
-        CT1     = (1e-12)*parseInt(document.frm.CT1.value);
-        CT2     = (1e-12)*parseInt(document.frm.CT2.value);
-        CB1     = (1e-12)*parseInt(document.frm.CB1.value);
+        const f = document.frm;
 
-        // set the input fields to readonly mode with gray background
-        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        RIN     = tscResistance.parseElement(f.RIN);
+        RBass   = tscResistance.parseElement(f.RB);
+        RMid    = tscResistance.parseElement(f.RM);
+        RTreble = tscResistance.parseElement(f.RT);
+        RT3     = tscResistance.parseElement(f.RT3);
+        RM3     = tscResistance.parseElement(f.RM3);
+        RB3     = tscResistance.parseElement(f.RB3);
+        RB4     = tscResistance.parseElement(f.RB4);
+        RL      = tscResistance.parseElement(f.RL);
+        CT1     = tscCapacitance.parseElement(f.CT1);
+        CT2     = tscCapacitance.parseElement(f.CT2);
+        CB1     = tscCapacitance.parseElement(f.CB1);
+
+        // set the input fields to readonly mode
+        var inputElements = f.getElementsByTagName('input');
         for (var i in inputElements) {
             if (inputElements[i].type == "text") {
                 inputElements[i].setAttribute('readonly', 'readonly');
-                inputElements[i].style.backgroundColor = "#EBEBE4";
             }
         }
+
         updateURL();
         doCalc();
     }
@@ -227,34 +226,44 @@
 
     // this function is called when the Edit-button is clicked
     function editValues() {
-        var inputElements = document.forms["frm"].getElementsByTagName('input');
+        var inputElements = document.frm.getElementsByTagName('input');
         for (var i in inputElements) {
             if (inputElements[i].type == "text") {
                 inputElements[i].removeAttribute('readonly');
-                inputElements[i].style.backgroundColor = "#FFFFFF";
             }
         }
     }
 
 
-    // This function is called when the Set default values -button is clicked.
-    // It sets the hard-coded values to the input fields and applies the values.
+    // This function resets form fields to their default values
     function setDefaultValues() {
-        document.frm.RIN.value = 1000;
-        document.frm.RT.value  = 100000;
-        document.frm.RB.value  = 100000;
-        document.frm.RM.value  = 100000;
-        document.frm.RT3.value  = 220000;
-        document.frm.RM3.value  = 1000000;
-        document.frm.RB3.value  = 33000;
-        document.frm.RB4.value  = 100000;
-        document.frm.RL.value  = 1000000;
-        document.frm.CT1.value  = 1000;
-        document.frm.CT2.value  = 1000;
-        document.frm.CB1.value  = 220000;
-        document.frm.RB_pot.value = "LogB";
-        document.frm.RM_pot.value = "LogB";
-        document.frm.RT_pot.value = "LogB";
+        const f = document.frm;
+
+        // Pair form element names to default values
+        const defaultValues = {
+            RIN    : "1k",
+            RIN    : "1k",
+            RT     : "100k",
+            RB     : "100k",
+            RM     : "100k",
+            RT3    : "220k",
+            RM3    : "1M",
+            RB3    : "33k",
+            RB4    : "100k",
+            RL     : "100k",
+            CT1    : "1n",
+            CT2    : "1n",
+            CB1    : "220n",
+            RB_pot : "LogB",
+            RM_pot : "LogB",
+            RT_pot : "LogB",
+        }
+
+        // Set default values and clear any custom form validation errors
+        for (var key in defaultValues) {
+            f[key].value = defaultValues[key];
+            f[key].setCustomValidity("");
+        }
     }
 
 
