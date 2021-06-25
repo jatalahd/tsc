@@ -672,6 +672,7 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
     var dBMax;
     var degMin;
     var degMax;
+    var previousDegPositive = true;
 
     // Determine the number of frequencies to use for calculation.
     var g = magGraph? magGraph : phaseGraph;
@@ -703,12 +704,20 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
         var magnitude = Math.sqrt(NUMERATOR_Re**2 + NUMERATOR_Im**2)/DENOMINATOR;
         var phase     = Math.atan2(NUMERATOR_Im, NUMERATOR_Re);
 
-        // Record the magnitude in dB and the phase in degrees.
-        var dB  = 20 * Math.log10(magnitude);
-        var deg = phase * 180 / Math.PI;
+        // Record the magnitude in dB.
+        var dB = 20 * Math.log10(magnitude);
         if (magGraph) {
-            magGraph.data[j][magGraph.series]     = dB;
+            magGraph.data[j][magGraph.series] = dB;
         }
+
+        // Record the phase in degrees to the nearest 0.1 degrees. To minimize
+        // graphing of vertical lines, for +180 or -180 degrees use the same
+        // sign as the previous result.
+        var deg = Math.round(phase * 1800 / Math.PI) / 10;
+        if (Math.abs(deg) == 180) {
+            deg = previousDegPositive? 180 : -180;
+        }
+        previousDegPositive = (deg > 0);
         if (phaseGraph) {
             phaseGraph.data[j][phaseGraph.series] = deg;
         }
@@ -729,10 +738,10 @@ function doCalcBode(numCoeffs, denCoeffs, magGraph = graph1, phaseGraph = graph2
     }
 
     return {
-        dBMin:  dBMin,
-        dBMax:  dBMax,
-        degMin: degMin,
-        degMax: degMax,
+        dBMin  : dBMin,
+        dBMax  : dBMax,
+        degMin : degMin,
+        degMax : degMax,
     };
 }
 
