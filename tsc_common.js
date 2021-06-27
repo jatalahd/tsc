@@ -2,6 +2,7 @@
 /* is added, and belongs in a dropdown menu, add it here.           */
 var menuFender = [
     ["Treble-Mid-Bass (TMB)", 'fender.htm'  ],
+    ["Bassman 5F6-A"        , 'bassman5f6a.htm'],
     ["Brownface"            , 'brownface.htm'],
     ["E-series"             , 'eseries.htm' ],
     ["Princeton 5E2"        , 'princeton5e2.htm'],
