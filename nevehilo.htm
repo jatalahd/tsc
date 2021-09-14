@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE class="tonestack-layout">
+    <TR>
+      <TD colspan="3" class="navbar">
+        <DIV id="linkDiv" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD class="tonestack-image">
+        <IMG src="nevehilo_pic.png"></IMG>
+        <A href="./circuit_analysis/nevehilo.pdf" target="_blank">Circuit Analysis</A>
+      </TD>
+      <TD class="tonestack-values">
+        <table class="tonestack-values-table">
+          <thead>
+            <tr>
+              <th class="tonestack-value-th-part">Part</th>
+              <th class="tonestack-value-th-value">Value</th>
+              <th class="tonestack-value-th-unit"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RIN">RIN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R1">R1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R2">R2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R3">R3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R3" id="id_R3" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R4">R4</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R4" id="id_R4" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R5">R5</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R5" id="id_R5" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R6">R6</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R6" id="id_R6" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RB">RB</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RB" id="id_RB" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RT">RT</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RF">RF</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RF" id="id_RF" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C1">C1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C2">C2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C3">C3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C4">C4</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C4" id="id_C4" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C5">C5</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C5" id="id_C5" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C6">C6</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C6" id="id_C6" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_CF">CF</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="CF" id="id_CF" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+          </tbody>
+        </table>
+        <CENTER>
+          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" class="tonestack-values-button">
+          <INPUT type="submit" name="apply" value="Apply" title="Apply values" id="id_apply" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" class="tonestack-values-button">
+        </CENTER>
+      </TD>
+      <TD rowspan="2" class="tonestack-graph-panel">
+        <div class="tonestack-bar">
+          <div class="tonestack-graph-toggle">
+            Amplitude<input type="checkbox" name="graphToggle" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" class="tonestack-values-button tonestack-graph-button">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+          <div id="graph" class="tonestack-graph"></div>
+          <div id="graph2" class="tonestack-graph hidden"></div>
+          <div id="legendDiv" class="tonestack-graph-value"></div>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders">
+        <BR>
+        <SPAN id="label_RB" class="tonestack-slider-label">RB
+          <select id="id_RB_pot" name="RB_pot" class="tonestack-select-pot">
+            <option value="Linear" selected="selected">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RB" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RT" class="tonestack-slider-label">RT
+          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot">
+            <option value="Linear" selected="selected">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RT" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page
+    createLinks("linkDiv", "Neve");
+
+    // component variables for calculation
+    var RTreble;
+    var RBass;
+    var RIN;
+    var R1;
+    var R2;
+    var R3;
+    var R4;
+    var R5;
+    var R6;
+    var RF;
+    var C1;
+    var C2;
+    var C3;
+    var C4;
+    var C5;
+    var C6;
+    var CF;
+
+    // create sliders and save the div-element of the slider
+    var range_RB = createSlider('range_RB','value_RB');
+    var range_RT = createSlider('range_RT','value_RT');
+
+    // Graph objects
+    var X = createFrequencies(90,10,100000,1);
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Neve Shelving High/Low", 25);
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Neve Shelving High/Low", 0, "graph2");
+    currentGraph = graph1;
+
+    initializeForm();
+
+    // Set default part values, plus any customizations
+    setDefaultValues();
+    setCustomValues();
+
+    // Apply part values and display settings
+    applyValues();
+    if (document.frm.graphToggle.checked) {
+        swapGraphs();
+    }
+
+
+    // this function is called when the Apply-button is clicked
+    function applyValues() {
+        const f = document.frm;
+
+        RIN     = tscResistance.parseElement(f.RIN);
+        R1      = tscResistance.parseElement(f.R1);
+        R2      = tscResistance.parseElement(f.R2);
+        R3      = tscResistance.parseElement(f.R3);
+        R4      = tscResistance.parseElement(f.R4);
+        R5      = tscResistance.parseElement(f.R5);
+        R6      = tscResistance.parseElement(f.R6);
+        RBass   = tscResistance.parseElement(f.RB);
+        RTreble = tscResistance.parseElement(f.RT);
+        RF      = tscResistance.parseElement(f.RF);
+        C1      = tscCapacitance.parseElement(f.C1);
+        C2      = tscCapacitance.parseElement(f.C2);
+        C3      = tscCapacitance.parseElement(f.C3);
+        C4      = tscCapacitance.parseElement(f.C4);
+        C5      = tscCapacitance.parseElement(f.C5);
+        C6      = tscCapacitance.parseElement(f.C6);
+        CF      = tscCapacitance.parseElement(f.CF);
+
+        // set the input fields to readonly mode
+        var inputElements = f.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+            }
+        }
+
+        updateURL();
+        doCalc();
+    }
+
+
+    // this function is called when the Edit-button is clicked
+    function editValues() {
+        var inputElements = document.frm.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+            }
+        }
+    }
+
+
+    // This function resets form fields to their default values
+    function setDefaultValues() {
+        const f = document.frm;
+
+        // Pair form element names to default values
+        const defaultValues = {
+            RIN    : "0",
+            R1     : "6.2k",
+            R2     : "6.2k",
+            R3     : "12k",
+            R4     : "620",
+            R5     : "620",
+            R6     : "12k",
+            RB     : "50k",
+            RT     : "10k",
+            RF     : "0",
+            C1     : "15n",
+            C2     : "15n",
+            C3     : "15n",
+            C4     : "22n",
+            C5     : "22n",
+            C6     : "10n",
+            CF     : "470p",
+            RB_pot : "Linear",
+            RT_pot : "Linear",
+        }
+
+        // Set default values and clear any custom form validation errors
+        for (var key in defaultValues) {
+            f[key].value = defaultValues[key];
+            f[key].setCustomValidity("");
+        }
+    }
+
+
+    // This function creates the sweep for extreme values
+    function sweepValues() {
+        for (p = 0; p <= 10; p += 5) {
+            range_RB.noUiSlider.set(p);
+            for (q = 0; q <=10; q += 5) {
+                range_RT.noUiSlider.set(q);
+                addSeries();
+            }
+        }
+    }
+
+
+    // This function is called with every change of the slider.
+    // It does the hard math and evaluates the filter transfer function
+    // for the given frequency range and updates values to the graph.
+    function doCalc() {
+
+        // pot rotation 0 - 10 from the slider component
+        var RotTreble = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+        var RotBass   = getRotationForPotType(range_RB.noUiSlider.get(), document.frm.RB_pot.value);
+
+        // Calculated part values
+        var RB2  = Math.round( RBass*(1.0*RotBass/10.0) );
+        var RB1  = Math.round( RBass*(1.0 - 1.0*RotBass/10.0) );
+        var RT2  = Math.round( RTreble*(1.0*RotTreble/10.0) );
+        var RT1  = Math.round( RTreble*(1.0 - 1.0*RotTreble/10.0) );
+
+
+        // Transfer function denominator coefficients
+        var denCoeffs = [
+            (C5 + C4 + C3)*(RIN + RB1 + R1), 
+
+            ((C4 + C3)*C5*RIN + (C4 + C3)*C5*RB1 + (C4 + C3)*C5*R1)*RT2
+             + ((C4*C5 + C3*C4)*RIN + (C4*C5 + C3*C4)*RB1 + (C4*C5 + C3*C4)*R1)*RT1
+             + ((C5 + C4 + C3)*CF*RF + ((C5 + C4 + C3)*CF + (C4 + C3)*C5)*RB2
+             + ((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*RB1
+             + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*R6
+             + (C4 + C3)*C5*R5 + (C4*C5 + C3*C4)*R4
+             + ((C5 + C4 + C3)*CF + C3*C5 + C3*C4)*R3
+             + ((C5 + C4 + C3)*CF + (C4 + C3)*C5)*R2 + (C4*C5 + C3*C4)*R1)*RIN
+             + ((C5 + C4 + C3)*CF*RB1 + (C5 + C4 + C3)*CF*R3 + (C5 + C4 + C3)*CF*R1)*RF
+             + (((C5 + C4 + C3)*CF + C3*C5)*RB1 + ((C5 + C4 + C3)*CF + C3*C5)*R3
+             + ((C5 + C4 + C3)*CF + C3*C5)*R1)*RB2 + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*R6 + (C4 + C3)*C5*R5 + (C4*C5 + C3*C4)*R4
+             + ((C5 + C4 + C3)*CF + C3*C5)*R3 + ((C5 + C4 + C3)*CF + C3*C5)*R2
+             + (C1*C5 + C1*C4 + C1*C3)*R1)*RB1 + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*R1*R6 + (C4 + C3)*C5*R1*R5
+             + (C4*C5 + C3*C4)*R1*R4 + (((C5 + C4 + C3)*CF + C3*C5)*R2
+             + ((C5 + C4 + C3)*CF + C3*C5)*R1)*R3 + ((C5 + C4 + C3)*CF + C3*C5)*R1*R2, 
+
+            ((C3*C4*C5*RIN + C3*C4*C5*RB1 + C3*C4*C5*R1)*RT1
+             + ((C4 + C3)*C5*CF*RF + (C4 + C3)*C5*CF*RB2 + ((C3 + C1)*C4 + C1*C3)*C5*RB1
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R6 + C3*C4*C5*R4
+             + ((C4 + C3)*C5*CF + C3*C4*C5)*R3 + (C4 + C3)*C5*CF*R2 + C3*C4*C5*R1)*RIN
+             + ((C4 + C3)*C5*CF*RB1 + (C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R1)*RF
+             + ((C4 + C3)*C5*CF*RB1 + (C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R1)*RB2
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R6 + C3*C4*C5*R4
+             + (C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R2 + (C1*C4 + C1*C3)*C5*R1)*RB1
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R1*R6 + C3*C4*C5*R1*R4
+             + ((C4 + C3)*C5*CF*R2 + (C4 + C3)*C5*CF*R1)*R3 + (C4 + C3)*C5*CF*R1*R2)*RT2
+             + (((C4*C5 + C3*C4)*CF*RF + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*RB2
+             + (C1*C4*C5 + C1*C3*C4)*RB1 + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*R6 + C3*C4*C5*R5 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2)*RIN
+             + ((C4*C5 + C3*C4)*CF*RB1 + (C4*C5 + C3*C4)*CF*R3 + (C4*C5 + C3*C4)*CF*R1)*RF
+             + (((C4*C5 + C3*C4)*CF + C3*C4*C5)*RB1 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*RB2
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R6 + C3*C4*C5*R5
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2
+             + (C1*C4*C5 + C1*C3*C4)*R1)*RB1 + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*R1*R6 + C3*C4*C5*R1*R5
+             + (((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1*R2)*RT1
+             + ((((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*CF*RB2
+             + ((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*CF*RB1
+             + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF*R6
+             + (C4 + C3)*C5*CF*R5 + (C4*C5 + C3*C4)*CF*R4
+             + ((C5 + C4 + C3)*C6 + (C3 + C2 + C1)*C5 + (C3 + C2 + C1)*C4 + (C2 + C1)*C3)
+            *CF*R3 + (C4 + C3)*C5*CF*R2 + (C4*C5 + C3*C4)*CF*R1)*RF
+             + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*CF + (C3*C4 + C1*C3)*C5)*RB1
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + ((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*R6
+             + (C4 + C3)*C5*CF*R5 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R4
+             + (((C5 + C4 + C3)*C6 + (C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*CF + C3*C5*C6
+             + (C3*C4 + C1*C3)*C5)*R3 + ((C2*C5 + C2*C4 + C2*C3)*CF + (C2*C4 + C2*C3)*C5)
+            *R2 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*RB2
+             + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6 + ((C2 + C1)*C4 + C1*C2)*C5
+             + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*R6 + ((C3 + C1)*C4 + C1*C3)*C5*R5
+             + (C1*C4*C5 + C1*C3*C4)*R4 + (((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*CF
+             + (C3*C4 + C1*C3)*C5)*R3 + (((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*CF
+             + (C3*C4 + C1*C3)*C5)*R2 + (C1*C4*C5 + C1*C3*C4)*R1)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R4
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + (C3*C5 + C3*C4)*C6 + (C2 + C1)*C3*C5 + (C2 + C1)*C3*C4)*R3
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + (C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R2
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R1)*R6
+             + (C3*C4*C5*R4 + ((C4 + C3)*C5*CF + C3*C4*C5)*R3 + (C4 + C3)*C5*CF*R2
+             + C3*C4*C5*R1)*R5 + (((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2)*R4
+             + ((((C5 + C4 + C3)*C6 + (C4 + C2 + C1)*C5 + (C3 + C2 + C1)*C4 + (C2 + C1)*C3)
+            *CF + C3*C5*C6 + (C3*C4 + (C2 + C1)*C3)*C5)*R2
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1*R2)*RIN
+             + ((((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*CF*RB1
+             + ((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*CF*R3
+             + ((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*CF*R1)*RB2
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF*R6
+             + (C4 + C3)*C5*CF*R5 + (C4*C5 + C3*C4)*CF*R4
+             + ((C5 + C4 + C3)*C6 + (C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*CF*R3
+             + (C4 + C3)*C5*CF*R2 + (C1*C5 + C1*C4 + C1*C3)*CF*R1)*RB1
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF*R3
+             + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF*R1)*R6
+             + ((C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R1)*R5
+             + ((C4*C5 + C3*C4)*CF*R3 + (C4*C5 + C3*C4)*CF*R1)*R4
+             + ((C4 + C3)*C5*CF*R2 + ((C5 + C4 + C3)*C6 + (C4 + C3 + C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*CF*R1)*R3 + (C4 + C3)*C5*CF*R1*R2)*RF
+             + (((((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + ((C3 + C2)*C5 + C2*C4 + C2*C3)*C6 + (C2 + C1)*C3*C5)*R6 + (C4 + C3)*C5*CF*R5
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R4 + ((C5 + C4 + C3)*C6*CF + C3*C5*C6)*R3
+             + ((C2*C5 + C2*C4 + C2*C3)*CF + C2*C3*C5)*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*CF + C1*C3*C5)*R1)*RB1
+             + ((((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + C3*C5*C6 + (C2 + C1)*C3*C5)*R3 + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*CF + ((C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*R1)*R6
+             + ((C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R1)*R5
+             + (((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3 + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*R4
+             + (((C2*C5 + C2*C4 + C2*C3)*CF + C2*C3*C5)*R2
+             + (((C5 + C4 + C3)*C6 + C1*C5 + C1*C4 + C1*C3)*CF + C3*C5*C6 + C1*C3*C5)*R1)
+            *R3 + ((C2*C5 + C2*C4 + C2*C3)*CF + C2*C3*C5)*R1*R2)*RB2
+             + ((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R4
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + C3*C5*C6 + (C2 + C1)*C3*C5)*R3 + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*CF + C3*C5*C6 + (C2 + C1)*C3*C5)*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*R1)*R6
+             + (C3*C4*C5*R4 + (C4 + C3)*C5*CF*R3 + (C4 + C3)*C5*CF*R2
+             + (C1*C4 + C1*C3)*C5*R1)*R5 + (((C4*C5 + C3*C4)*CF + C3*C4*C5)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2 + (C1*C4*C5 + C1*C3*C4)*R1)*R4
+             + ((((C5 + C4 + C3)*C6 + C2*C5 + C2*C4 + C2*C3)*CF + C3*C5*C6 + C2*C3*C5)*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*CF + C1*C3*C5)*R1)*R3
+             + ((C1*C5 + C1*C4 + C1*C3)*CF + C1*C3*C5)*R1*R2)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R1*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R1*R4
+             + ((((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + C3*C5*C6 + (C2 + C1)*C3*C5)*R2 + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*CF + C3*C5*C6 + (C2 + C1)*C3*C5)*R1)*R3
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + C3*C5*C6 + (C2 + C1)*C3*C5)*R1*R2)*R6
+             + (C3*C4*C5*R1*R4 + ((C4 + C3)*C5*CF*R2 + (C4 + C3)*C5*CF*R1)*R3
+             + (C4 + C3)*C5*CF*R1*R2)*R5 + ((((C4*C5 + C3*C4)*CF + C3*C4*C5)*R2
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1)*R3
+             + ((C4*C5 + C3*C4)*CF + C3*C4*C5)*R1*R2)*R4
+             + (((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*CF
+             + C3*C5*C6 + (C2 + C1)*C3*C5)*R1*R2*R3, 
+
+            (((C3*C4*C5*CF*RF + C3*C4*C5*CF*RB2 + C1*C3*C4*C5*RB1
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R6 + C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2)*RIN
+             + (C3*C4*C5*CF*RB1 + C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*RF
+             + (C3*C4*C5*CF*RB1 + C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*RB2
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R6 + C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2
+             + C1*C3*C4*C5*R1)*RB1 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R6
+             + (C3*C4*C5*CF*R2 + C3*C4*C5*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*RT1
+             + (((C2*C4 + C2*C3)*C5*CF*RB2 + ((C3 + C1)*C4 + C1*C3)*C5*CF*RB1
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R6 + C3*C4*C5*CF*R4
+             + ((C4 + C3)*C5*C6 + ((C3 + C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + C3*C4*C5*CF*R1)*RF + (((C3 + C1)*C4 + C1*C3)*C5*CF*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R6 + C3*C4*C5*CF*R4
+             + ((C4 + C3)*C5*C6 + ((C3 + C1)*C4 + C1*C3)*C5)*CF*R3
+             + (C2*C4 + C2*C3)*C5*CF*R2 + C3*C4*C5*CF*R1)*RB2
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R6 + C1*C3*C4*C5*R4 + ((C3 + C1)*C4 + C1*C3)*C5*CF*R3
+             + ((C3 + C1)*C4 + C1*C3)*C5*CF*R2 + C1*C3*C4*C5*R1)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + ((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2)*R4
+             + (((C4 + C3)*C5*C6 + ((C3 + C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + C3*C4*C5*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*RIN
+             + (((C2*C4 + C2*C3)*C5*CF*RB1 + (C2*C4 + C2*C3)*C5*CF*R3
+             + (C2*C4 + C2*C3)*C5*CF*R1)*RB2 + (((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R6 + C3*C4*C5*CF*R4
+             + ((C4 + C3)*C5*C6 + (C2*C4 + C2*C3)*C5)*CF*R3 + (C1*C4 + C1*C3)*C5*CF*R1)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R3)*RF
+             + (((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6)*R6 + C3*C4*C5*CF*R4 + (C4 + C3)*C5*C6*CF*R3
+             + (C2*C4 + C2*C3)*C5*CF*R2 + (C1*C4 + C1*C3)*C5*CF*R1)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R4
+             + ((C2*C4 + C2*C3)*C5*CF*R2 + ((C4 + C3)*C5*C6 + (C1*C4 + C1*C3)*C5)*CF*R1)*R3
+             + (C2*C4 + C2*C3)*C5*CF*R1*R2)*RB2 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2 + C1*C3*C4*C5*R1)*R4
+             + (((C4 + C3)*C5*C6 + (C2*C4 + C2*C3)*C5)*CF*R2 + (C1*C4 + C1*C3)*C5*CF*R1)*R3
+             + (C1*C4 + C1*C3)*C5*CF*R1*R2)*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R4
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1)*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R2)*R6
+             + ((C3*C4*C5*CF*R2 + C3*C4*C5*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R2*R3)*RT2
+             + (((((C3 + C2)*C4*C5 + C2*C3*C4)*CF*RB2 + (C1*C4*C5 + C1*C3*C4)*CF*RB1
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R6
+             + C3*C4*C5*CF*R5 + ((C4*C5 + C3*C4)*C6 + (C3 + C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF*R3 + C3*C4*C5*CF*R2)*RF
+             + (((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*RB1
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*R6 + C3*C4*C5*CF*R5 + (((C4*C5 + C3*C4)*C6 + C1*C4*C5
+             + C1*C3*C4)*CF + C3*C4*C5*C6 + C1*C3*C4*C5)*R3
+             + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R2)*RB2
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R6 + C1*C3*C4*C5*R5
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R3
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R2)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R2*R3)*RIN + ((((C3 + C2)*C4*C5 + C2*C3*C4)*CF*RB1
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R3 + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R1)*RB2
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R6
+             + C3*C4*C5*CF*R5 + ((C4*C5 + C3*C4)*C6 + (C3 + C2)*C4*C5 + C2*C3*C4)*CF*R3
+             + C3*C4*C5*CF*R2 + (C1*C4*C5 + C1*C3*C4)*CF*R1)*RB1
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R3
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R5
+             + (C3*C4*C5*CF*R2 + ((C4*C5 + C3*C4)*C6 + (C3 + C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*RF
+             + (((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + (C2 + C1)*C3*C4*C5)*R6 + C3*C4*C5*CF*R5
+             + ((C4*C5 + C3*C4)*C6*CF + C3*C4*C5*C6)*R3
+             + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)*RB1
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R2
+             + (((C4*C5 + C3*C4)*C6 + C1*C4*C5 + C1*C3*C4)*CF + C3*C4*C5*C6 + C1*C3*C4*C5)
+            *R1)*R3 + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R1*R2)*RB2
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R1)*R6
+             + (C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2 + C1*C3*C4*C5*R1)*R5
+             + ((((C4*C5 + C3*C4)*C6 + C2*C4*C5 + C2*C3*C4)*CF + C3*C4*C5*C6 + C2*C3*C4*C5)
+            *R2 + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)*R3
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1*R2)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R5
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R2 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R1*R2)*R6 + ((C3*C4*C5*CF*R2 + C3*C4*C5*CF*R1)*R3
+             + C3*C4*C5*CF*R1*R2)*R5 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3)*RT1
+             + ((((((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)
+            *CF*RB1 + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R6
+             + (C2*C4 + C2*C3)*C5*CF*R5 + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R4
+             + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+            *R3 + (C2*C4 + C2*C3)*C5*CF*R2 + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R1)*RB2
+             + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6 + ((C2 + C1)*C4 + C1*C2)*C5
+             + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*CF*R6
+             + ((C3 + C1)*C4 + C1*C3)*C5*CF*R5 + (C1*C4*C5 + C1*C3*C4)*CF*R4
+             + (((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6
+             + ((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+            *R3 + ((C3 + C1)*C4 + C1*C3)*C5*CF*R2 + (C1*C4*C5 + C1*C3*C4)*CF*R1)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R4
+             + ((C3*C5 + C3*C4)*C6 + (C2 + C1)*C3*C5 + (C2 + C1)*C3*C4)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R1)*R6
+             + (C3*C4*C5*CF*R4 + ((C4 + C3)*C5*C6 + ((C3 + C2 + C1)*C4 + (C2 + C1)*C3)*C5)
+            *CF*R3 + C3*C4*C5*CF*R1)*R5 + (((C4*C5 + C3*C4)*C6 + (C3 + C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF*R3 + C3*C4*C5*CF*R2)*R4
+             + (((C4 + C3)*C5*C6 + ((C3 + C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C4*C5 + C3*C4)*C6 + (C3 + C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R1)*R3
+             + C3*C4*C5*CF*R1*R2)*RF + ((((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6
+             + ((C2 + C1)*C4 + C1*C2)*C5 + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+             + (((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*C6
+             + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*R6
+             + ((C3 + C1)*C4 + C1*C3)*C5*CF*R5 + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)
+            *R4 + (((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6*CF + (C3*C4 + C1*C3)*C5*C6)*R3
+             + (((C2*C4 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+             + (C2*C3*C4 + C1*C2*C3)*C5)*R2 + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)
+            *RB1 + ((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*R4 + ((((C4 + C2)*C5 + (C3 + C2)*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + C1*C2)*C5 + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+             + ((C3*C4 + C2*C3)*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5
+             + C1*C2*C3*C4)*R3 + (((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5 + C1*C2*C4
+             + C1*C2*C3)*CF + (C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R2
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*R1)*R6 + (C3*C4*C5*CF*R4
+             + ((C4 + C3)*C5*C6 + ((C3 + C1)*C4 + C1*C3)*C5)*CF*R3
+             + (C2*C4 + C2*C3)*C5*CF*R2 + C3*C4*C5*CF*R1)*R5
+             + ((((C4*C5 + C3*C4)*C6 + C1*C4*C5 + C1*C3*C4)*CF + C3*C4*C5*C6 + C1*C3*C4*C5)
+            *R3 + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R2)*R4
+             + ((((C2*C5 + C2*C4 + C2*C3)*C6 + (C2*C4 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4
+             + C1*C2*C3)*CF + C2*C3*C5*C6 + (C2*C3*C4 + C1*C2*C3)*C5)*R2
+             + (((C4*C5 + C3*C4)*C6 + C1*C4*C5 + C1*C3*C4)*CF + C3*C4*C5*C6 + C1*C3*C4*C5)
+            *R1)*R3 + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R1*R2)*RB2
+             + (((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R5 + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R4
+             + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6 + ((C2 + C1)*C4 + C1*C2)*C5
+             + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+             + ((C3*C4 + C1*C3)*C5 + C1*C3*C4)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5
+             + C1*C2*C3*C4)*R3 + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6
+             + ((C2 + C1)*C4 + C1*C2)*C5 + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*CF
+             + ((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R1)*R6
+             + (C1*C3*C4*C5*R4 + ((C3 + C1)*C4 + C1*C3)*C5*CF*R3
+             + ((C3 + C1)*C4 + C1*C3)*C5*CF*R2 + C1*C3*C4*C5*R1)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R3
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R2)*R4
+             + (((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6 + (C2*C4 + C1*C2)*C5
+             + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*CF + (C3*C4 + C1*C3)*C5*C6
+             + (C2*C3*C4 + C1*C2*C3)*C5)*R2 + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)
+            *R3 + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + ((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R5
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2)*R4
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R2 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R1*R2)*R6 + ((C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2)*R4
+             + (((C4 + C3)*C5*C6 + ((C3 + C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + C3*C4*C5*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R2*R3*R4 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3)*RIN
+             + ((((((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R6
+             + (C2*C4 + C2*C3)*C5*CF*R5 + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R4
+             + ((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6*CF*R3 + (C2*C4 + C2*C3)*C5*CF*R2
+             + ((C1*C4 + C1*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R1)*RB1
+             + ((((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R3
+             + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R1)*R6
+             + ((C2*C4 + C2*C3)*C5*CF*R3 + (C2*C4 + C2*C3)*C5*CF*R1)*R5
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R3 + ((C3 + C2)*C4*C5 + C2*C3*C4)*CF*R1)*R4
+             + ((C2*C4 + C2*C3)*C5*CF*R2 + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + (C1*C4 + C1*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R1)*R3
+             + (C2*C4 + C2*C3)*C5*CF*R1*R2)*RB2 + ((((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R4
+             + (((C4 + C3 + C1)*C5 + C1*C4 + C1*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF*R1)*R6
+             + (C3*C4*C5*CF*R4 + ((C4 + C3)*C5*C6 + (C2*C4 + C2*C3)*C5)*CF*R3
+             + (C1*C4 + C1*C3)*C5*CF*R1)*R5 + (((C4*C5 + C3*C4)*C6 + (C3 + C2)*C4*C5
+             + C2*C3*C4)*CF*R3 + C3*C4*C5*CF*R2 + (C1*C4*C5 + C1*C3*C4)*CF*R1)*R4
+             + (((C4 + C3)*C5*C6 + (C2*C4 + C2*C3)*C5)*CF*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*C6 + (C1*C4 + C1*C3 + C1*C2)*C5 + C1*C2*C4
+             + C1*C2*C3)*CF*R1)*R3 + (C1*C4 + C1*C3)*C5*CF*R1*R2)*RB1
+             + ((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1)*R5
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R3
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF*R1)*R4
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1)*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R2)*R6
+             + ((C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R3)*R5
+             + ((C3*C4*C5*CF*R2 + ((C4*C5 + C3*C4)*C6 + (C3 + C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF*R1)*R3 + C3*C4*C5*CF*R1*R2)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R2*R3)*RF
+             + ((((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6)*R5 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + (C2 + C1)*C3*C4*C5)
+            *R4 + (((C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*C6*CF + (C2 + C1)*C3*C5*C6)
+            *R3 + (((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C2*C3*C5*C6 + C1*C2*C3*C5)*R2 + (((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5
+             + C1*C2*C4 + C1*C2*C3)*CF + ((C1*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*C6
+             + C1*C2*C3*C5)*R1)*R6 + (C3*C4*C5*CF*R4 + (C4 + C3)*C5*C6*CF*R3
+             + (C2*C4 + C2*C3)*C5*CF*R2 + (C1*C4 + C1*C3)*C5*CF*R1)*R5
+             + (((C4*C5 + C3*C4)*C6*CF + C3*C4*C5*C6)*R3
+             + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)*R4
+             + (((C2*C5 + C2*C4 + C2*C3)*C6*CF + C2*C3*C5*C6)*R2
+             + ((C1*C5 + C1*C4 + C1*C3)*C6*CF + C1*C3*C5*C6)*R1)*R3
+             + ((C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF + C1*C2*C3*C5)*R1*R2)*RB1
+             + ((((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF
+             + (C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R1)*R5
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*R1)*R4
+             + ((((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C2*C3*C5*C6 + C1*C2*C3*C5)*R2 + (((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5
+             + C1*C2*C4 + C1*C2*C3)*CF + C2*C3*C5*C6 + C1*C2*C3*C5)*R1)*R3
+             + (((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C2*C3*C5*C6 + C1*C2*C3*C5)*R1*R2)*R6
+             + ((C3*C4*C5*CF*R3 + C3*C4*C5*CF*R1)*R4 + ((C2*C4 + C2*C3)*C5*CF*R2
+             + ((C4 + C3)*C5*C6 + (C1*C4 + C1*C3)*C5)*CF*R1)*R3
+             + (C2*C4 + C2*C3)*C5*CF*R1*R2)*R5 + ((((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)
+            *R2 + (((C4*C5 + C3*C4)*C6 + C1*C4*C5 + C1*C3*C4)*CF + C3*C4*C5*C6
+             + C1*C3*C4*C5)*R1)*R3 + ((C2*C4*C5 + C2*C3*C4)*CF + C2*C3*C4*C5)*R1*R2)*R4
+             + (((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C2*C3*C5*C6 + C1*C2*C3*C5)*R1*R2*R3)*RB2
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R1)*R5
+             + ((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R3 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R1)*R4
+             + ((((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C1*C3*C5*C6 + C1*C2*C3*C5)*R2 + (((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5
+             + C1*C2*C4 + C1*C2*C3)*CF + C1*C3*C5*C6 + C1*C2*C3*C5)*R1)*R3
+             + (((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C1*C3*C5*C6 + C1*C2*C3*C5)*R1*R2)*R6
+             + ((C3*C4*C5*CF*R3 + C3*C4*C5*CF*R2 + C1*C3*C4*C5*R1)*R4
+             + (((C4 + C3)*C5*C6 + (C2*C4 + C2*C3)*C5)*CF*R2 + (C1*C4 + C1*C3)*C5*CF*R1)*R3
+             + (C1*C4 + C1*C3)*C5*CF*R1*R2)*R5 + (((((C4*C5 + C3*C4)*C6 + C2*C4*C5
+             + C2*C3*C4)*CF + C3*C4*C5*C6 + C2*C3*C4*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1)*R3
+             + ((C1*C4*C5 + C1*C3*C4)*CF + C1*C3*C4*C5)*R1*R2)*R4
+             + (((C1*C5 + C1*C4 + C1*C3)*C6 + C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*CF
+             + C1*C3*C5*C6 + C1*C2*C3*C5)*R1*R2*R3)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R4
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R2
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1)*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*CF*R1*R2)*R5
+             + (((((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R2 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF + C3*C4*C5*C6
+             + (C2 + C1)*C3*C4*C5)*R1*R2)*R4)*R6 + (((C3*C4*C5*CF*R2 + C3*C4*C5*CF*R1)*R3
+             + C3*C4*C5*CF*R1*R2)*R4 + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)
+            *CF*R1*R2*R3)*R5 + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*CF
+             + C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3*R4, 
+
+            ((((C2*C3*C4*C5*CF*RB2 + C1*C3*C4*C5*CF*RB1
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3)*RF
+             + (C1*C3*C4*C5*CF*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF
+             + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R6 + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R3
+             + C2*C3*C4*C5*CF*R2)*RB2 + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R6
+             + C1*C3*C4*C5*CF*R3 + C1*C3*C4*C5*CF*R2)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3)*RIN
+             + ((C2*C3*C4*C5*CF*RB1 + C2*C3*C4*C5*CF*R3 + C2*C3*C4*C5*CF*R1)*RB2
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R6
+             + (C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R3 + C1*C3*C4*C5*CF*R1)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3)*RF
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6)*R6
+             + C3*C4*C5*C6*CF*R3 + C2*C3*C4*C5*CF*R2 + C1*C3*C4*C5*CF*R1)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R6 + (C2*C3*C4*C5*CF*R2 + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3
+             + C2*C3*C4*C5*CF*R1*R2)*RB2 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2 + C1*C3*C4*C5*CF*R1)*R3
+             + C1*C3*C4*C5*CF*R1*R2)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3)*RT1
+             + (((((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*CF*RB1
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R6 + C2*C3*C4*C5*CF*R4
+             + ((C2*C4 + C2*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R3
+             + C2*C3*C4*C5*CF*R1)*RB2 + ((((C3 + C1)*C4 + C1*C3)*C5*C6
+             + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R6 + C1*C3*C4*C5*CF*R4
+             + (((C3 + C1)*C4 + C1*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R3
+             + C1*C3*C4*C5*CF*R1)*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3)*RF
+             + ((((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)
+            *C5)*CF + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R6
+             + C1*C3*C4*C5*CF*R4 + ((C3 + C1)*C4 + C1*C3)*C5*C6*CF*R3
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*CF*R2 + C1*C3*C4*C5*CF*R1)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R4 + ((((C3 + C2)*C4 + C2*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)
+            *C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R6 + ((C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R3 + C2*C3*C4*C5*CF*R2)*R4
+             + (((C2*C4 + C2*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *CF*R2 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C1*C3*C4*C5*CF*R3 + C1*C3*C4*C5*CF*R2)*R4
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + C1*C3*C4*C5*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3)*RIN
+             + (((((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R6
+             + C2*C3*C4*C5*CF*R4 + (C2*C4 + C2*C3)*C5*C6*CF*R3
+             + (C1*C2*C4 + C1*C2*C3)*C5*CF*R1)*RB1 + (((C2*C4 + C2*C3)*C5*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R3 + ((C2*C4 + C2*C3)*C5*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R6 + (C2*C3*C4*C5*CF*R3
+             + C2*C3*C4*C5*CF*R1)*R4 + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)
+            *CF*R1*R3)*RB2 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R3
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R6
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R3 + C1*C3*C4*C5*CF*R1)*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R3)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R4*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3*R4)*RF
+             + (((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6)*R4
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5*C6*CF*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + (((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6)*R1)*R6 + (C3*C4*C5*C6*CF*R3 + C2*C3*C4*C5*CF*R2
+             + C1*C3*C4*C5*CF*R1)*R4 + ((C2*C4 + C2*C3)*C5*C6*CF*R2
+             + (C1*C4 + C1*C3)*C5*C6*CF*R1)*R3 + (C1*C2*C4 + C1*C2*C3)*C5*CF*R1*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R4 + (((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R6
+             + ((C2*C3*C4*C5*CF*R2 + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3
+             + C2*C3*C4*C5*CF*R1*R2)*R4 + ((C2*C4 + C2*C3)*C5*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*RB2
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R4
+             + (((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R6
+             + (((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2 + C1*C3*C4*C5*CF*R1)*R3
+             + C1*C3*C4*C5*CF*R1*R2)*R4 + ((C1*C4 + C1*C3)*C5*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R4*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3*R4)*RT2
+             + ((((((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*RB1
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R6 + C2*C3*C4*C5*CF*R5
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF
+            *R3 + C2*C3*C4*C5*CF*R2)*RB2 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*CF*R6 + C1*C3*C4*C5*CF*R5
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R3
+             + C1*C3*C4*C5*CF*R2)*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3)*RF
+             + (((((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R6
+             + C1*C3*C4*C5*CF*R5 + ((C1*C4*C5 + C1*C3*C4)*C6*CF + C1*C3*C4*C5*C6)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C2*C3*C4*C5)*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R5 + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3 + (((C2*C4*C5 + C2*C3*C4)*C6
+             + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R6
+             + ((C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R3 + C2*C3*C4*C5*CF*R2)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2*R3)*RB2 + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R3 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R6
+             + (C1*C3*C4*C5*CF*R3 + C1*C3*C4*C5*CF*R2)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2*R3)*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R5*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3*R5)*RIN
+             + ((((((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R6 + C2*C3*C4*C5*CF*R5
+             + ((C3 + C2)*C4*C5 + C2*C3*C4)*C6*CF*R3 + C2*C3*C4*C5*CF*R2
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*RB1
+             + ((((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R3 + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R6
+             + (C2*C3*C4*C5*CF*R3 + C2*C3*C4*C5*CF*R1)*R5
+             + (C2*C3*C4*C5*CF*R2 + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*RB2
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R5
+             + (((C3 + C1)*C4*C5 + C1*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R3 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF*R1)*R6
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R3 + C1*C3*C4*C5*CF*R1)*R5
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2 + ((C1*C4*C5 + C1*C3*C4)*C6
+             + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R5
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3)*RF
+             + (((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6)*R5
+             + (((C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*C6*CF + (C2 + C1)*C3*C4*C5*C6)*R3
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C3*C4*C5*C6*CF*R3 + C2*C3*C4*C5*CF*R2 + C1*C3*C4*C5*CF*R1)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*C6*CF + C2*C3*C4*C5*C6)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6*CF + C1*C3*C4*C5*C6)*R1)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C2*C3*C4*C5)*R1*R2)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R5 + ((((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2 + (((C2*C4*C5 + C2*C3*C4)*C6
+             + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R6 + ((C2*C3*C4*C5*CF*R2
+             + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2*R3)*RB2 + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R5
+             + ((((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R6 + (((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2
+             + C1*C3*C4*C5*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2*R3)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3*R5)*RT1
+             + ((((((((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4
+             + C1*C2*C3)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*CF*R6
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*CF*R5
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R4
+             + (((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*C6
+            *CF*R3 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*CF*R2
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*RB1
+             + (((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R5
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R4 + (((C3*C4 + C2*C3)*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*CF*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R1)*R6 + (C2*C3*C4*C5*CF*R4
+             + ((C2*C4 + C2*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R3
+             + C2*C3*C4*C5*CF*R1)*R5 + ((((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R3 + C2*C3*C4*C5*CF*R2)*R4
+             + (((C2*C4 + C2*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF
+            *R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*RB2 + (((((C3 + C1)*C4 + C1*C3)*C5*C6
+             + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R5
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF*R4
+             + (((C3*C4 + C1*C3)*C5 + C1*C3*C4)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5
+             + C1*C2*C3*C4)*CF*R3 + (((C3 + C1)*C4 + C1*C3)*C5*C6
+             + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF*R1)*R6
+             + (C1*C3*C4*C5*CF*R4 + (((C3 + C1)*C4 + C1*C3)*C5*C6
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R3 + C1*C3*C4*C5*CF*R1)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R3
+             + C1*C3*C4*C5*CF*R2)*R4 + ((((C3 + C1)*C4 + C1*C3)*C5*C6
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R3
+             + C1*C3*C4*C5*CF*R1*R2)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R5
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R6
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3)*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3)*RF
+             + (((((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)
+            *C5)*CF + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R4
+             + ((((C2 + C1)*C4 + C1*C2)*C5 + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C6*CF
+             + (((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*C6)*R3
+             + ((((C2*C4 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*CF + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C1*C3*C4*C5*CF*R4 + ((C3 + C1)*C4 + C1*C3)*C5*C6*CF*R3
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*CF*R2 + C1*C3*C4*C5*CF*R1)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6*CF + C1*C3*C4*C5*C6)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C2*C3*C4*C5)*R2)*R4
+             + ((((C2*C4 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*C6*CF
+             + (C2*C3*C4 + C1*C2*C3)*C5*C6)*R2 + ((C1*C4*C5 + C1*C3*C4)*C6*CF
+             + C1*C3*C4*C5*C6)*R1)*R3 + ((C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C2*C3*C4*C5)
+            *R1*R2)*RB1 + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R4 + ((((C3 + C2)*C4 + C2*C3)*C5*C6
+             + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R3 + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF
+            *R2 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R5 + ((((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3 + (((C2*C4*C5 + C2*C3*C4)*C6
+             + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R4
+             + ((((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2 + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R6 + (((C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R3
+             + C2*C3*C4*C5*CF*R2)*R4 + (((C2*C4 + C2*C3)*C5*C6
+             + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2*R3*R4 + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *CF*R2 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R5
+             + ((((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R3 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R4
+             + ((((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)
+            *CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R6 + ((C1*C3*C4*C5*CF*R3 + C1*C3*C4*C5*CF*R2)*R4
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*CF*R2
+             + C1*C3*C4*C5*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R2*R3*R4 + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2)*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2*R3*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3)*R5)*RIN
+             + ((((((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R5
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R4 + (((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4
+             + C1*C2*C3)*C6*CF*R3 + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF
+            *R2 + (((C1*C4 + C1*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R6 + (C2*C3*C4*C5*CF*R4
+             + (C2*C4 + C2*C3)*C5*C6*CF*R3 + (C1*C2*C4 + C1*C2*C3)*C5*CF*R1)*R5
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6*CF*R3 + C2*C3*C4*C5*CF*R2
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R4
+             + ((C2*C4 + C2*C3)*C5*C6*CF*R2 + ((C1*C4 + C1*C3 + C1*C2)*C5 + C1*C2*C4
+             + C1*C2*C3)*C6*CF*R1)*R3 + (C1*C2*C4 + C1*C2*C3)*C5*CF*R1*R2)*RB1
+             + ((((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R5
+             + ((((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R3 + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R4
+             + (((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R6
+             + ((C2*C3*C4*C5*CF*R3 + C2*C3*C4*C5*CF*R1)*R4
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R3)*R5
+             + ((C2*C3*C4*C5*CF*R2 + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*R4
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*RB2
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R3
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R5
+             + ((((C3 + C1)*C4*C5 + C1*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*CF*R3 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF*R1)*R4
+             + (((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R6
+             + (((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R3 + C1*C3*C4*C5*CF*R1)*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R3)*R5
+             + (((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2 + ((C1*C4*C5 + C1*C3*C4)*C6
+             + (C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*RB1
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R4*R5
+             + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R4)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R3*R4*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3*R4)*RF
+             + ((((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6)*R4
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5*C6*CF*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + (((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6)*R1)*R5 + ((((C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)
+            *C6*CF + (C2 + C1)*C3*C4*C5*C6)*R3 + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R1)*R4
+             + (((C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*C6*CF + C1*C2*C3*C5*C6)*R2
+             + ((C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*C6*CF + C1*C2*C3*C5*C6)*R1)*R3
+             + ((C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*C6*CF + C1*C2*C3*C5*C6)*R1*R2)*R6
+             + ((C3*C4*C5*C6*CF*R3 + C2*C3*C4*C5*CF*R2 + C1*C3*C4*C5*CF*R1)*R4
+             + ((C2*C4 + C2*C3)*C5*C6*CF*R2 + (C1*C4 + C1*C3)*C5*C6*CF*R1)*R3
+             + (C1*C2*C4 + C1*C2*C3)*C5*CF*R1*R2)*R5
+             + ((((C2*C4*C5 + C2*C3*C4)*C6*CF + C2*C3*C4*C5*C6)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6*CF + C1*C3*C4*C5*C6)*R1)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C2*C3*C4*C5)*R1*R2)*R4
+             + ((C1*C2*C5 + C1*C2*C4 + C1*C2*C3)*C6*CF + C1*C2*C3*C5*C6)*R1*R2*R3)*RB1
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R3
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)
+            *R1)*R4 + (((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R5
+             + (((((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2 + (((C2*C4*C5 + C2*C3*C4)*C6
+             + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R4)*R6 + (((C2*C3*C4*C5*CF*R2
+             + (C3*C4*C5*C6 + C1*C3*C4*C5)*CF*R1)*R3 + C2*C3*C4*C5*CF*R1*R2)*R4
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*R5
+             + (((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C2*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2*R3*R4)*RB2 + (((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF
+            *R3 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R4
+             + (((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R2
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1)*R3
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2)*R5
+             + (((((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF
+             + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2 + (((C1*C4*C5 + C1*C3*C4)*C6
+             + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2)*R4)*R6 + ((((C3*C4*C5*C6 + C2*C3*C4*C5)*CF*R2
+             + C1*C3*C4*C5*CF*R1)*R3 + C1*C3*C4*C5*CF*R1*R2)*R4
+             + ((C1*C4 + C1*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*CF*R1*R2*R3)*R5
+             + (((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*CF + C1*C3*C4*C5*C6
+             + C1*C2*C3*C4*C5)*R1*R2*R3*R4)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF
+            *R2 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2)*R4*R5*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*CF*R1*R2*R3*R4*R5, 
+
+            (((((C1*C2*C3*C4*C5*CF*RB1 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3)*RB2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3)*RB1)*RF
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R6
+             + C1*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R2)*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3)*RB1)*RIN
+             + ((((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R6 + C2*C3*C4*C5*C6*CF*R3
+             + C1*C2*C3*C4*C5*CF*R1)*RB1 + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*RB1)*RF
+             + ((((C2 + C1)*C3*C4*C5*C6*CF*R3 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R6
+             + (C2*C3*C4*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3 + C1*C2*C3*C4*C5*CF*R1*R2)
+            *RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB1)*RT1
+             + (((((((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*CF*R6
+             + C1*C2*C3*C4*C5*CF*R4 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF*R3
+             + C1*C2*C3*C4*C5*CF*R1)*RB1 + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*RB1)*RF
+             + (((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R4
+             + ((((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF + C1*C2*C3*C4*C5*C6)*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R6
+             + (C1*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R2)*R4
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB1)*RIN
+             + (((((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R3 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1)*R6
+             + (C2*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R1)*R4
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R3)*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R4*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R4)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R4*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R4)*RB1)*RF
+             + (((((C2 + C1)*C3*C4*C5*C6*CF*R3 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R4
+             + ((C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R2 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1)*R3
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2)*R6
+             + ((C2*C3*C4*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3 + C1*C2*C3*C4*C5*CF*R1*R2)
+            *R4 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2*R3)*RB1
+             + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4)*RB1)*RT2
+             + ((((((((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*CF*R6
+             + C1*C2*C3*C4*C5*CF*R5 + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R3
+             + C1*C2*C3*C4*C5*CF*R2)*RB1 + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3)*RB1)*RF
+             + (((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R5
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2)*R6
+             + (C1*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R2)*R5
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2*R3)*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R5*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R5)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R5*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R5)*RB1)*RIN
+             + (((((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R5
+             + (((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C2*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R1)*R5
+             + (C2*C3*C4*C5*C6*CF*R2 + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R5
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R5
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB1)*RF
+             + (((((C2 + C1)*C3*C4*C5*C6*CF*R3 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R5
+             + (((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1*R2)*R6
+             + ((C2*C3*C4*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3 + C1*C2*C3*C4*C5*CF*R1*R2)
+            *R5 + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1*R2*R3)*RB1
+             + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R5)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R5)*RB1)*RT1
+             + ((((((((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*CF*R5
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*C6*CF*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*CF*R1)*R6
+             + (C1*C2*C3*C4*C5*CF*R4 + ((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF*R3
+             + C1*C2*C3*C4*C5*CF*R1)*R5 + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R3
+             + C1*C2*C3*C4*C5*CF*R2)*R4 + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF*R2
+             + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R5
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R5
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R6
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3)*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*RB1)*RF
+             + ((((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R4
+             + ((((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF + C1*C2*C3*C4*C5*C6)*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R5
+             + (((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2)*R4
+             + (((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1*R2)*R6
+             + ((C1*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R2)*R4
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*R5 + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF
+             + C1*C2*C3*C4*C5*C6)*R2*R3*R4 + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF
+             + C1*C2*C3*C4*C5*C6)*R1*R2*R3)*RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*R5)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2)*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R5*R6
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2*R3*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3)*R5)*RB1)*RIN
+             + ((((((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R4
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R3 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1)*R5
+             + ((((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*CF*R1)*R4
+             + ((C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R2 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1)*R3
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2)*R6
+             + ((C2*C3*C4*C5*C6*CF*R3 + C1*C2*C3*C4*C5*CF*R1)*R4
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R3)*R5
+             + ((C2*C3*C4*C5*C6*CF*R2 + ((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*R4 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2*R3)*RB1
+             + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R4*R5
+             + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R4*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R4*R5
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R3*R4*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4)*RB1)*RF
+             + ((((((C2 + C1)*C3*C4*C5*C6*CF*R3 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF + C1*C2*C3*C4*C5*C6)*R1)*R4
+             + ((C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R2 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1)*R3
+             + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2)*R5
+             + ((((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R2
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1)*R3
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1*R2)*R4)*R6
+             + (((C2*C3*C4*C5*C6*CF*R2 + C1*C3*C4*C5*C6*CF*R1)*R3
+             + C1*C2*C3*C4*C5*CF*R1*R2)*R4 + (C1*C2*C4 + C1*C2*C3)*C5*C6*CF*R1*R2*R3)*R5
+             + ((C1*C2*C4*C5 + C1*C2*C3*C4)*C6*CF + C1*C2*C3*C4*C5*C6)*R1*R2*R3*R4)*RB1
+             + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4*R5*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4*R5)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2)*R4*R5*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*CF*R1*R2*R3*R4*R5)*RB1, 
+
+            C1*C2*C3*C4*C5*C6*CF*RB1*RB2*(((((R6 + R3)*RF + (R3 + R2)*R6 + R2*R3)*RIN
+             + ((R3 + R1)*R6 + R1*R3)*RF + ((R2 + R1)*R3 + R1*R2)*R6 + R1*R2*R3)*RT1
+             + (((R4 + R3 + R1)*R6 + R3*R4 + R1*R3)*RF
+             + ((R3 + R2)*R4 + (R2 + R1)*R3 + R1*R2)*R6 + R2*R3*R4 + R1*R2*R3)*RIN
+             + ((R3 + R1)*R4*R6 + R1*R3*R4)*RF + ((R2 + R1)*R3 + R1*R2)*R4*R6
+             + R1*R2*R3*R4)*RT2 + ((((R5 + R3 + R2)*R6 + R3*R5 + R2*R3)*RF
+             + (R3 + R2)*R5*R6 + R2*R3*R5)*RIN + (((R3 + R1)*R5 + (R2 + R1)*R3 + R1*R2)*R6
+             + R1*R3*R5 + R1*R2*R3)*RF + ((R2 + R1)*R3 + R1*R2)*R5*R6 + R1*R2*R3*R5)*RT1
+             + ((((R4 + R3 + R1)*R5 + (R3 + R2)*R4 + (R2 + R1)*R3 + R1*R2)*R6
+             + (R3*R4 + R1*R3)*R5 + R2*R3*R4 + R1*R2*R3)*RF
+             + ((R3 + R2)*R4 + (R2 + R1)*R3 + R1*R2)*R5*R6 + (R2*R3*R4 + R1*R2*R3)*R5)*RIN
+             + (((R3 + R1)*R4*R5 + ((R2 + R1)*R3 + R1*R2)*R4)*R6 + R1*R3*R4*R5
+             + R1*R2*R3*R4)*RF + ((R2 + R1)*R3 + R1*R2)*R4*R5*R6 + R1*R2*R3*R4*R5)
+        ];
+
+
+        // Transfer function numerator coefficients
+        var numCoeffs = [
+            - (C5 + C4 + C3)*(RF + RB2 + R2), 
+
+            - (((C4 + C3)*C5*RF + (C4 + C3)*C5*RB2 + (C4 + C3)*C5*R2)*RT2
+             + ((C4*C5 + C3*C4)*RF + (C4*C5 + C3*C4)*RB2 + (C4*C5 + C3*C4)*R2)*RT1
+             + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*RB2 + (C4*C5 + C3*C4)*RB1
+             + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4 + (C2 + C1)*C3)*R6
+             + (C4 + C3)*C5*R5 + (C4*C5 + C3*C4)*R4 + (C3*C5 + C3*C4)*R3 + (C4 + C3)*C5*R2
+             + (C4*C5 + C3*C4)*R1)*RF + (C3*C4*RB1 + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5
+             + (C2 + C1)*C4 + (C2 + C1)*C3)*R6 + (C4 + C3)*C5*R5 + (C4*C5 + C3*C4)*R4
+             + C3*C4*R3 + (C2*C5 + C2*C4 + C2*C3)*R2 + C3*C4*R1)*RB2
+             + (C3*C4*R3 + C3*C4*R2)*RB1 + ((C5 + C4 + C3)*C6 + (C2 + C1)*C5 + (C2 + C1)*C4
+             + (C2 + C1)*C3)*R2*R6 + (C4 + C3)*C5*R2*R5 + (C4*C5 + C3*C4)*R2*R4
+             + (C3*C4*R2 + C3*C4*R1)*R3 + C3*C4*R1*R2), 
+
+            - (((C3*C4*C5*RF + C3*C4*C5*RB2 + C3*C4*C5*R2)*RT1
+             + ((C2*C4 + C2*C3)*C5*RB2 + C3*C4*C5*RB1
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R6 + C3*C4*C5*R4
+             + C3*C4*C5*R3 + C3*C4*C5*R1)*RF + (C3*C4*C5*RB1
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R6 + C3*C4*C5*R4
+             + C3*C4*C5*R3 + (C2*C4 + C2*C3)*C5*R2 + C3*C4*C5*R1)*RB2
+             + (C3*C4*C5*R3 + C3*C4*C5*R2)*RB1 + ((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R2*R6 + C3*C4*C5*R2*R4
+             + (C3*C4*C5*R2 + C3*C4*C5*R1)*R3 + C3*C4*C5*R1*R2)*RT2
+             + ((((C3 + C2)*C4*C5 + C2*C3*C4)*RB2 + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*R6 + C3*C4*C5*R5 + C3*C4*C5*R3 + C3*C4*C5*R2)*RF
+             + (((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R6 + C3*C4*C5*R5
+             + (C2*C4*C5 + C2*C3*C4)*R2)*RB2 + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5
+             + (C2 + C1)*C3*C4)*R2*R6 + C3*C4*C5*R2*R5)*RT1
+             + (((C3*C4*C5 + C2*C3*C4)*RB1 + (((C4 + C3 + C2)*C5 + C2*C4 + C2*C3)*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3 + C1*C2)*C5 + C1*C2*C4 + C1*C2*C3)*R6
+             + (C2*C4 + C2*C3)*C5*R5 + ((C3 + C2)*C4*C5 + C2*C3*C4)*R4
+             + (C3*C4*C5 + C2*C3*C4)*R3 + (C2*C4 + C2*C3)*C5*R2 + (C3*C4*C5 + C2*C3*C4)*R1)
+            *RB2 + ((((C4 + C1)*C5 + (C3 + C1)*C4 + C1*C3)*C6 + ((C2 + C1)*C4 + C1*C2)*C5
+             + ((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*R6 + C3*C4*C5*R5
+             + (C3*C4*C6 + C3*C4*C5 + C2*C3*C4)*R3 + C3*C4*C5*R2
+             + (C1*C4*C5 + C1*C3*C4)*R1)*RB1 + (((C4 + C3)*C5*C6
+             + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R4
+             + ((C3*C5 + C3*C4)*C6 + (C2 + C1)*C3*C5 + (C2 + C1)*C3*C4)*R3
+             + ((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R2
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R1)*R6
+             + (C3*C4*C5*R4 + C3*C4*C5*R3 + C3*C4*C5*R1)*R5
+             + (C3*C4*C5*R3 + C3*C4*C5*R2)*R4 + (C3*C4*C5*R2
+             + (C3*C4*C6 + C3*C4*C5 + (C2 + C1)*C3*C4)*R1)*R3 + C3*C4*C5*R1*R2)*RF
+             + ((((C1*C5 + (C3 + C1)*C4 + C1*C3)*C6 + (C2 + C1)*C3*C4)*R6 + C3*C4*C5*R5
+             + C3*C4*C6*R3 + C2*C3*C4*R2 + C1*C3*C4*R1)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R4
+             + (C3*C4*C6 + (C2 + C1)*C3*C4)*R3 + ((C2*C5 + C2*C4 + C2*C3)*C6 + C1*C2*C5
+             + C1*C2*C4 + C1*C2*C3)*R2 + (C3*C4*C6 + (C2 + C1)*C3*C4)*R1)*R6
+             + (C3*C4*C5*R4 + C3*C4*C5*R3 + (C2*C4 + C2*C3)*C5*R2 + C3*C4*C5*R1)*R5
+             + (C2*C4*C5 + C2*C3*C4)*R2*R4 + (C2*C3*C4*R2 + (C3*C4*C6 + C1*C3*C4)*R1)*R3
+             + C2*C3*C4*R1*R2)*RB2 + (((C3*C4*C6 + (C2 + C1)*C3*C4)*R3
+             + ((C1*C5 + (C3 + C1)*C4 + C1*C3)*C6 + C1*C2*C5 + ((C2 + C1)*C3 + C1*C2)*C4
+             + C1*C2*C3)*R2)*R6 + (C3*C4*C5*R3 + C3*C4*C5*R2)*R5
+             + ((C3*C4*C6 + C2*C3*C4)*R2 + C1*C3*C4*R1)*R3 + C1*C3*C4*R1*R2)*RB1
+             + (((C4 + C3)*C5*C6 + ((C2 + C1)*C4 + (C2 + C1)*C3)*C5)*R2*R5
+             + ((C4*C5 + C3*C4)*C6 + (C2 + C1)*C4*C5 + (C2 + C1)*C3*C4)*R2*R4
+             + ((C3*C4*C6 + (C2 + C1)*C3*C4)*R2 + (C3*C4*C6 + (C2 + C1)*C3*C4)*R1)*R3
+             + (C3*C4*C6 + (C2 + C1)*C3*C4)*R1*R2)*R6
+             + (C3*C4*C5*R2*R4 + (C3*C4*C5*R2 + C3*C4*C5*R1)*R3 + C3*C4*C5*R1*R2)*R5
+             + (C3*C4*C6 + (C2 + C1)*C3*C4)*R1*R2*R3), 
+
+            - ((((C2*C3*C4*C5*RB2 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R6)*RF
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R6 + C2*C3*C4*C5*R2)*RB2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2*R6)*RT1
+             + ((C2*C3*C4*C5*RB1 + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R6
+             + C2*C3*C4*C5*R4 + C2*C3*C4*C5*R3 + C2*C3*C4*C5*R1)*RB2
+             + ((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R6 + (C3*C4*C5*C6 + C2*C3*C4*C5)*R3 + C1*C3*C4*C5*R1)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R3)*RF
+             + (((((C3 + C1)*C4 + C1*C3)*C5*C6 + (C2 + C1)*C3*C4*C5)*R6 + C3*C4*C5*C6*R3
+             + C2*C3*C4*C5*R2 + C1*C3*C4*C5*R1)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R6 + C2*C3*C4*C5*R2*R4
+             + (C2*C3*C4*C5*R2 + (C3*C4*C5*C6 + C1*C3*C4*C5)*R1)*R3 + C2*C3*C4*C5*R1*R2)
+            *RB2 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R2)*R6 + ((C3*C4*C5*C6 + C2*C3*C4*C5)*R2 + C1*C3*C4*C5*R1)*R3
+             + C1*C3*C4*C5*R1*R2)*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3)*RT2
+             + ((((((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*R6 + C2*C3*C4*C5*R5 + C2*C3*C4*C5*R2)*RB2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R6*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2)*R6)*RF
+             + ((C1*C4*C5 + C1*C3*C4)*C6*R6*RB1 + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R5
+             + ((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R2)*R6
+             + C2*C3*C4*C5*R2*R5)*RB2 + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5
+             + C1*C2*C3*C4)*R2*R6*RB1 + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2*R5*R6)*RT1
+             + (((((((C3 + C2 + C1)*C4 + C1*C3 + C1*C2)*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)
+            *C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*R6 + C2*C3*C4*C5*R5
+             + (C3*C4*C5 + C2*C3*C4)*C6*R3 + C2*C3*C4*C5*R2
+             + (C1*C3*C4*C5 + C1*C2*C3*C4)*R1)*RB1 + (((C2*C4 + C2*C3)*C5*C6
+             + (C1*C2*C4 + C1*C2*C3)*C5)*R5 + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6
+             + ((C2 + C1)*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*R4
+             + (((C3*C4 + C2*C3)*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5
+             + C1*C2*C3*C4)*R3 + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R2
+             + (((C3 + C2)*C4*C5 + C2*C3*C4)*C6 + ((C2 + C1)*C3 + C1*C2)*C4*C5
+             + C1*C2*C3*C4)*R1)*R6 + (C2*C3*C4*C5*R4 + C2*C3*C4*C5*R3 + C2*C3*C4*C5*R1)*R5
+             + C2*C3*C4*C5*R2*R4 + (C2*C3*C4*C5*R2 + ((C3*C4*C5 + C2*C3*C4)*C6
+             + C1*C3*C4*C5 + C1*C2*C3*C4)*R1)*R3 + C2*C3*C4*C5*R1*R2)*RB2
+             + (((((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R5 + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R4
+             + (((C3*C4 + C1*C3)*C5 + C1*C3*C4)*C6 + ((C2 + C1)*C3*C4 + C1*C2*C3)*C5
+             + C1*C2*C3*C4)*R3 + (((C3 + C1)*C4 + C1*C3)*C5*C6
+             + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)*R2
+             + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R1)*R6
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*R3 + C1*C3*C4*C5*R1)*R5
+             + ((C3*C4*C5*C6 + C2*C3*C4*C5)*R2 + (C1*C3*C4*C6 + C1*C3*C4*C5 + C1*C2*C3*C4)
+            *R1)*R3 + C1*C3*C4*C5*R1*R2)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R5
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2)*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2)*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R3*R5
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3)*RF
+             + ((((((C3 + C1)*C4 + C1*C3)*C5*C6 + (C2 + C1)*C3*C4*C5)*R5
+             + (C1*C4*C5 + C1*C3*C4)*C6*R4 + (C2 + C1)*C3*C4*C6*R3
+             + ((C1*C2*C5 + (C2*C3 + C1*C2)*C4 + C1*C2*C3)*C6 + C1*C2*C3*C4)*R2
+             + (C1*C3*C4*C6 + C1*C2*C3*C4)*R1)*R6 + (C3*C4*C5*C6*R3 + C2*C3*C4*C5*R2
+             + C1*C3*C4*C5*R1)*R5 + (C2*C3*C4*C6*R2 + C1*C3*C4*C6*R1)*R3
+             + C1*C2*C3*C4*R1*R2)*RB1 + (((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R4
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + ((C2*C4 + C2*C3)*C5*C6 + (C1*C2*C4 + C1*C2*C3)*C5)*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R5
+             + ((C2*C4*C5 + C2*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R2*R4
+             + ((C2*C3*C4*C6 + C1*C2*C3*C4)*R2 + (C2*C3*C4*C6 + C1*C2*C3*C4)*R1)*R3
+             + (C2*C3*C4*C6 + C1*C2*C3*C4)*R1*R2)*R6
+             + (C2*C3*C4*C5*R2*R4 + (C2*C3*C4*C5*R2 + (C3*C4*C5*C6 + C1*C3*C4*C5)*R1)*R3
+             + C2*C3*C4*C5*R1*R2)*R5 + (C2*C3*C4*C6 + C1*C2*C3*C4)*R1*R2*R3)*RB2
+             + ((((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R3
+             + (((C3 + C1)*C4 + C1*C3)*C5*C6 + (((C2 + C1)*C3 + C1*C2)*C4 + C1*C2*C3)*C5)
+            *R2)*R5 + ((C1*C4*C5 + C1*C3*C4)*C6 + C1*C2*C4*C5 + C1*C2*C3*C4)*R2*R4
+             + ((C1*C3*C4*C6 + C1*C2*C3*C4)*R2 + (C1*C3*C4*C6 + C1*C2*C3*C4)*R1)*R3
+             + (C1*C3*C4*C6 + C1*C2*C3*C4)*R1*R2)*R6
+             + (((C3*C4*C5*C6 + C2*C3*C4*C5)*R2 + C1*C3*C4*C5*R1)*R3 + C1*C3*C4*C5*R1*R2)
+            *R5 + (C1*C3*C4*C6 + C1*C2*C3*C4)*R1*R2*R3)*RB1
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2*R4
+             + ((C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R2
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1)*R3
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2)*R5*R6
+             + (C3*C4*C5*C6 + (C2 + C1)*C3*C4*C5)*R1*R2*R3*R5), 
+
+            - (((((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R6*RB2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R6*RB1)*RF
+             + (C1*C3*C4*C5*C6*R6*RB1 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R6)*RB2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R6*RB1)*RT1
+             + ((((((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R6
+             + C2*C3*C4*C5*C6*R3 + C1*C2*C3*C4*C5*R1)*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)
+            *R6 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R3)*RB1)*RF
+             + (((C1*C3*C4*C5*C6*R4 + (C2 + C1)*C3*C4*C5*C6*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C2*C3*C4*C5*C6*R2 + C1*C3*C4*C5*C6*R1)*R3 + C1*C2*C3*C4*C5*R1*R2)*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB1)*RT2
+             + ((((((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R6*RB1
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R5 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R6)*RB2
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R5 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R6*RB1)*RF
+             + ((C1*C3*C4*C5*C6*R5 + (C1*C2*C4*C5 + C1*C2*C3*C4)*C6*R2)*R6*RB1
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R5*R6)*RB2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R5*R6*RB1)*RT1
+             + (((((((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R5
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R4
+             + (((C2 + C1)*C3*C4 + C1*C2*C3)*C5 + C1*C2*C3*C4)*C6*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (((C1*C3 + C1*C2)*C4*C5 + C1*C2*C3*C4)*C6 + C1*C2*C3*C4*C5)*R1)*R6
+             + (C2*C3*C4*C5*C6*R3 + C1*C2*C3*C4*C5*R1)*R5
+             + (C2*C3*C4*C5*C6*R2 + (C1*C3*C4*C5 + C1*C2*C3*C4)*C6*R1)*R3
+             + C1*C2*C3*C4*C5*R1*R2)*RB1 + (((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3 + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)
+            *R5 + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R3*R5
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB2
+             + ((((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R4
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3 + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)
+            *R5 + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2)*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R3*R5
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3)*RB1)*RF
+             + ((((C1*C3*C4*C5*C6*R4 + (C2 + C1)*C3*C4*C5*C6*R3
+             + (((C2*C3 + C1*C2)*C4 + C1*C2*C3)*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R5
+             + (C1*C2*C4*C5 + C1*C2*C3*C4)*C6*R2*R4
+             + (C1*C2*C3*C4*C6*R2 + C1*C2*C3*C4*C6*R1)*R3 + C1*C2*C3*C4*C6*R1*R2)*R6
+             + ((C2*C3*C4*C5*C6*R2 + C1*C3*C4*C5*C6*R1)*R3 + C1*C2*C3*C4*C5*R1*R2)*R5
+             + C1*C2*C3*C4*C6*R1*R2*R3)*RB1 + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R4
+             + ((C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R5*R6
+             + (C2*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3*R5)*RB2
+             + (((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2*R4
+             + ((C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R2
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1)*R3
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2)*R5*R6
+             + (C1*C3*C4*C5*C6 + C1*C2*C3*C4*C5)*R1*R2*R3*R5)*RB1), 
+
+            - C1*C2*C3*C4*C5*C6*RB1*RB2*(((R6*RF + R2*R6)*RT1
+             + ((R4 + R3 + R1)*R6 + R1*R3)*RF + (R2*R4 + (R2 + R1)*R3 + R1*R2)*R6
+             + R1*R2*R3)*RT2 + ((R5 + R3 + R2)*R6*RF + R2*R5*R6)*RT1
+             + (((R4 + R3 + R1)*R5 + (R3 + R2)*R4 + (R2 + R1)*R3 + R1*R2)*R6 + R1*R3*R5
+             + R1*R2*R3)*RF + (R2*R4 + (R2 + R1)*R3 + R1*R2)*R5*R6 + R1*R2*R3*R5)
+        ];
+
+
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(numCoeffs, denCoeffs);
+        currentGraph.update();
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>

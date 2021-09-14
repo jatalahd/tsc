@@ -1,0 +1,86 @@
+/* Maxima batch file for solving circuit transfer function from matrix representation  */
+/* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
+/* evaluated separately as polynomial coefficients in powers of complex variable s.    */
+/* Jarmo L. 14.9.2018 */
+
+/* This variation of a James/Baxandall two-band shelving tone stack offers:   */
+/*  - active circuitry (opamp w/ negative feedback)                           */
+/*  - three capacitors in the bass control                                    */
+/*  - three capacitors in the treble control                                  */
+/*  - attenuation of higher highs via additional feedback capacitor (CF)      */
+/* Charles Day 23.08.2021 */
+
+
+/* Report the starting time */
+timedate();
+
+/* Set maxima options */
+showtime: true$           /* Show computation and elapsed time for each step */
+stardisp: true$           /* Multiplication is displayed with an asterisk between operands */
+ratmx: true$              /* Matrix operations are performed in CRE */
+
+
+/* Matrix of coefficients obtained from nodes in the circuit */
+A:matrix(
+  [   Y1   , -1/R1  ,   0    ,   0    , -1/ZT1 ,   0    ,   0   ,   0   ],
+  [ -1/R1  ,   Y2   , -1/RB1 ,   0    ,    0   ,   0    , -s*C1 ,   0   ],
+  [   0    , -1/RB1 ,   Y3   , -1/RB2 ,    0   ,   0    , -s*C6 ,   0   ],
+  [   0    ,    0   , -1/RB2 ,   Y4   ,    0   , -1/R2  , -s*C2 ,   0   ],
+  [ -1/ZT1 ,    0   ,   0    ,   0    ,   Y5   , -1/ZT2 ,   0   ,   0   ],
+  [   0    ,    0   ,   0    , -1/R2  , -1/ZT2 ,   Y6   ,   0   , -1/RF ],
+  [   0    , -s*C1  , -s*C6  , -s*C2  ,    0   ,   0    ,   Y7  ,   0   ],
+  [   0    ,    0   , -1/R3  ,   0    , -s*C3  ,   0    ,   0   ,  Y8   ]
+)$
+
+/* Solve for the transfer function via Cramer's rule */
+(-1/RIN)*(determinant(minor(A,1,8))/determinant(A))$
+
+/* Replace the simplified admittances and impedances with full expressions */
+ratsubst(1/RIN+1/R1+1/ZT1     , Y1 , %)$
+ratsubst(1/R1+1/RB1+s*C1      , Y2 , %)$
+ratsubst(1/R3+1/RB1+1/RB2+s*C6, Y3 , %)$
+ratsubst(1/R2+1/RB2+s*C2      , Y4 , %)$
+ratsubst(1/ZT1+1/ZT2+s*C3     , Y5 , %)$
+ratsubst(1/R2+1/ZT2+1/RF      , Y6 , %)$
+ratsubst(1/R6+s*C1+s*C2+s*C6  , Y7 , %)$
+ratsubst(-s*CF                , Y8 , %)$
+ratsubst(R4+RT1+1/(s*C4)      , ZT1, %)$
+ratsubst(R5+RT2+1/(s*C5)      , ZT2, %)$
+
+/* Separate the transfer function's numerator from its denominator */
+fs:factor(%)$
+pld: expand(denom(fs))$
+pln: expand(num(fs))$
+
+
+/*
+ * Given a polynomial, this function returns an array of its coefficients
+ * in increasing powers of the specified variable. For example, if p is a
+ * polynomial in s like:
+ *                               3      2
+ *                           a3*s + a2*s + a1*s + a0
+ *
+ * then coeffs(p,s) would return [a0, a1, a2, a3].
+ *
+ */
+coeffs(p,x) := block([l], l : [],
+                   for i from hipow(p,x) thru 0 step -1 do
+                       (l : cons(coeff(p,x,i),l)), l)$
+
+/*
+ * This function factors each element of an array and returns the results
+ * in a new array.
+ */
+factorarray(p) := block([l], l : [],
+                      for i from length(p) thru 1 step -1 do
+                          (l : cons(factor(p[i]),l)), l)$
+
+/* Get the coefficients of the transfer function's denominator and numerator. */
+facexpand: false$         /* Factor into recursive form, rather than expanded */
+coeffs(pld,s)$
+factorarray(%);
+coeffs(pln,s)$
+factorarray(%);
+
+/* Report the finishing time */
+timedate();

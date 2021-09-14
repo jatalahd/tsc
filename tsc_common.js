@@ -38,6 +38,7 @@ var pages = [
     ["Vox"           , 'vox.htm'      ],
     ["James"         , menuJames      ],
     ["Baxandall"     , menuBaxandall  ],
+    ["Neve"          , 'nevehilo.htm' ],
     ["Bench"         , 'bench.htm'    ],
     ["Big Muff"      , 'bigmuff.htm'  ],
     ["Hiwatt"        , 'hiwatt.htm'   ],
