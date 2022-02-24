@@ -7,6 +7,7 @@ var menuFender = [
     ["E-series"             , 'eseries.htm' ],
     ["Princeton 5E2"        , 'princeton5e2.htm'],
     ["Princeton 5F2A"       , 'princeton.htm'],
+    ["Pro Junior"           , 'projunior.htm'],
 ];
 
 var menuDumble = [

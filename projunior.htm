@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE class="tonestack-layout">
+    <TR>
+      <TD colspan="3" class="navbar">
+        <DIV id="linkDiv" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD class="tonestack-image">
+        <IMG src="projunior2_pic.png"></IMG>
+      </TD>
+      <TD class="tonestack-values">
+        <table class="tonestack-values-table">
+          <thead>
+            <tr>
+              <th class="tonestack-value-th-part">Part</th>
+              <th class="tonestack-value-th-value">Value</th>
+              <th class="tonestack-value-th-unit"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RIN">RIN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RT">RT</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RB">RV</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RV" id="id_RV" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R1">R1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R2">R2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R3">R3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R3" id="id_R3" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RL">RL</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C1">C1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C2">C2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C3">C3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C4">C4</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C4" id="id_C4" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+          </tbody>
+        </table>
+        <CENTER>
+          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" class="tonestack-values-button">
+          <INPUT type="submit" name="apply" value="Apply" title="Apply values" id="id_apply" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" class="tonestack-values-button">
+        </CENTER>
+      </TD>
+      <TD rowspan="2" class="tonestack-graph-panel">
+        <div class="tonestack-bar">
+          <div class="tonestack-graph-toggle">
+            Amplitude<input type="checkbox" name="graphToggle" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" class="tonestack-values-button tonestack-graph-button">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+          <div id="graph" class="tonestack-graph"></div>
+          <div id="graph2" class="tonestack-graph hidden"></div>
+          <div id="legendDiv" class="tonestack-graph-value"></div>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders">
+        <BR>
+          <SPAN id="label_RT" class="tonestack-slider-label">RT
+          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot">
+            <option value="Linear" selected="selected">Linear</option>
+            <option value="LogA">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RT" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RV" class="tonestack-slider-label">RV
+          <select id="id_RV_pot" name="RV_pot" class="tonestack-select-pot">
+            <option value="Linear">Linear</option>
+            <option value="LogA" selected="selected">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RV" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RV" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page
+    createLinks("linkDiv","Fender","Pro Junior");
+
+    // define component variables for calculation
+    var RTone;
+    var RVol;
+    var RIN;
+    var R1;
+    var R2;
+    var R3;
+    var RL;
+    var C1;
+    var C2;
+    var C3;
+    var C4;
+
+    // create sliders and save the div-element of the slider
+    var range_RV = createSlider('range_RV','value_RV');
+    var range_RT = createSlider('range_RT','value_RT');
+
+    // Graph objects
+    var X = createFrequencies(90,10,100000,1);
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Fender Pro Junior");
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Fender Pro Junior", 0, "graph2");
+    currentGraph = graph1;
+
+    initializeForm();
+
+    // Set default part values, plus any customizations
+    setDefaultValues();
+    setCustomValues();
+
+    // Apply part values and display settings
+    applyValues();
+    if (document.frm.graphToggle.checked) {
+        swapGraphs();
+    }
+
+
+    // this function is called when the Apply-button is clicked
+    function applyValues() {
+        const f = document.frm;
+
+        RIN     = tscResistance.parseElement(f.RIN);
+        RVol    = tscResistance.parseElement(f.RV);
+        RTone   = tscResistance.parseElement(f.RT);
+        R1      = tscResistance.parseElement(f.R1);
+        R2      = tscResistance.parseElement(f.R2);
+        R3      = tscResistance.parseElement(f.R3);
+        RL      = tscResistance.parseElement(f.RL);
+        C1      = tscCapacitance.parseElement(f.C1);
+        C2      = tscCapacitance.parseElement(f.C2);
+        C3      = tscCapacitance.parseElement(f.C3);
+        C4      = tscCapacitance.parseElement(f.C4);
+
+        // set the input fields to readonly mode
+        var inputElements = f.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+            }
+        }
+
+        updateURL();
+        doCalc();
+    }
+
+
+    // this function is called when the Edit-button is clicked
+    function editValues() {
+        var inputElements = document.frm.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+            }
+        }
+    }
+
+
+    // This function resets form fields to their default values
+    function setDefaultValues() {
+        const f = document.frm;
+
+        // Pair form element names to default values
+        const defaultValues = {
+            RIN    : "38k",
+            RT     : "250k",
+            RV     : "250k",
+            R1     : "56k",
+            R2     : "470k",
+            R3     : "100",
+            RL     : "1M",
+            C1     : "10n",
+            C2     : "22p",
+            C3     : "10n",
+            C4     : "3.3n",
+            RV_pot : "LogA",
+            RT_pot : "Linear"
+        }
+
+        // Set default values and clear any custom form validation errors
+        for (var key in defaultValues) {
+            f[key].value = defaultValues[key];
+            f[key].setCustomValidity("");
+        }
+    }
+
+
+    // creates a sweep plot with max and mid values
+    // prints amplitude data to console for testing
+    // against model validity. Use "store as global variable"
+    // in Firefox for all arrays and then ''+temp8;
+    // This function creates the sweep for extreme values
+    function sweepValues() {
+        for (p = 5; p <= 10; p += 5) {
+            range_RV.noUiSlider.set(p);
+            for (q = 0; q <=10; q += 5) {
+                range_RT.noUiSlider.set(q);
+                addSeries();
+            }
+        }
+    }
+
+
+    // This function is called with every change of the slider.
+    // It does the hard math and evaluates the filter transfer function
+    // for the given frequency range and updates values to the graph.
+    function doCalc() {
+
+        // pot rotation 0 - 10 from the slider component
+        var RotTone = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+        var RotVol  = getRotationForPotType(range_RV.noUiSlider.get(), document.frm.RV_pot.value);
+
+
+        var RT2  = Math.round( RTone*(1.0*RotTone/10.0) );
+        var RT1  = Math.round( RTone*(1.0 - 1.0*RotTone/10.0) );
+        var RV2  = Math.round( RVol*(1.0*RotVol/10.0) );
+        var RV1  = Math.round( RVol*(1.0 - 1.0*RotVol/10.0) );
+
+        // Transfer function coefficients
+
+
+var DEN_XRe = C1*C2*C3*C4*R2*RIN*RT1*RT2*RV1*RV2 + C1*C2*C3*C4*R1*R2*RT1*RT2*RV1*RV2
+ + C1*C2*C3*C4*R2*RIN*RL*RT2*RV1*RV2 + C1*C2*C3*C4*R1*R2*RL*RT2*RV1*RV2
+ + C1*C2*C3*C4*R2*R3*RIN*RT2*RV1*RV2 + C1*C2*C3*C4*R1*R2*RIN*RT2*RV1*RV2
+ + C1*C2*C3*C4*R1*R2*R3*RT2*RV1*RV2 + C1*C2*C3*C4*R1*R2*RIN*RT1*RV1*RV2
+ + C1*C2*C3*C4*R1*R2*RIN*RL*RV1*RV2 + C1*C2*C3*C4*R1*R2*R3*RIN*RV1*RV2
+ + C1*C2*C3*C4*R2*RIN*RL*RT1*RT2*RV2 + C1*C2*C3*C4*R1*R2*RL*RT1*RT2*RV2
+ + C1*C2*C3*C4*R2*R3*RIN*RT1*RT2*RV2 + C1*C2*C3*C4*R1*R2*RIN*RT1*RT2*RV2
+ + C1*C2*C3*C4*R1*R2*R3*RT1*RT2*RV2 + C1*C2*C3*C4*R1*R2*RIN*RL*RT1*RV2
+ + C1*C2*C3*C4*R1*R2*R3*RIN*RT1*RV2 + C1*C2*C3*C4*R2*RIN*RL*RT1*RT2*RV1
+ + C1*C2*C3*C4*R1*R2*RL*RT1*RT2*RV1 + C1*C2*C3*C4*R2*R3*RIN*RT1*RT2*RV1
+ + C1*C2*C3*C4*R1*R2*R3*RT1*RT2*RV1 + C1*C2*C3*C4*R1*R2*RIN*RL*RT2*RV1
+ + C1*C2*C3*C4*R1*R2*R3*RIN*RT2*RV1 + C1*C2*C3*C4*R1*R2*RIN*RL*RT1*RV1
+ + C1*C2*C3*C4*R1*R2*R3*RIN*RT1*RV1 + C1*C2*C3*C4*R1*R2*RIN*RL*RT1*RT2
+ + C1*C2*C3*C4*R1*R2*R3*RIN*RT1*RT2;
+
+
+var DEN_AIm = C1*C3*C4*RIN*RT1*RT2*RV1*RV2 + C2*C3*C4*R2*RT1*RT2*RV1*RV2
+ + C1*C3*C4*R2*RT1*RT2*RV1*RV2 + C1*C3*C4*R1*RT1*RT2*RV1*RV2
+ + C1*C3*C4*RIN*RL*RT2*RV1*RV2 + C2*C3*C4*R2*RL*RT2*RV1*RV2
+ + C1*C3*C4*R2*RL*RT2*RV1*RV2 + C1*C3*C4*R1*RL*RT2*RV1*RV2
+ + C1*C3*C4*R3*RIN*RT2*RV1*RV2 + C1*C2*C4*R2*RIN*RT2*RV1*RV2
+ + C1*C3*C4*R1*RIN*RT2*RV1*RV2 + C2*C3*C4*R2*R3*RT2*RV1*RV2
+ + C1*C3*C4*R2*R3*RT2*RV1*RV2 + C1*C3*C4*R1*R3*RT2*RV1*RV2
+ + C2*C3*C4*R1*R2*RT2*RV1*RV2 + C1*C3*C4*R1*R2*RT2*RV1*RV2
+ + C1*C2*C4*R1*R2*RT2*RV1*RV2 + C1*C2*C3*R2*RIN*RT1*RV1*RV2
+ + C1*C3*C4*R1*RIN*RT1*RV1*RV2 + C2*C3*C4*R1*R2*RT1*RV1*RV2
+ + C1*C3*C4*R1*R2*RT1*RV1*RV2 + C1*C2*C3*R1*R2*RT1*RV1*RV2
+ + C1*C2*C3*R2*RIN*RL*RV1*RV2 + C1*C3*C4*R1*RIN*RL*RV1*RV2
+ + C2*C3*C4*R1*R2*RL*RV1*RV2 + C1*C3*C4*R1*R2*RL*RV1*RV2
+ + C1*C2*C3*R1*R2*RL*RV1*RV2 + C1*C2*C3*R2*R3*RIN*RV1*RV2
+ + C1*C3*C4*R1*R3*RIN*RV1*RV2 + C1*C2*C4*R1*R2*RIN*RV1*RV2
+ + C1*C2*C3*R1*R2*RIN*RV1*RV2 + C2*C3*C4*R1*R2*R3*RV1*RV2
+ + C1*C3*C4*R1*R2*R3*RV1*RV2 + C1*C2*C3*R1*R2*R3*RV1*RV2
+ + C1*C3*C4*RIN*RL*RT1*RT2*RV2 + C2*C3*C4*R2*RL*RT1*RT2*RV2
+ + C1*C3*C4*R2*RL*RT1*RT2*RV2 + C1*C3*C4*R1*RL*RT1*RT2*RV2
+ + C1*C3*C4*R3*RIN*RT1*RT2*RV2 + C1*C3*C4*R1*RIN*RT1*RT2*RV2
+ + C2*C3*C4*R2*R3*RT1*RT2*RV2 + C1*C3*C4*R2*R3*RT1*RT2*RV2
+ + C1*C3*C4*R1*R3*RT1*RT2*RV2 + C2*C3*C4*R1*R2*RT1*RT2*RV2
+ + C1*C3*C4*R1*R2*RT1*RT2*RV2 + C1*C2*C4*R2*RIN*RL*RT2*RV2
+ + C1*C2*C4*R1*R2*RL*RT2*RV2 + C1*C2*C4*R2*R3*RIN*RT2*RV2
+ + C1*C2*C4*R1*R2*RIN*RT2*RV2 + C1*C2*C4*R1*R2*R3*RT2*RV2
+ + C1*C2*C3*R2*RIN*RL*RT1*RV2 + C1*C3*C4*R1*RIN*RL*RT1*RV2
+ + C2*C3*C4*R1*R2*RL*RT1*RV2 + C1*C3*C4*R1*R2*RL*RT1*RV2
+ + C1*C2*C3*R1*R2*RL*RT1*RV2 + C1*C2*C3*R2*R3*RIN*RT1*RV2
+ + C1*C3*C4*R1*R3*RIN*RT1*RV2 + C1*C2*C3*R1*R2*RIN*RT1*RV2
+ + C2*C3*C4*R1*R2*R3*RT1*RV2 + C1*C3*C4*R1*R2*R3*RT1*RV2
+ + C1*C2*C3*R1*R2*R3*RT1*RV2 + C1*C2*C4*R1*R2*RIN*RL*RV2
+ + C1*C2*C4*R1*R2*R3*RIN*RV2 + C1*C3*C4*RIN*RL*RT1*RT2*RV1
+ + C2*C3*C4*R2*RL*RT1*RT2*RV1 + C1*C3*C4*R2*RL*RT1*RT2*RV1
+ + C1*C3*C4*R1*RL*RT1*RT2*RV1 + C1*C3*C4*R3*RIN*RT1*RT2*RV1
+ + C2*C3*C4*R2*R3*RT1*RT2*RV1 + C1*C3*C4*R2*R3*RT1*RT2*RV1
+ + C1*C3*C4*R1*R3*RT1*RT2*RV1 + C1*C2*C4*R2*RIN*RL*RT2*RV1
+ + C1*C3*C4*R1*RIN*RL*RT2*RV1 + C2*C3*C4*R1*R2*RL*RT2*RV1
+ + C1*C3*C4*R1*R2*RL*RT2*RV1 + C1*C2*C4*R1*R2*RL*RT2*RV1
+ + C1*C2*C4*R2*R3*RIN*RT2*RV1 + C1*C3*C4*R1*R3*RIN*RT2*RV1
+ + C2*C3*C4*R1*R2*R3*RT2*RV1 + C1*C3*C4*R1*R2*R3*RT2*RV1
+ + C1*C2*C4*R1*R2*R3*RT2*RV1 + C1*C2*C3*R2*RIN*RL*RT1*RV1
+ + C1*C3*C4*R1*RIN*RL*RT1*RV1 + C2*C3*C4*R1*R2*RL*RT1*RV1
+ + C1*C3*C4*R1*R2*RL*RT1*RV1 + C1*C2*C3*R1*R2*RL*RT1*RV1
+ + C1*C2*C3*R2*R3*RIN*RT1*RV1 + C1*C3*C4*R1*R3*RIN*RT1*RV1
+ + C2*C3*C4*R1*R2*R3*RT1*RV1 + C1*C3*C4*R1*R2*R3*RT1*RV1
+ + C1*C2*C3*R1*R2*R3*RT1*RV1 + C1*C2*C4*R1*R2*RIN*RL*RV1
+ + C1*C2*C3*R1*R2*RIN*RL*RV1 + C1*C2*C4*R1*R2*R3*RIN*RV1
+ + C1*C2*C3*R1*R2*R3*RIN*RV1 + C1*C3*C4*R1*RIN*RL*RT1*RT2
+ + C2*C3*C4*R1*R2*RL*RT1*RT2 + C1*C3*C4*R1*R2*RL*RT1*RT2
+ + C1*C3*C4*R1*R3*RIN*RT1*RT2 + C2*C3*C4*R1*R2*R3*RT1*RT2
+ + C1*C3*C4*R1*R2*R3*RT1*RT2 + C1*C2*C4*R1*R2*RIN*RL*RT2
+ + C1*C2*C4*R1*R2*R3*RIN*RT2 + C1*C2*C3*R1*R2*RIN*RL*RT1
+ + C1*C2*C3*R1*R2*R3*RIN*RT1;
+
+var DEN_BRe = C3*C4*RT1*RT2*RV1*RV2 + C3*C4*RL*RT2*RV1*RV2 + C1*C4*RIN*RT2*RV1*RV2
+ + C3*C4*R3*RT2*RV1*RV2 + C2*C4*R2*RT2*RV1*RV2 + C1*C4*R2*RT2*RV1*RV2
+ + C3*C4*R1*RT2*RV1*RV2 + C1*C4*R1*RT2*RV1*RV2 + C1*C3*RIN*RT1*RV1*RV2
+ + C2*C3*R2*RT1*RV1*RV2 + C1*C3*R2*RT1*RV1*RV2 + C3*C4*R1*RT1*RV1*RV2
+ + C1*C3*R1*RT1*RV1*RV2 + C1*C3*RIN*RL*RV1*RV2 + C2*C3*R2*RL*RV1*RV2
+ + C1*C3*R2*RL*RV1*RV2 + C3*C4*R1*RL*RV1*RV2 + C1*C3*R1*RL*RV1*RV2
+ + C1*C3*R3*RIN*RV1*RV2 + C1*C2*R2*RIN*RV1*RV2 + C1*C4*R1*RIN*RV1*RV2
+ + C1*C3*R1*RIN*RV1*RV2 + C2*C3*R2*R3*RV1*RV2 + C1*C3*R2*R3*RV1*RV2
+ + C3*C4*R1*R3*RV1*RV2 + C1*C3*R1*R3*RV1*RV2 + C2*C4*R1*R2*RV1*RV2
+ + C1*C4*R1*R2*RV1*RV2 + C2*C3*R1*R2*RV1*RV2 + C1*C3*R1*R2*RV1*RV2
+ + C1*C2*R1*R2*RV1*RV2 + C3*C4*RL*RT1*RT2*RV2 + C3*C4*R3*RT1*RT2*RV2
+ + C3*C4*R1*RT1*RT2*RV2 + C1*C4*RIN*RL*RT2*RV2 + C2*C4*R2*RL*RT2*RV2
+ + C1*C4*R2*RL*RT2*RV2 + C1*C4*R1*RL*RT2*RV2 + C1*C4*R3*RIN*RT2*RV2
+ + C1*C4*R1*RIN*RT2*RV2 + C2*C4*R2*R3*RT2*RV2 + C1*C4*R2*R3*RT2*RV2
+ + C1*C4*R1*R3*RT2*RV2 + C2*C4*R1*R2*RT2*RV2 + C1*C4*R1*R2*RT2*RV2
+ + C1*C3*RIN*RL*RT1*RV2 + C2*C3*R2*RL*RT1*RV2 + C1*C3*R2*RL*RT1*RV2
+ + C3*C4*R1*RL*RT1*RV2 + C1*C3*R1*RL*RT1*RV2 + C1*C3*R3*RIN*RT1*RV2
+ + C1*C3*R1*RIN*RT1*RV2 + C2*C3*R2*R3*RT1*RV2 + C1*C3*R2*R3*RT1*RV2
+ + C3*C4*R1*R3*RT1*RV2 + C1*C3*R1*R3*RT1*RV2 + C2*C3*R1*R2*RT1*RV2
+ + C1*C3*R1*R2*RT1*RV2 + C1*C2*R2*RIN*RL*RV2 + C1*C4*R1*RIN*RL*RV2
+ + C2*C4*R1*R2*RL*RV2 + C1*C4*R1*R2*RL*RV2 + C1*C2*R1*R2*RL*RV2
+ + C1*C2*R2*R3*RIN*RV2 + C1*C4*R1*R3*RIN*RV2 + C1*C2*R1*R2*RIN*RV2
+ + C2*C4*R1*R2*R3*RV2 + C1*C4*R1*R2*R3*RV2 + C1*C2*R1*R2*R3*RV2
+ + C3*C4*RL*RT1*RT2*RV1 + C3*C4*R3*RT1*RT2*RV1 + C1*C4*RIN*RL*RT2*RV1
+ + C2*C4*R2*RL*RT2*RV1 + C1*C4*R2*RL*RT2*RV1 + C3*C4*R1*RL*RT2*RV1
+ + C1*C4*R1*RL*RT2*RV1 + C1*C4*R3*RIN*RT2*RV1 + C2*C4*R2*R3*RT2*RV1
+ + C1*C4*R2*R3*RT2*RV1 + C3*C4*R1*R3*RT2*RV1 + C1*C4*R1*R3*RT2*RV1
+ + C1*C3*RIN*RL*RT1*RV1 + C2*C3*R2*RL*RT1*RV1 + C1*C3*R2*RL*RT1*RV1
+ + C3*C4*R1*RL*RT1*RV1 + C1*C3*R1*RL*RT1*RV1 + C1*C3*R3*RIN*RT1*RV1
+ + C2*C3*R2*R3*RT1*RV1 + C1*C3*R2*R3*RT1*RV1 + C3*C4*R1*R3*RT1*RV1
+ + C1*C3*R1*R3*RT1*RV1 + C1*C2*R2*RIN*RL*RV1 + C1*C4*R1*RIN*RL*RV1
+ + C1*C3*R1*RIN*RL*RV1 + C2*C4*R1*R2*RL*RV1 + C1*C4*R1*R2*RL*RV1
+ + C2*C3*R1*R2*RL*RV1 + C1*C3*R1*R2*RL*RV1 + C1*C2*R1*R2*RL*RV1
+ + C1*C2*R2*R3*RIN*RV1 + C1*C4*R1*R3*RIN*RV1 + C1*C3*R1*R3*RIN*RV1
+ + C2*C4*R1*R2*R3*RV1 + C1*C4*R1*R2*R3*RV1 + C2*C3*R1*R2*R3*RV1
+ + C1*C3*R1*R2*R3*RV1 + C1*C2*R1*R2*R3*RV1 + C3*C4*R1*RL*RT1*RT2
+ + C3*C4*R1*R3*RT1*RT2 + C1*C4*R1*RIN*RL*RT2 + C2*C4*R1*R2*RL*RT2
+ + C1*C4*R1*R2*RL*RT2 + C1*C4*R1*R3*RIN*RT2 + C2*C4*R1*R2*R3*RT2
+ + C1*C4*R1*R2*R3*RT2 + C1*C3*R1*RIN*RL*RT1 + C2*C3*R1*R2*RL*RT1
+ + C1*C3*R1*R2*RL*RT1 + C1*C3*R1*R3*RIN*RT1 + C2*C3*R1*R2*R3*RT1
+ + C1*C3*R1*R2*R3*RT1 + C1*C2*R1*R2*RIN*RL + C1*C2*R1*R2*R3*RIN;
+
+var DEN_CIm = C4*RT2*RV1*RV2 + C3*RT1*RV1*RV2 + C3*RL*RV1*RV2 + C1*RIN*RV1*RV2
+ + C3*R3*RV1*RV2 + C2*R2*RV1*RV2 + C1*R2*RV1*RV2 + C4*R1*RV1*RV2
+ + C3*R1*RV1*RV2 + C1*R1*RV1*RV2 + C4*RL*RT2*RV2 + C4*R3*RT2*RV2
+ + C4*R1*RT2*RV2 + C3*RL*RT1*RV2 + C3*R3*RT1*RV2 + C3*R1*RT1*RV2
+ + C1*RIN*RL*RV2 + C2*R2*RL*RV2 + C1*R2*RL*RV2 + C4*R1*RL*RV2 + C1*R1*RL*RV2
+ + C1*R3*RIN*RV2 + C1*R1*RIN*RV2 + C2*R2*R3*RV2 + C1*R2*R3*RV2 + C4*R1*R3*RV2
+ + C1*R1*R3*RV2 + C2*R1*R2*RV2 + C1*R1*R2*RV2 + C4*RL*RT2*RV1 + C4*R3*RT2*RV1
+ + C3*RL*RT1*RV1 + C3*R3*RT1*RV1 + C1*RIN*RL*RV1 + C2*R2*RL*RV1 + C1*R2*RL*RV1
+ + C4*R1*RL*RV1 + C3*R1*RL*RV1 + C1*R1*RL*RV1 + C1*R3*RIN*RV1 + C2*R2*R3*RV1
+ + C1*R2*R3*RV1 + C4*R1*R3*RV1 + C3*R1*R3*RV1 + C1*R1*R3*RV1 + C4*R1*RL*RT2
+ + C4*R1*R3*RT2 + C3*R1*RL*RT1 + C3*R1*R3*RT1 + C1*R1*RIN*RL + C2*R1*R2*RL
+ + C1*R1*R2*RL + C1*R1*R3*RIN + C2*R1*R2*R3 + C1*R1*R2*R3;
+
+var DEN_DRe = RV1*RV2 + RL*RV2 + R3*RV2 + R1*RV2 + RL*RV1 + R3*RV1 + R1*RL + R1*R3;
+
+
+var NOM_XRe = C1*C2*C3*C4*R1*R2*RL*RT2*RV1*RV2 + C1*C2*C3*C4*R1*R2*RL*RT1*RT2*RV2;
+
+var NOM_AIm = C1*C3*C4*R1*RL*RT2*RV1*RV2 + C1*C2*C3*R1*R2*RL*RV1*RV2
+ + C1*C3*C4*R1*RL*RT1*RT2*RV2 + C1*C2*C4*R1*R2*RL*RT2*RV2
+ + C1*C2*C3*R1*R2*RL*RT1*RV2;
+
+var NOM_BRe = C1*C3*R1*RL*RV1*RV2 + C1*C4*R1*RL*RT2*RV2 + C1*C3*R1*RL*RT1*RV2
+                                                           + C1*C2*R1*R2*RL*RV2;
+
+var NOM_CIm = C1*R1*RL*RV2
+
+var NOM_DRe = 0;
+
+
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(
+            [ NOM_DRe, NOM_CIm, NOM_BRe, NOM_AIm, NOM_XRe],
+            [ DEN_DRe, DEN_CIm, DEN_BRe, DEN_AIm, DEN_XRe]
+        );
+        currentGraph.update();
+    }
+
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>
