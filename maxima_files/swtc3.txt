@@ -1,0 +1,44 @@
+/* Maxima batch file for solving circuit transfer function from matrix representation  */
+/* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
+/* evaluated separately as polynomial coefficients in powers of complex variable s.    */
+/* This example solves the coefficients for  SWTC3   tone control circuit as Vout/Vin  */
+/* Jarmo L. 14.9.2018 */
+
+stardisp: true$           /* multiplication is displayed with an asterisk between operands */
+ratmx: true$              /* matrix operations  are performed in CRE */
+/* matrix obtained from current loops in the circuit */
+matrix(
+  [RIN+R1+RT2+1/(s*C1)   ,    -1/(s*C1)        ,    -RT2         , 0 ],
+  [      -1/(s*C1)       , R2+RT1+1/(s*C1)     ,    -RT1         , 0 ],
+  [      -RT2            , -RT1                , RT1+RT2+RV1+RV2 , -RV2 ],
+  [       0              ,      0              ,  -RV2           , RV2+RL ]
+)$
+determinant(%)$           /* evaluates the determinant of the previous output % */
+DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
+DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
+pld: num(DEN_fs)$         /* saves a variable pld for numerator expression */
+/* extract denominator coefficients in the powers of s to designated variables */
+DEN_BRe: coeff(pld,s,2);
+DEN_CIm: coeff(pld,s,1);
+DEN_DRe: coeff(pld,s,0);
+
+/* matrix to solve Iout using Cramer's rule */
+matrix(
+  [RIN+R1+RT2+1/(s*C1)   ,    -1/(s*C1)        ,    -RT2         , 1 ],
+  [      -1/(s*C1)       , R2+RT1+1/(s*C1)     ,    -RT1         , 0 ],
+  [      -RT2            , -RT1                , RT1+RT2+RV1+RV2 , 0 ],
+  [       0              ,      0              ,  -RV2           , 0 ]
+)$
+determinant(%)$           /* evaluates the determinant of the previous output % */
+NUM_fs: factor(%)$
+NUM_den: denom(NUM_fs)$
+pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
+/* extract numerator coefficients in the powers of s to designated variables */
+NUM_BRe: coeff(pln,s,2);
+NUM_CIm: coeff(pln,s,1);
+NUM_DRe: coeff(pln,s,0);
+DEN_den;
+NUM_den;
+DEN_den/NUM_den;
+
+

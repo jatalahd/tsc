@@ -30,6 +30,14 @@ var menuBaxandall = [
 ];
 
 
+var menuSWTC = [
+    ["swtc v1"  , 'swtc1.htm'],
+    ["swtc v2"  , 'swtc2.htm'],
+    ["swtc v3"  , 'swtc3.htm'],
+    ["swtc v4"  , 'swtc4.htm'],
+];
+
+
 /* Global 2D array for top-level navigation. When a new page is  */
 /* added, and doesn't go in a dropdown, add it here so all pages */
 /* will have the updated links.                                  */
@@ -50,6 +58,7 @@ var pages = [
     ["Bone Ray"      , 'boneray.htm'  ],
     ["Blackstar"     , 'blackstar.htm'],
     ["Wah"           , 'wah.htm'      ],
+    ["SWTC"           , menuSWTC      ],
 ];
 
 
@@ -240,6 +249,18 @@ function logBPotModel(rotation) {
 }
 
 
+/* Implements the logC potentiometer model as inverse of logA (anti-log taper)  */
+function logCPotModel(rotation) {
+    var rot = 0;
+    if (rotation < 5) {
+        rot = 1.4*rotation
+    } else {
+        rot = rotation*0.6 + 4;
+    }
+    return rot;
+}
+
+
 /* Wrapper function for returning the pot rotation value according to the given potentiometer type */
 function getRotationForPotType(rotation, type) {
     // Linear pot model as default
@@ -250,6 +271,8 @@ function getRotationForPotType(rotation, type) {
         rot = logAPotModel(rotation);
     } else if ("LogB" == type) {
         rot = logBPotModel(rotation);
+    } else if ("LogC" == type) {
+        rot = logCPotModel(rotation);
     }
     return rot;
 }
