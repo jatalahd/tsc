@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE class="tonestack-layout">
+    <TR>
+      <TD colspan="3" class="navbar">
+        <DIV id="linkDiv" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD class="tonestack-image">
+        <IMG src="drz_pic.png"></IMG>
+      </TD>
+      <TD class="tonestack-values">
+        <table class="tonestack-values-table">
+          <thead>
+            <tr>
+              <th class="tonestack-value-th-part">Part</th>
+              <th class="tonestack-value-th-value">Value</th>
+              <th class="tonestack-value-th-unit"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RIN">RIN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RIN" id="id_RIN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R1">R1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R1" id="id_R1" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_R2">R2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="R2" id="id_R2" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RT">RT</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RL">RL</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C1">C1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C2">C2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C3">C3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+          </tbody>
+        </table>
+        <CENTER>
+          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" class="tonestack-values-button">
+          <INPUT type="submit" name="apply" value="Apply" title="Apply values" id="id_apply" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" class="tonestack-values-button">
+        </CENTER>
+      </TD>
+      <TD rowspan="2" class="tonestack-graph-panel">
+        <div class="tonestack-bar">
+          <div class="tonestack-graph-toggle">
+            Amplitude<input type="checkbox" name="graphToggle" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" class="tonestack-values-button tonestack-graph-button">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+          <div id="graph" class="tonestack-graph"></div>
+          <div id="graph2" class="tonestack-graph hidden"></div>
+          <div id="legendDiv" class="tonestack-graph-value"></div>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders">
+        <BR>
+        <SPAN id="label_RT" class="tonestack-slider-label">RT
+          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot">
+            <option value="Linear">Linear</option>
+            <option value="LogA" selected="selected">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RT" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page
+    createLinks("linkDiv","Dr. Z");
+
+    // component variables for calculation
+    var RT;
+    var RIN;
+    var RL;
+    var R1;
+    var R2;
+    var C1;
+    var C2;
+    var C3;
+
+    // create sliders and save the div-element of the slider
+    var range_RT = createSlider('range_RT','value_RT');
+
+    // Graph objects
+    var X = createFrequencies(90,10,100000,1);
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Dr. Z");
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Dr. Z", 0, "graph2");
+    currentGraph = graph1;
+
+    initializeForm();
+
+    // Set default part values, plus any customizations
+    setDefaultValues();
+    setCustomValues();
+
+    // Apply part values and display settings
+    applyValues();
+    if (document.frm.graphToggle.checked) {
+        swapGraphs();
+    }
+
+
+    // function applies values given from ui and evaluates the frequency response
+    function applyValues() {
+        const f = document.frm;
+
+        RIN     = tscResistance.parseElement(f.RIN);
+        R1      = tscResistance.parseElement(f.R1);
+        R2      = tscResistance.parseElement(f.R2);
+        RT      = tscResistance.parseElement(f.RT);
+        RL      = tscResistance.parseElement(f.RL);
+        C1      = tscCapacitance.parseElement(f.C1);
+        C2      = tscCapacitance.parseElement(f.C2);
+        C3      = tscCapacitance.parseElement(f.C3);
+
+        // set the input fields to readonly mode
+        var inputElements = f.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+            }
+        }
+
+        updateURL();
+        doCalc();
+    }
+
+
+    // function releases the readonly component value fields for editing
+    function editValues() {
+        var inputElements = document.frm.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+            }
+        }
+    }
+
+
+    // This function resets form fields to their default values
+    function setDefaultValues() {
+        const f = document.frm;
+
+        // Pair form element names to default values
+        const defaultValues = {
+            RIN    : "38k",
+            R1     : "330k",
+            R2     : "330k",
+            RT     : "1M",
+            RL     : "1M",
+            C1     : "10n",
+            C2     : "120p",
+            C3     : "4700p",
+            RT_pot : "LogA",
+        }
+
+        // Set default values and clear any custom form validation errors
+        for (var key in defaultValues) {
+            f[key].value = defaultValues[key];
+            f[key].setCustomValidity("");
+        }
+    }
+
+    // creates a sweep plot with max and mid values
+    // prints amplitude data to console for testing
+    // against model validity. Use "store as global variable"
+    // in Firefox for all arrays and then ''+temp2;
+    function sweepValues() {
+        for (p = 0; p <= 10; p+=2) {
+            range_RT.noUiSlider.set(p);
+            addSeries();
+        }
+    }
+
+    // function calculates the frequency response for the given component values
+    function doCalc() {
+
+        // treble pot rotation 0 - 10 from the slider component
+        var RotTone = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+
+        // Calculated part values
+        var RT2  = Math.round( RT*(1.0*RotTone/10.0) );
+        var RT1  = Math.round( RT*(1.0 - 1.0*RotTone/10.0) );
+
+
+        // Transfer function denominator coefficients
+
+var DEN_AIm = C1*C2*C3*R2*RIN*RL*RT1*RT2 + C1*C2*C3*R1*RIN*RL*RT1*RT2
+ + C1*C2*C3*R1*R2*RL*RT1*RT2 + C1*C2*C3*R1*R2*RIN*RT1*RT2
+ + C1*C2*C3*R1*R2*RIN*RL*RT2;
+
+var DEN_BRe = C1*C3*RIN*RL*RT1*RT2 + C2*C3*R2*RL*RT1*RT2 + C1*C2*R2*RL*RT1*RT2
+ + C2*C3*R1*RL*RT1*RT2 + C1*C3*R1*RL*RT1*RT2 + C1*C2*R1*RL*RT1*RT2
+ + C1*C3*R2*RIN*RT1*RT2 + C1*C2*R2*RIN*RT1*RT2 + C1*C2*R1*RIN*RT1*RT2
+ + C2*C3*R1*R2*RT1*RT2 + C1*C3*R1*R2*RT1*RT2 + C1*C3*R2*RIN*RL*RT2
+ + C2*C3*R1*R2*RL*RT2 + C1*C3*R1*R2*RL*RT2 + C1*C2*R1*R2*RL*RT2
+ + C1*C2*R1*R2*RIN*RT2 + C1*C2*R2*RIN*RL*RT1 + C1*C2*R1*RIN*RL*RT1
+ + C1*C2*R1*R2*RL*RT1 + C1*C2*R1*R2*RIN*RT1 + C1*C2*R1*R2*RIN*RL;
+
+var DEN_CIm = C3*RL*RT1*RT2 + C1*RL*RT1*RT2 + C1*RIN*RT1*RT2 + C3*R2*RT1*RT2
+ + C2*R2*RT1*RT2 + C1*R2*RT1*RT2 + C2*R1*RT1*RT2 + C1*R1*RT1*RT2 + C3*R2*RL*RT2
+ + C1*R2*RL*RT2 + C1*R2*RIN*RT2 + C2*R1*R2*RT2 + C1*R1*R2*RT2 + C1*RIN*RL*RT1
+ + C2*R2*RL*RT1 + C2*R1*RL*RT1 + C1*R1*RL*RT1 + C1*R2*RIN*RT1 + C2*R1*R2*RT1
+ + C1*R1*R2*RT1 + C1*R2*RIN*RL + C2*R1*R2*RL + C1*R1*R2*RL;
+
+
+var DEN_DRe = RT1*RT2 + R2*RT2 + RL*RT1 + R2*RT1 + R2*RL;
+
+
+        // Transfer function numerator coefficients
+
+var NOM_AIm = C1*C2*C3*R1*R2*RL*RT1*RT2;
+
+var NOM_BRe = C1*C2*R2*RL*RT1*RT2 + C1*C2*R1*RL*RT1*RT2 + C1*C2*R1*R2*RL*RT2 + C1*C2*R1*R2*RL*RT1;
+
+var NOM_CIm = C1*RL*RT1*RT2 + C1*R2*RL*RT2;
+
+var NOM_DRe = 0;
+
+
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(
+            [ NOM_DRe, NOM_CIm, NOM_BRe, NOM_AIm ],
+            [ DEN_DRe, DEN_CIm, DEN_BRe, DEN_AIm ]
+        );
+        currentGraph.update();
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>

@@ -57,6 +57,7 @@ var pages = [
     ["Framus"        , 'framus.htm'   ],
     ["Bone Ray"      , 'boneray.htm'  ],
     ["Blackstar"     , 'blackstar.htm'],
+    ["Dr. Z"         , 'drz.htm'      ],
     ["Wah"           , 'wah.htm'      ],
     ["SWTC"           , menuSWTC      ],
 ];
