@@ -59,7 +59,8 @@ var pages = [
     ["Blackstar"     , 'blackstar.htm'],
     ["Dr. Z"         , 'drz.htm'      ],
     ["Wah"           , 'wah.htm'      ],
-    ["SWTC"           , menuSWTC      ],
+    ["SWTC"          , menuSWTC       ],
+    ["Tilt"          , 'tilt.htm'     ],
 ];
 
 
@@ -166,6 +167,7 @@ function createLinks(divId, pageReference, dropdownReference) {
             linkDiv.appendChild(document.createTextNode(""));
         }
     }
+    linkDiv.appendChild(document.createTextNode(" |"));
 }
 
 /* Creates an arithmetic or geometric set of frequencies based on input parameters  */
