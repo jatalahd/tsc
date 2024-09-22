@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<TITLE>TSC in the web</TITLE>
+<LINK href="nouislider.css" rel="stylesheet"/>
+<SCRIPT type="text/javascript" src="nouislider.min.js"></SCRIPT>
+<LINK href="dygraph.css" rel="stylesheet"/>
+<LINK href="tsc.css" rel="stylesheet"/>
+<LINK href="https://fonts.googleapis.com/css?family=Barlow+Condensed|Raleway" rel="stylesheet">
+<SCRIPT type="text/javascript" src="dygraph.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="rlc.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="tsc_common.js"></SCRIPT>
+</HEAD>
+<BODY>
+<FORM name="frm">
+  <TABLE class="tonestack-layout">
+    <TR>
+      <TD colspan="3" class="navbar">
+        <DIV id="linkDiv" class="navbar-stack"></DIV>
+        <DIV id="infoDiv" class="navbar-info"><a href="info.htm" class="navbar-menu-item">INFO</a></DIV>
+      </TD>
+    </TR>
+    <TR>
+      <TD class="tonestack-image">
+        <IMG src="5e3_pic.png"></IMG>
+      </TD>
+      <TD class="tonestack-values">
+        <table class="tonestack-values-table">
+          <thead>
+            <tr>
+              <th class="tonestack-value-th-part">Part</th>
+              <th class="tonestack-value-th-value">Value</th>
+              <th class="tonestack-value-th-unit"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RINN">RINN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RINN" id="id_RINN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RINB">RINB</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RINB" id="id_RINB" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RT">RT</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RT" id="id_RT" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RVN">RVN</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RVN" id="id_RVN" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RVB">RVB</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RVB" id="id_RVB" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_RL">RL</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="RL" id="id_RL" size="7" readonly="readonly" class="tonestack-value-input resistance"></td>
+              <td class="tonestack-value-unit">&Omega;</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C1">C1</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C1" id="id_C1" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C2">C2</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C2" id="id_C2" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C3">C3</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C3" id="id_C3" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+            <tr>
+              <td class="tonestack-value-label"><label for="id_C4">C4</label></td>
+              <td class="tonestack-value-value"><INPUT type="text" name="C4" id="id_C4" size="7" readonly="readonly" class="tonestack-value-input capacitance"></td>
+              <td class="tonestack-value-unit">F</td>
+            </tr>
+          </tbody>
+        </table>
+        <CENTER>
+          <INPUT type="button" name="edit" value="Edit" title="Edit values" id="id_edit" class="tonestack-values-button">
+          <INPUT type="submit" name="apply" value="Apply" title="Apply values" id="id_apply" class="tonestack-values-button">
+          <INPUT type="button" name="defaults" value="Default" title="Set default values" id="id_defaults" class="tonestack-values-button">
+        </CENTER>
+      </TD>
+      <TD rowspan="2" class="tonestack-graph-panel">
+        <div class="tonestack-bar">
+          <div class="tonestack-graph-toggle">
+            Amplitude<input type="checkbox" name="graphToggle" class="toggle">Phase
+          </div>
+          <input type="button" name="Clear" value="Clear snapshots" id="id_clear" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Snapshot" value="Take snapshot" id="id_snapshot" class="tonestack-values-button tonestack-graph-button">
+          <input type="button" name="Sweep" value="Sweep" id="id_sweep" class="tonestack-values-button tonestack-graph-button">
+        </div>
+        <div id="graphContainer" class="tonestack-graph-container">
+          <DIV id="graph" class="tonestack-graph"></DIV>
+          <DIV id="graph2" class="tonestack-graph hidden"></DIV>
+          <DIV id="legendDiv" class="tonestack-graph-value"></DIV>
+        </div>
+      </TD>
+    </TR>
+    <TR>
+      <TD colspan="2" class="tonestack-sliders">
+        <BR>
+        <SPAN id="label_RT" class="tonestack-slider-label">RT
+          <select id="id_RT_pot" name="RT_pot" class="tonestack-select-pot">
+            <option value="Linear">Linear</option>
+            <option value="LogA" selected="selected">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RT" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RT" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RVN" class="tonestack-slider-label">RVN
+          <select id="id_RVN_pot" name="RVN_pot" class="tonestack-select-pot">
+            <option value="Linear">Linear</option>
+            <option value="LogA" selected="selected">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RVN" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RVN" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+        <SPAN id="label_RVB" class="tonestack-slider-label">RVB
+          <select id="id_RVB_pot" name="RVB_pot" class="tonestack-select-pot">
+            <option value="Linear">Linear</option>
+            <option value="LogA" selected="selected">LogA</option>
+            <option value="LogB">LogB</option>
+          </select>
+        </SPAN>
+        <DIV id="range_RVB" class="tonestack-slider-input"></DIV>
+        <SPAN id="value_RVB" class="tonestack-slider-value"></SPAN><BR><BR><BR><BR>
+      </TD>
+    </TR>
+  </TABLE>
+
+<SCRIPT>
+    // create links to all the tone stack pages to the top of the page
+    createLinks("linkDiv","Fender","Deluxe 5E3 (Normal)");
+
+    // component variables for calculation
+    var RT;
+    var RVN;
+    var RVB;
+    var RINN;
+    var RINB
+    var RL;
+    var C1;
+    var C2;
+    var C3;
+    var C4;
+
+    // create sliders and save the div-element of the slider
+    var range_RT = createSlider('range_RT','value_RT');
+    var range_RVN = createSlider('range_RVN','value_RVN');
+    var range_RVB = createSlider('range_RVB','value_RVB');
+
+    // Graph objects
+    var X = createFrequencies(90,10,100000,1);
+    var graph1 = new tscGraph(X, "frequency [Hz]", "amplitude [dB]", "Deluxe 5E3 (Normal)");
+    var graph2 = new tscGraph(X, "frequency [Hz]", "phase", "Deluxe 5E3 (Normal)", 0, "graph2");
+    currentGraph = graph1;
+
+    initializeForm();
+
+    // Set default part values, plus any customizations
+    setDefaultValues();
+    setCustomValues();
+
+    // Apply part values and display settings
+    applyValues();
+    if (document.frm.graphToggle.checked) {
+        swapGraphs();
+    }
+
+
+    // This function is called when the Apply-button is clicked
+    function applyValues() {
+        const f = document.frm;
+
+        RINN    = tscResistance.parseElement(f.RINN);
+        RINB    = tscResistance.parseElement(f.RINB);
+        RT      = tscResistance.parseElement(f.RT);
+        RVN     = tscResistance.parseElement(f.RVN);
+        RVB     = tscResistance.parseElement(f.RVB);
+        RL      = tscResistance.parseElement(f.RL);
+        C1      = tscCapacitance.parseElement(f.C1);
+        C2      = tscCapacitance.parseElement(f.C2);
+        C3      = tscCapacitance.parseElement(f.C3);
+        C4      = tscCapacitance.parseElement(f.C4);
+
+        // set the input fields to readonly mode
+        var inputElements = f.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].setAttribute('readonly', 'readonly');
+            }
+        }
+
+        updateURL();
+        doCalc();
+    }
+
+
+    // This function is called when the Edit-button is clicked
+    function editValues() {
+        var inputElements = document.frm.getElementsByTagName('input');
+        for (var i in inputElements) {
+            if (inputElements[i].type == "text") {
+                inputElements[i].removeAttribute('readonly');
+            }
+        }
+    }
+
+
+    // This function resets form fields to their default values
+    function setDefaultValues() {
+        const f = document.frm;
+
+        // Pair form element names to default values
+        const defaultValues = {
+            RINN   : "20k",
+            RINB   : "20k",
+            RT     : "1M",
+            RVN    : "1M",
+            RVB    : "1M",
+            RL     : "1M",
+            C1     : "100n",
+            C2     : "4700p",
+            C3     : "500p",
+            C4     : "100n",
+            RT_pot : "LogA",
+            RVN_pot : "LogA",
+            RVB_pot : "LogA",
+        }
+
+        // Set default values and clear any custom form validation errors
+        for (var key in defaultValues) {
+            f[key].value = defaultValues[key];
+            f[key].setCustomValidity("");
+        }
+    }
+
+
+    function sweepValues() {
+        range_RT.noUiSlider.set(5);
+        range_RVN.noUiSlider.set(5);
+        range_RVB.noUiSlider.set(5);
+        addSeries();
+        for (p = 0; p <= 10; p += 5) {
+            range_RT.noUiSlider.set(p);
+            for (q = 5; q <=10; q += 5) {
+                range_RVN.noUiSlider.set(q);
+                for (r = 5; r <=10; r += 5) {
+                    range_RVB.noUiSlider.set(r);
+                    addSeries();
+                }
+            }
+        }
+    }
+
+
+    // This function is called with every change of the slider.
+    // It does the hard math and evaluates the filter transfer function
+    // for the given frequency range and updates values to the graph.
+    function doCalc() {
+
+        // pot rotation 0 - 10 from the slider component
+        var RotTone = getRotationForPotType(range_RT.noUiSlider.get(), document.frm.RT_pot.value);
+        var RotVolN    = getRotationForPotType(range_RVN.noUiSlider.get(), document.frm.RVN_pot.value);
+        var RotVolB   = getRotationForPotType(range_RVB.noUiSlider.get(), document.frm.RVB_pot.value);
+
+        var RT2  = Math.round( RT*(1.0*RotTone/10.0) );
+        var RT1  = Math.round( RT*(1.0 - 1.0*RotTone/10.0) );
+        var RVN2  = Math.round( RVN*(1.0*RotVolN/10.0) );
+        var RVN1  = Math.round( RVN*(1.0 - 1.0*RotVolN/10.0) );
+        var RVB2  = Math.round( RVB*(1.0*RotVolB/10.0) );
+        var RVB1  = Math.round( RVB*(1.0 - 1.0*RotVolB/10.0) );
+        
+        
+var DEN_XRe = C1*C2*C3*C4*RT1*RT2*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RL*RT2*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RT2*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RL*RT1*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RL*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RL*RT1*RT2*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RT1*RT2*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RVB2*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RT1*RT2*RVB1*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT2*RVB1*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RVB1*RVN1*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RT2*RVN1*RVN2
+ + C1*C2*C3*C4*RL*RT1*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINN*RT1*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINN*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINN*RL*RT1*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RL*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINN*RL*RT1*RT2*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RT2*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RT1*RT2*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RT2*RVB1*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RT1*RT2*RVB1*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT2*RVB1*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RVB1*RVN2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RT2*RVN2
+ + C1*C2*C3*C4*RINN*RT1*RT2*RVB1*RVB2*RVN1
+ + C1*C2*C3*C4*RINN*RL*RT2*RVB1*RVB2*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RT2*RVB1*RVB2*RVN1
+ + C1*C2*C3*C4*RINN*RL*RT1*RVB1*RVB2*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RL*RVB1*RVB2*RVN1
+ + C1*C2*C3*C4*RINN*RL*RT1*RT2*RVB2*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RT1*RT2*RVB2*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RVB2*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RT1*RT2*RVB1*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RL*RT2*RVB1*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RVB1*RVN1
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RT2*RVN1
+ + C1*C2*C3*C4*RINN*RL*RT1*RT2*RVB1*RVB2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT2*RVB1*RVB2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RT2*RVB2
+ + C1*C2*C3*C4*RINB*RINN*RL*RT1*RT2*RVB1;
+
+
+var DEN_AIm = C1*C2*C4*RT2*RVB1*RVB2*RVN1*RVN2 + C1*C2*C3*RT2*RVB1*RVB2*RVN1*RVN2
+ + C1*C3*C4*RT1*RVB1*RVB2*RVN1*RVN2 + C1*C3*C4*RL*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*C4*RL*RVB1*RVB2*RVN1*RVN2 + C1*C2*C3*RL*RVB1*RVB2*RVN1*RVN2
+ + C1*C3*C4*RINB*RVB1*RVB2*RVN1*RVN2 + C1*C2*C3*RT1*RT2*RVB2*RVN1*RVN2
+ + C1*C2*C4*RL*RT2*RVB2*RVN1*RVN2 + C1*C2*C4*RINB*RT2*RVB2*RVN1*RVN2
+ + C1*C3*C4*RL*RT1*RVB2*RVN1*RVN2 + C1*C2*C3*RL*RT1*RVB2*RVN1*RVN2
+ + C1*C3*C4*RINB*RT1*RVB2*RVN1*RVN2 + C1*C2*C4*RINB*RL*RVB2*RVN1*RVN2
+ + C1*C2*C3*RT1*RT2*RVB1*RVN1*RVN2 + C1*C2*C3*RL*RT2*RVB1*RVN1*RVN2
+ + C1*C2*C4*RINB*RT2*RVB1*RVN1*RVN2 + C1*C2*C3*RL*RT1*RVB1*RVN1*RVN2
+ + C1*C3*C4*RINB*RT1*RVB1*RVN1*RVN2 + C1*C3*C4*RINB*RL*RVB1*RVN1*RVN2
+ + C1*C2*C4*RINB*RL*RVB1*RVN1*RVN2 + C1*C2*C3*RL*RT1*RT2*RVN1*RVN2
+ + C1*C2*C4*RINB*RL*RT2*RVN1*RVN2 + C1*C3*C4*RINB*RL*RT1*RVN1*RVN2
+ + C2*C3*C4*RT1*RT2*RVB1*RVB2*RVN2 + C2*C3*C4*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C4*RL*RT2*RVB1*RVB2*RVN2 + C1*C2*C3*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C4*RINN*RT2*RVB1*RVB2*RVN2 + C1*C2*C3*RINN*RT2*RVB1*RVB2*RVN2
+ + C2*C3*C4*RINB*RT2*RVB1*RVB2*RVN2 + C2*C3*C4*RL*RT1*RVB1*RVB2*RVN2
+ + C1*C3*C4*RL*RT1*RVB1*RVB2*RVN2 + C1*C3*C4*RINN*RT1*RVB1*RVB2*RVN2
+ + C1*C3*C4*RINN*RL*RVB1*RVB2*RVN2 + C1*C2*C4*RINN*RL*RVB1*RVB2*RVN2
+ + C1*C2*C3*RINN*RL*RVB1*RVB2*RVN2 + C2*C3*C4*RINB*RL*RVB1*RVB2*RVN2
+ + C1*C3*C4*RINB*RL*RVB1*RVB2*RVN2 + C1*C3*C4*RINB*RINN*RVB1*RVB2*RVN2
+ + C2*C3*C4*RL*RT1*RT2*RVB2*RVN2 + C1*C2*C3*RL*RT1*RT2*RVB2*RVN2
+ + C1*C2*C3*RINN*RT1*RT2*RVB2*RVN2 + C2*C3*C4*RINB*RT1*RT2*RVB2*RVN2
+ + C1*C2*C4*RINN*RL*RT2*RVB2*RVN2 + C1*C2*C4*RINB*RL*RT2*RVB2*RVN2
+ + C1*C2*C4*RINB*RINN*RT2*RVB2*RVN2 + C1*C3*C4*RINN*RL*RT1*RVB2*RVN2
+ + C1*C2*C3*RINN*RL*RT1*RVB2*RVN2 + C2*C3*C4*RINB*RL*RT1*RVB2*RVN2
+ + C1*C3*C4*RINB*RL*RT1*RVB2*RVN2 + C1*C3*C4*RINB*RINN*RT1*RVB2*RVN2
+ + C1*C2*C4*RINB*RINN*RL*RVB2*RVN2 + C1*C2*C3*RL*RT1*RT2*RVB1*RVN2
+ + C1*C2*C3*RINN*RT1*RT2*RVB1*RVN2 + C2*C3*C4*RINB*RT1*RT2*RVB1*RVN2
+ + C1*C2*C3*RINN*RL*RT2*RVB1*RVN2 + C2*C3*C4*RINB*RL*RT2*RVB1*RVN2
+ + C1*C2*C4*RINB*RL*RT2*RVB1*RVN2 + C1*C2*C4*RINB*RINN*RT2*RVB1*RVN2
+ + C1*C2*C3*RINN*RL*RT1*RVB1*RVN2 + C2*C3*C4*RINB*RL*RT1*RVB1*RVN2
+ + C1*C3*C4*RINB*RL*RT1*RVB1*RVN2 + C1*C3*C4*RINB*RINN*RT1*RVB1*RVN2
+ + C1*C3*C4*RINB*RINN*RL*RVB1*RVN2 + C1*C2*C4*RINB*RINN*RL*RVB1*RVN2
+ + C1*C2*C3*RINN*RL*RT1*RT2*RVN2 + C2*C3*C4*RINB*RL*RT1*RT2*RVN2
+ + C1*C2*C4*RINB*RINN*RL*RT2*RVN2 + C1*C3*C4*RINB*RINN*RL*RT1*RVN2
+ + C2*C3*C4*RT1*RT2*RVB1*RVB2*RVN1 + C2*C3*C4*RL*RT2*RVB1*RVB2*RVN1
+ + C1*C2*C4*RINN*RT2*RVB1*RVB2*RVN1 + C1*C2*C3*RINN*RT2*RVB1*RVB2*RVN1
+ + C2*C3*C4*RINB*RT2*RVB1*RVB2*RVN1 + C2*C3*C4*RL*RT1*RVB1*RVB2*RVN1
+ + C1*C3*C4*RINN*RT1*RVB1*RVB2*RVN1 + C1*C3*C4*RINN*RL*RVB1*RVB2*RVN1
+ + C1*C2*C4*RINN*RL*RVB1*RVB2*RVN1 + C1*C2*C3*RINN*RL*RVB1*RVB2*RVN1
+ + C2*C3*C4*RINB*RL*RVB1*RVB2*RVN1 + C1*C3*C4*RINB*RINN*RVB1*RVB2*RVN1
+ + C2*C3*C4*RL*RT1*RT2*RVB2*RVN1 + C1*C2*C3*RINN*RT1*RT2*RVB2*RVN1
+ + C2*C3*C4*RINB*RT1*RT2*RVB2*RVN1 + C1*C2*C4*RINN*RL*RT2*RVB2*RVN1
+ + C1*C2*C4*RINB*RINN*RT2*RVB2*RVN1 + C1*C3*C4*RINN*RL*RT1*RVB2*RVN1
+ + C1*C2*C3*RINN*RL*RT1*RVB2*RVN1 + C2*C3*C4*RINB*RL*RT1*RVB2*RVN1
+ + C1*C3*C4*RINB*RINN*RT1*RVB2*RVN1 + C1*C2*C4*RINB*RINN*RL*RVB2*RVN1
+ + C1*C2*C3*RINN*RT1*RT2*RVB1*RVN1 + C2*C3*C4*RINB*RT1*RT2*RVB1*RVN1
+ + C1*C2*C3*RINN*RL*RT2*RVB1*RVN1 + C2*C3*C4*RINB*RL*RT2*RVB1*RVN1
+ + C1*C2*C4*RINB*RINN*RT2*RVB1*RVN1 + C1*C2*C3*RINN*RL*RT1*RVB1*RVN1
+ + C2*C3*C4*RINB*RL*RT1*RVB1*RVN1 + C1*C3*C4*RINB*RINN*RT1*RVB1*RVN1
+ + C1*C3*C4*RINB*RINN*RL*RVB1*RVN1 + C1*C2*C4*RINB*RINN*RL*RVB1*RVN1
+ + C1*C2*C3*RINN*RL*RT1*RT2*RVN1 + C2*C3*C4*RINB*RL*RT1*RT2*RVN1
+ + C1*C2*C4*RINB*RINN*RL*RT2*RVN1 + C1*C3*C4*RINB*RINN*RL*RT1*RVN1
+ + C2*C3*C4*RL*RT1*RT2*RVB1*RVB2 + C1*C2*C4*RINN*RL*RT2*RVB1*RVB2
+ + C1*C2*C3*RINN*RL*RT2*RVB1*RVB2 + C2*C3*C4*RINB*RL*RT2*RVB1*RVB2
+ + C1*C3*C4*RINN*RL*RT1*RVB1*RVB2 + C1*C3*C4*RINB*RINN*RL*RVB1*RVB2
+ + C1*C2*C3*RINN*RL*RT1*RT2*RVB2 + C2*C3*C4*RINB*RL*RT1*RT2*RVB2
+ + C1*C2*C4*RINB*RINN*RL*RT2*RVB2 + C1*C3*C4*RINB*RINN*RL*RT1*RVB2
+ + C1*C2*C3*RINN*RL*RT1*RT2*RVB1 + C2*C3*C4*RINB*RL*RT1*RT2*RVB1
+ + C1*C2*C4*RINB*RINN*RL*RT2*RVB1 + C1*C3*C4*RINB*RINN*RL*RT1*RVB1;
+
+
+var DEN_BRe = C1*C4*RVB1*RVB2*RVN1*RVN2 + C1*C3*RVB1*RVB2*RVN1*RVN2
+ + C1*C2*RT2*RVB2*RVN1*RVN2 + C1*C3*RT1*RVB2*RVN1*RVN2
+ + C1*C4*RL*RVB2*RVN1*RVN2 + C1*C2*RL*RVB2*RVN1*RVN2
+ + C1*C4*RINB*RVB2*RVN1*RVN2 + C1*C2*RT2*RVB1*RVN1*RVN2
+ + C1*C3*RT1*RVB1*RVN1*RVN2 + C1*C3*RL*RVB1*RVN1*RVN2 + C1*C2*RL*RVB1*RVN1*RVN2
+ + C1*C4*RINB*RVB1*RVN1*RVN2 + C1*C2*RL*RT2*RVN1*RVN2 + C1*C3*RL*RT1*RVN1*RVN2
+ + C1*C4*RINB*RL*RVN1*RVN2 + C2*C4*RT2*RVB1*RVB2*RVN2
+ + C2*C3*RT2*RVB1*RVB2*RVN2 + C3*C4*RT1*RVB1*RVB2*RVN2
+ + C3*C4*RL*RVB1*RVB2*RVN2 + C2*C4*RL*RVB1*RVB2*RVN2 + C1*C4*RL*RVB1*RVB2*RVN2
+ + C2*C3*RL*RVB1*RVB2*RVN2 + C1*C3*RL*RVB1*RVB2*RVN2
+ + C1*C4*RINN*RVB1*RVB2*RVN2 + C1*C3*RINN*RVB1*RVB2*RVN2
+ + C3*C4*RINB*RVB1*RVB2*RVN2 + C2*C3*RT1*RT2*RVB2*RVN2 + C2*C4*RL*RT2*RVB2*RVN2
+ + C1*C2*RL*RT2*RVB2*RVN2 + C1*C2*RINN*RT2*RVB2*RVN2 + C2*C4*RINB*RT2*RVB2*RVN2
+ + C3*C4*RL*RT1*RVB2*RVN2 + C2*C3*RL*RT1*RVB2*RVN2 + C1*C3*RL*RT1*RVB2*RVN2
+ + C1*C3*RINN*RT1*RVB2*RVN2 + C3*C4*RINB*RT1*RVB2*RVN2
+ + C1*C4*RINN*RL*RVB2*RVN2 + C1*C2*RINN*RL*RVB2*RVN2 + C2*C4*RINB*RL*RVB2*RVN2
+ + C1*C4*RINB*RL*RVB2*RVN2 + C1*C4*RINB*RINN*RVB2*RVN2
+ + C2*C3*RT1*RT2*RVB1*RVN2 + C2*C3*RL*RT2*RVB1*RVN2 + C1*C2*RL*RT2*RVB1*RVN2
+ + C1*C2*RINN*RT2*RVB1*RVN2 + C2*C4*RINB*RT2*RVB1*RVN2 + C2*C3*RL*RT1*RVB1*RVN2
+ + C1*C3*RL*RT1*RVB1*RVN2 + C1*C3*RINN*RT1*RVB1*RVN2 + C3*C4*RINB*RT1*RVB1*RVN2
+ + C1*C3*RINN*RL*RVB1*RVN2 + C1*C2*RINN*RL*RVB1*RVN2 + C3*C4*RINB*RL*RVB1*RVN2
+ + C2*C4*RINB*RL*RVB1*RVN2 + C1*C4*RINB*RL*RVB1*RVN2
+ + C1*C4*RINB*RINN*RVB1*RVN2 + C2*C3*RL*RT1*RT2*RVN2 + C1*C2*RINN*RL*RT2*RVN2
+ + C2*C4*RINB*RL*RT2*RVN2 + C1*C3*RINN*RL*RT1*RVN2 + C3*C4*RINB*RL*RT1*RVN2
+ + C1*C4*RINB*RINN*RL*RVN2 + C2*C4*RT2*RVB1*RVB2*RVN1
+ + C2*C3*RT2*RVB1*RVB2*RVN1 + C3*C4*RT1*RVB1*RVB2*RVN1
+ + C3*C4*RL*RVB1*RVB2*RVN1 + C2*C4*RL*RVB1*RVB2*RVN1 + C2*C3*RL*RVB1*RVB2*RVN1
+ + C1*C4*RINN*RVB1*RVB2*RVN1 + C1*C3*RINN*RVB1*RVB2*RVN1
+ + C3*C4*RINB*RVB1*RVB2*RVN1 + C2*C3*RT1*RT2*RVB2*RVN1 + C2*C4*RL*RT2*RVB2*RVN1
+ + C1*C2*RINN*RT2*RVB2*RVN1 + C2*C4*RINB*RT2*RVB2*RVN1 + C3*C4*RL*RT1*RVB2*RVN1
+ + C2*C3*RL*RT1*RVB2*RVN1 + C1*C3*RINN*RT1*RVB2*RVN1 + C3*C4*RINB*RT1*RVB2*RVN1
+ + C1*C4*RINN*RL*RVB2*RVN1 + C1*C2*RINN*RL*RVB2*RVN1 + C2*C4*RINB*RL*RVB2*RVN1
+ + C1*C4*RINB*RINN*RVB2*RVN1 + C2*C3*RT1*RT2*RVB1*RVN1 + C2*C3*RL*RT2*RVB1*RVN1
+ + C1*C2*RINN*RT2*RVB1*RVN1 + C2*C4*RINB*RT2*RVB1*RVN1 + C2*C3*RL*RT1*RVB1*RVN1
+ + C1*C3*RINN*RT1*RVB1*RVN1 + C3*C4*RINB*RT1*RVB1*RVN1
+ + C1*C3*RINN*RL*RVB1*RVN1 + C1*C2*RINN*RL*RVB1*RVN1 + C3*C4*RINB*RL*RVB1*RVN1
+ + C2*C4*RINB*RL*RVB1*RVN1 + C1*C4*RINB*RINN*RVB1*RVN1 + C2*C3*RL*RT1*RT2*RVN1
+ + C1*C2*RINN*RL*RT2*RVN1 + C2*C4*RINB*RL*RT2*RVN1 + C1*C3*RINN*RL*RT1*RVN1
+ + C3*C4*RINB*RL*RT1*RVN1 + C1*C4*RINB*RINN*RL*RVN1 + C2*C4*RL*RT2*RVB1*RVB2
+ + C2*C3*RL*RT2*RVB1*RVB2 + C3*C4*RL*RT1*RVB1*RVB2 + C1*C4*RINN*RL*RVB1*RVB2
+ + C1*C3*RINN*RL*RVB1*RVB2 + C3*C4*RINB*RL*RVB1*RVB2 + C2*C3*RL*RT1*RT2*RVB2
+ + C1*C2*RINN*RL*RT2*RVB2 + C2*C4*RINB*RL*RT2*RVB2 + C1*C3*RINN*RL*RT1*RVB2
+ + C3*C4*RINB*RL*RT1*RVB2 + C1*C4*RINB*RINN*RL*RVB2 + C2*C3*RL*RT1*RT2*RVB1
+ + C1*C2*RINN*RL*RT2*RVB1 + C2*C4*RINB*RL*RT2*RVB1 + C1*C3*RINN*RL*RT1*RVB1
+ + C3*C4*RINB*RL*RT1*RVB1 + C1*C4*RINB*RINN*RL*RVB1;
+
+var DEN_CIm = C1*RVB2*RVN1*RVN2 + C1*RVB1*RVN1*RVN2 + C1*RL*RVN1*RVN2
+ + C4*RVB1*RVB2*RVN2 + C3*RVB1*RVB2*RVN2 + C2*RT2*RVB2*RVN2 + C3*RT1*RVB2*RVN2
+ + C4*RL*RVB2*RVN2 + C2*RL*RVB2*RVN2 + C1*RL*RVB2*RVN2 + C1*RINN*RVB2*RVN2
+ + C4*RINB*RVB2*RVN2 + C2*RT2*RVB1*RVN2 + C3*RT1*RVB1*RVN2 + C3*RL*RVB1*RVN2
+ + C2*RL*RVB1*RVN2 + C1*RL*RVB1*RVN2 + C1*RINN*RVB1*RVN2 + C4*RINB*RVB1*RVN2
+ + C2*RL*RT2*RVN2 + C3*RL*RT1*RVN2 + C1*RINN*RL*RVN2 + C4*RINB*RL*RVN2
+ + C4*RVB1*RVB2*RVN1 + C3*RVB1*RVB2*RVN1 + C2*RT2*RVB2*RVN1 + C3*RT1*RVB2*RVN1
+ + C4*RL*RVB2*RVN1 + C2*RL*RVB2*RVN1 + C1*RINN*RVB2*RVN1 + C4*RINB*RVB2*RVN1
+ + C2*RT2*RVB1*RVN1 + C3*RT1*RVB1*RVN1 + C3*RL*RVB1*RVN1 + C2*RL*RVB1*RVN1
+ + C1*RINN*RVB1*RVN1 + C4*RINB*RVB1*RVN1 + C2*RL*RT2*RVN1 + C3*RL*RT1*RVN1
+ + C1*RINN*RL*RVN1 + C4*RINB*RL*RVN1 + C4*RL*RVB1*RVB2 + C3*RL*RVB1*RVB2
+ + C2*RL*RT2*RVB2 + C3*RL*RT1*RVB2 + C1*RINN*RL*RVB2 + C4*RINB*RL*RVB2
+ + C2*RL*RT2*RVB1 + C3*RL*RT1*RVB1 + C1*RINN*RL*RVB1 + C4*RINB*RL*RVB1;
+
+var DEN_DRe = RVB2*RVN2 + RVB1*RVN2 + RL*RVN2 + RVB2*RVN1 + RVB1*RVN1 + RL*RVN1
+                                                            + RL*RVB2 + RL*RVB1;
+
+
+var NOM_XRe = C1*C2*C3*C4*RL*RT1*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RT2*RVB2*RVN2
+ + C1*C2*C3*C4*RINB*RL*RT1*RT2*RVB1*RVN2;
+
+var NOM_AIm = C1*C2*C4*RL*RT2*RVB1*RVB2*RVN2 + C1*C2*C3*RL*RT2*RVB1*RVB2*RVN2
+ + C1*C3*C4*RL*RT1*RVB1*RVB2*RVN2 + C1*C3*C4*RINB*RL*RVB1*RVB2*RVN2
+ + C1*C2*C3*RL*RT1*RT2*RVB2*RVN2 + C1*C2*C4*RINB*RL*RT2*RVB2*RVN2
+ + C1*C3*C4*RINB*RL*RT1*RVB2*RVN2 + C1*C2*C3*RL*RT1*RT2*RVB1*RVN2
+ + C1*C2*C4*RINB*RL*RT2*RVB1*RVN2 + C1*C3*C4*RINB*RL*RT1*RVB1*RVN2;
+
+var NOM_BRe = C1*C4*RL*RVB1*RVB2*RVN2 + C1*C3*RL*RVB1*RVB2*RVN2
+ + C1*C2*RL*RT2*RVB2*RVN2 + C1*C3*RL*RT1*RVB2*RVN2 + C1*C4*RINB*RL*RVB2*RVN2
+ + C1*C2*RL*RT2*RVB1*RVN2 + C1*C3*RL*RT1*RVB1*RVN2 + C1*C4*RINB*RL*RVB1*RVN2;
+
+var NOM_CIm = C1*RL*RVB2*RVN2 + C1*RL*RVB1*RVN2;
+
+var NOM_DRe = 0;
+
+
+        // Calculate magnitude and phase at each frequency
+        doCalcBode(
+            [ NOM_DRe, NOM_CIm, NOM_BRe, NOM_AIm, NOM_XRe ],
+            [ DEN_DRe, DEN_CIm, DEN_BRe, DEN_AIm, DEN_XRe ]
+        );
+        currentGraph.update();
+    }
+</SCRIPT>
+</FORM>
+</BODY>
+</HTML>

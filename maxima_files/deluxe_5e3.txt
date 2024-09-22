@@ -1,0 +1,62 @@
+/* Maxima batch file for solving circuit transfer function from matrix representation  */
+/* in symbolic form using Cramer's rule. The numerator and denominator expressions are */
+/* evaluated separately as polynomial coefficients in powers of complex variable s.    */
+/* This example solves the coefficients for   f52a   tone control circuit as Vout/Vin  */
+/* Jarmo L. 10.4.2020 */
+
+stardisp: true$           /* multiplication is displayed with an asterisk between operands */
+ratmx: true$              /* matrix operations  are performed in CRE */
+/* matrix obtained from current loops in the circuit */
+matrix(
+  [RINN+RVN2+1/(s*C1) ,   -RVN2               ,       0         ,  0                  ,       0          ,       0],
+  [      -RVN2       , RVN2+RVN1+RT2+1/(s*C2), -RT2-1/(s*C2)   ,  0                  ,       0          ,       0],
+  [            0     ,   -RT2-1/(s*C2)       , RT2+1/(s*C2)+RL ,  -RL                ,       0          ,       0],
+  [            0     ,        0              ,       -RL       , RT1+1/(s*C3)+RL+RVB2,-RT1-1/(s*C3)     ,       -RVB2],
+  [            0     ,        0              ,         0       , -RT1-1/(s*C3)       , RT1+1/(s*C3)+RVB1,       0 ],
+  [            0     ,        0              ,         0       , -RVB2               ,        0         , RVB2+RINB+ 1/(s*C4) ]
+)$
+determinant(%)$           /* evaluates the determinant of the previous output % */
+DEN_fs: factor(%)$        /* expands the result and factors to common denominator, save to variable DEN_fs */
+DEN_den: denom(DEN_fs)$   /* saves a variable DEN_den for denominator expression */ 
+pld: num(DEN_fs)$         /* saves a variable pld for numerator expression */
+/* extract denominator coefficients in the powers of s to designated variables */
+DEN_YIm: coeff(pld,s,5);
+DEN_XRe: coeff(pld,s,4);
+DEN_AIm: coeff(pld,s,3);
+DEN_BRe: coeff(pld,s,2);
+DEN_CIm: coeff(pld,s,1);
+DEN_DRe: coeff(pld,s,0);
+
+/* matrix to solve Iout using Cramer's rule */
+matrix(
+  [RINN+RVN2+1/(s*C1) ,   -RVN2               ,       1         ,  0                  ,       0          ,       0],
+  [      -RVN2       , RVN2+RVN1+RT2+1/(s*C2),       0         ,  0                  ,       0          ,       0],
+  [            0     ,   -RT2-1/(s*C2)       ,       0         ,  -RL                ,       0          ,       0],
+  [            0     ,        0              ,       0         , RT1+1/(s*C3)+RL+RVB2,-RT1-1/(s*C3)     ,       -RVB2],
+  [            0     ,        0              ,       0         , -RT1-1/(s*C3)       , RT1+1/(s*C3)+RVB1,       0 ],
+  [            0     ,        0              ,       0         , -RVB2               ,        0         , RVB2+RINB+ 1/(s*C4) ]
+)$
+III: determinant(%)$
+matrix(
+  [RINN+RVN2+1/(s*C1) ,   -RVN2               ,       0         ,  1                ,       0          ,       0],
+  [      -RVN2       , RVN2+RVN1+RT2+1/(s*C2), -RT2-1/(s*C2)   ,  0                ,       0          ,       0],
+  [            0     ,   -RT2-1/(s*C2)       , RT2+1/(s*C2)+RL ,  0                ,       0          ,       0],
+  [            0     ,        0              ,       -RL       ,  0                ,-RT1-1/(s*C3)     ,       -RVB2],
+  [            0     ,        0              ,         0       ,  0                , RT1+1/(s*C3)+RVB1,       0 ],
+  [            0     ,        0              ,         0       ,  0                ,        0         , RVB2+RINB+ 1/(s*C4) ]
+)$
+IIII: determinant(%)$
+III-IIII$
+NUM_fs: factor(%)$
+NUM_den: denom(NUM_fs)$
+pln: expand(RL*num(NUM_fs)*DEN_den/NUM_den)$   /* expand to common denominator for numerator and denominator in Cramer's division */
+/* extract numerator coefficients in the powers of s to designated variables */
+NUM_YIm: coeff(pln,s,5);
+NUM_XRe: coeff(pln,s,4);
+NUM_AIm: coeff(pln,s,3);
+NUM_BRe: coeff(pln,s,2);
+NUM_CIm: coeff(pln,s,1);
+NUM_DRe: coeff(pln,s,0);
+DEN_den;
+NUM_den;
+DEN_den/NUM_den;
